@@ -1,5 +1,6 @@
 language: ruby
 cache: bundler
+env: DATABASE_PASSWORD=sefsef
 rvm:
   - 2.0.0-p247
 before_script:
