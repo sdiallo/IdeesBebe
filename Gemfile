@@ -6,6 +6,8 @@ gem 'devise'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
+gem 'rails_12factor', group: :production
+gem 'unicorn'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
