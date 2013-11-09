@@ -44,7 +44,7 @@
         1,
         null,
         1,
-        1,
+        null,
         null
       ],
       "/home/alexktf/ruby/IdeesBebe/spec/views/welcome/index.html.erb_spec.rb": [
@@ -55,6 +55,6 @@
         null
       ]
     },
-    "timestamp": 1383956379
+    "timestamp": 1383999782
   }
 }
