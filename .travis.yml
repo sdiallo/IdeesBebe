@@ -1,8 +1,8 @@
 language: ruby
 cache: bundler
-env: DATABASE_PASSWORD=sefsef
 rvm:
   - 2.0.0-p247
 before_script:
-  - psql -c 'create database ideesbebe_test;' -U postgres
+  - psql -c "CREATE USER ideesbebe WITH PASSWORD 'ideesbebe';" -U postgres
+  - psql -c 'CREATE DATABASE ideesbebe_test OWNER ideesbebe;' -U postgres
 script: RAILS_ENV=test bundle exec rake db:migrate && bundle exec rspec spec
