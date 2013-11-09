@@ -10,9 +10,10 @@
     %p.alert= alert
     - if current_user
       %div
+        = link_to "Mon profil", profile_path(current_user.username), method: :get
         = link_to "Deconnexion", destroy_user_session_path, method: :delete
     - else
       %div
-        = link_to "S'inscrire", new_user_registration_path
-        = link_to "Se connecter", new_user_session_path
+        = link_to "S'inscrire", new_user_registration_path, method: :get
+        = link_to "Se connecter", new_user_session_path, method: :get
     = yield
