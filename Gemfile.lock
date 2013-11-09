@@ -47,6 +47,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    coveralls (0.7.0)
+      multi_json (~> 1.3)
+      rest-client
+      simplecov (>= 0.7)
+      term-ansicolor
+      thor
     database_cleaner (1.2.0)
     devise (3.2.0)
       bcrypt-ruby (~> 3.0)
@@ -115,6 +121,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec-core (2.14.7)
     rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -137,6 +145,10 @@ GEM
       json (>= 1.1.3)
       rdoc (~> 3.10)
     sexp_processor (4.3.0)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sprockets (2.10.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -146,6 +158,8 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    term-ansicolor (1.2.2)
+      tins (~> 0.8)
     therubyracer (0.12.0)
       libv8 (~> 3.16.14.0)
       ref
@@ -153,6 +167,7 @@ GEM
     thread_safe (0.1.3)
       atomic
     tilt (1.4.1)
+    tins (0.13.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -173,6 +188,7 @@ PLATFORMS
 DEPENDENCIES
   capybara!
   coffee-rails (~> 4.0.0)
+  coveralls
   database_cleaner
   devise
   dotenv-rails
