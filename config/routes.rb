@@ -1,12 +1,15 @@
 IdeesBebe::Application.routes.draw do
+
   root 'welcome#index'
   # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  # See how all your routes lay out with "rake routes"
+  resources :profiles, except: [:index, :create, :new] do
+    resources :products, shallow: true
+  end
+  post '/profiles/:profile_id/products' => 'products#create', as: 'products'
+  devise_for :user
 
-  devise_for :users
-
-  resources :profiles, except: [:index, :create, :new]
-
+  
   # You can have the root of your site routed with "root"
 
   # Example of regular route:
