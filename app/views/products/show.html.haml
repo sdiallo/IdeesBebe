@@ -1,0 +1,11 @@
+%p#notice= notice
+
+%p
+  %b Nom:
+  = @product.name
+%p
+  %b Description:
+  = @product.description
+
+- if current_user != @user
+  = link_to 'Editer', edit_product_path(@product.slug)
