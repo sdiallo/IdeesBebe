@@ -4,6 +4,8 @@
       "/home/alexktf/ruby/IdeesBebe/app/models/product.rb": [
         1,
         1,
+        null,
+        1,
         null
       ],
       "/home/alexktf/ruby/IdeesBebe/spec/models/user_spec.rb": [
@@ -13,10 +15,10 @@
         1,
         1,
         2,
-        1,
-        1,
-        1,
         null,
+        1,
+        1,
+        1,
         null,
         null,
         null,
@@ -28,6 +30,6 @@
         null
       ]
     },
-    "timestamp": 1384097379
+    "timestamp": 1384098646
   }
 }
