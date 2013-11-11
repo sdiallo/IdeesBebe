@@ -6,4 +6,4 @@
   %strong Nom:
   = @user.profile.last_name
 - if current_user == @user
-  = link_to 'Editer', edit_profile_path(@user.username)
+  = link_to 'Editer', edit_profile_path(@user.slug)
