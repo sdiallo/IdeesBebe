@@ -3,5 +3,5 @@ class Product < ActiveRecord::Base
 
   include Slugable
 
-  before_save :to_slug, :if => :username_changed?
+  before_save :to_slug, :if => :name_changed?
 end
