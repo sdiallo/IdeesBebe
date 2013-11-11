@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :must_be_current_user, only: [:edit, :update, :destroy]
 
   # GET /profiles/1
   # GET /profiles/1.json
@@ -15,7 +16,7 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @user.profile.update(profile_params)
-        format.html { redirect_to profile_path(@user.username), notice: 'Profile was successfully updated.' }
+        format.html { redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -27,7 +28,7 @@ class ProfilesController < ApplicationController
   # DELETE /profiles/1
   # DELETE /profiles/1.json
   def destroy
-    @user.profile.destroy
+    @user.destroy
     respond_to do |format|
       format.html { redirect_to root_url }
       format.json { head :no_content }
@@ -35,9 +36,14 @@ class ProfilesController < ApplicationController
   end
 
   private
+    def must_be_current_user
+      if @user != current_user
+        redirect_to profile_path(@user.slug), notice: "Vous ne pouvez pas altérer le profil d'un autre utilisateur" 
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
-      @user = User.find_by_username(params[:id])
+      @user = User.find_by_slug(params[:id])
       @user ||= User.find(params[:id])
     end
 

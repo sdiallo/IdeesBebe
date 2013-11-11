@@ -8,12 +8,12 @@
         - @user.profile.errors.full_messages.each do |msg|
           %li= msg
   .field
-    = f.label :first_name
+    = f.label 'Prénom'
     %br/
     = f.text_field :first_name
   .field
-    = f.label :last_name
+    = f.label 'Nom'
     %br/
     = f.text_field :last_name
   .actions
-    = f.submit
+    = f.submit 'Sauvegarder'

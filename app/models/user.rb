@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
 
   
   after_create :create_profile!
-  after_create :username_to_slug
+  before_save :username_to_slug
 
   def username_to_slug
     #strip the string
@@ -35,6 +35,6 @@ class User < ActiveRecord::Base
      #strip off leading/trailing underscore
      ret.gsub! /\A[_\.]+|[_\.]+\z/,""
 
-     self.update_attributes!(slug: ret)
+     self.slug = ret
   end
 end
