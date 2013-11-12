@@ -15,11 +15,11 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1.json
   def update
     respond_to do |format|
-      if @user.profile.update(profile_params)
+      if @user.profile.update(profile_params) and !profile_params.empty?
         format.html { redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour' }
         format.json { render json: true }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'edit', notice: "Une erreur s'est produite"  }
         format.json { render json: @user.profile.errors, status: :unprocessable_entity }
       end
     end
