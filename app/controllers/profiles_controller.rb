@@ -17,7 +17,7 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @user.profile.update(profile_params)
         format.html { redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour' }
-        format.json { head :no_content }
+        format.json { render json: true }
       else
         format.html { render action: 'edit' }
         format.json { render json: @user.profile.errors, status: :unprocessable_entity }

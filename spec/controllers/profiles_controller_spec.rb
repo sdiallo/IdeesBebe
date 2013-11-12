@@ -66,6 +66,12 @@ describe ProfilesController do
         subject.reload
         expect(subject.profile.first_name).to eq('test')
       end
+
+      it 'can respond with json' do
+        json = { :format => 'json', id: subject.slug, profile: {"first_name" => "test"} }
+        put :update, json
+        response.body.should == "true"
+      end
     end
 
     context 'update other profile' do
