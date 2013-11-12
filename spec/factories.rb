@@ -6,11 +6,4 @@ FactoryGirl.define do
   sequence :username do |n|
     "username#{n}"
   end
-
-  sequence :short_lorem do |n|
-    "lorem#{n}"
-  end
-
-  sequence :nb
-
 end

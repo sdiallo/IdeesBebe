@@ -59,18 +59,18 @@ describe ProfilesController do
   describe 'PUT #update' do
 
     context 'update my profile' do
-      it 'return 200' do
+      it 'return 302 with success' do
         put :update, { id: subject.slug, profile: {"first_name" => "test"} }
         expect(assigns(:user)).to eq(subject)
         expect(response.code).to eq('302')
-        subject.reload
-        expect(subject.profile.first_name).to eq('test')
+        expect(subject.reload.profile.first_name).to eq('test')
       end
 
-      it 'can respond with json' do
-        json = { :format => 'json', id: subject.slug, profile: {"first_name" => "test"} }
-        put :update, json
-        response.body.should == "true"
+      it 'return 200 with failed' do
+        put :update, { id: subject.slug, profile: {"false_field" => "123"} }
+        expect(assigns(:user)).to eq(subject)
+        expect(response.code).to eq('200')
+        expect(subject.reload.profile.first_name).to eq(subject.profile.first_name)
       end
     end
 
