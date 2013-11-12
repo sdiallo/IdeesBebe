@@ -67,10 +67,16 @@ describe ProfilesController do
         expect(subject.profile.first_name).to eq('test')
       end
 
-      it 'can respond with json' do
+      it 'can have failed response with json' do
+        json = { :format => 'json', id: subject.slug, profile: {"false_field" => "test"} }
+        put :update, json
+        response.body == "error"
+      end
+
+      it 'can have success response with json' do
         json = { :format => 'json', id: subject.slug, profile: {"first_name" => "test"} }
         put :update, json
-        response.body.should == "true"
+        response.body == "true"
       end
     end
 
