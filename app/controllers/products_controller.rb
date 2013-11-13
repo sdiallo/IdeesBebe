@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_user
+  before_action :must_be_current_user, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   # GET /products/1
   # GET /products/1.json
@@ -23,7 +24,7 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
+        format.html { redirect_to product_path(@product.slug), notice: 'Product was successfully created.' }
         format.json { render action: 'show', status: :created, location: @product }
       else
         format.html { render action: 'new' }
@@ -58,7 +59,7 @@ class ProductsController < ApplicationController
 
   private
     def set_user
-      @user = User.find_by_username(params[:profile_id])
+      @user = User.find_by_username(params[:profile_id]) ? User.find_by_username(params[:profile_id]) : current_user 
     end
 
     # Use callbacks to share common setup or constraints between actions.

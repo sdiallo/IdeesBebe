@@ -36,11 +36,6 @@ class ProfilesController < ApplicationController
   end
 
   private
-    def must_be_current_user
-      if @user != current_user
-        redirect_to profile_path(@user.slug), notice: "Vous ne pouvez pas altérer le profil d'un autre utilisateur" 
-      end
-    end
     # Use callbacks to share common setup or constraints between actions.
     def set_profile
       @user = User.find_by_slug(params[:id])
