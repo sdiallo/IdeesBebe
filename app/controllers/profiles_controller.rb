@@ -15,7 +15,7 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1.json
   def update
     respond_to do |format|
-      if @user.profile.update(profile_params) and !profile_params.empty?
+      if @user.profile.update(profile_params)
         format.html { redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour' }
         format.json { render json: true }
       else

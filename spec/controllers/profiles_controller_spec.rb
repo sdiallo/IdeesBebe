@@ -67,7 +67,7 @@ describe ProfilesController do
       end
 
       it 'return 200 with failed' do
-        put :update, { id: subject.slug, profile: {"false_field" => "123"} }
+        put :update, { id: subject.slug, profile: {"first_name" => "123"} }
         expect(assigns(:user)).to eq(subject)
         expect(response.code).to eq('200')
         expect(subject.reload.profile.first_name).to eq(subject.profile.first_name)

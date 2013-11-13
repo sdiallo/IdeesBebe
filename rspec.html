@@ -281,51 +281,47 @@ a {
 <div class="results">
 <div id="div_group_1" class="example_group passed">
   <dl style="margin-left: 0px;">
-  <dt id="example_group_1" class="passed">ProfilesController</dt>
+  <dt id="example_group_1" class="passed">User registration</dt>
   </dl>
 </div>
 <div id="div_group_2" class="example_group passed">
   <dl style="margin-left: 15px;">
-  <dt id="example_group_2" class="passed">Routing</dt>
+  <dt id="example_group_2" class="passed">with incorrect parameters</dt>
     <script type="text/javascript">moveProgressBar('4.5');</script>
-    <dd class="example passed"><span class="passed_spec_name">routes to #show</span><span class='duration'>0.74792s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">doesn&#39;t allow register without email</span><span class='duration'>1.15647s</span></dd>
     <script type="text/javascript">moveProgressBar('9.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">routes to #update</span><span class='duration'>0.78346s</span></dd>
-    <script type="text/javascript">moveProgressBar('13.6');</script>
-    <dd class="example passed"><span class="passed_spec_name">routes to #edit</span><span class='duration'>0.75608s</span></dd>
-    <script type="text/javascript">moveProgressBar('18.1');</script>
-    <dd class="example passed"><span class="passed_spec_name">routes to #destroy</span><span class='duration'>0.83457s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">doesn&#39;t allow register without username</span><span class='duration'>0.74758s</span></dd>
   </dl>
 </div>
 <div id="div_group_3" class="example_group passed">
-  <dl style="margin-left: 0px;">
-  <dt id="example_group_3" class="passed">User</dt>
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_3" class="passed">with correct parameters</dt>
+    <script type="text/javascript">moveProgressBar('13.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">register</span><span class='duration'>0.77246s</span></dd>
   </dl>
 </div>
 <div id="div_group_4" class="example_group passed">
-  <dl style="margin-left: 15px;">
-  <dt id="example_group_4" class="passed">behaves like Slugable</dt>
-    <script type="text/javascript">moveProgressBar('22.7');</script>
-    <dd class="example passed"><span class="passed_spec_name">return the right slug</span><span class='duration'>0.80171s</span></dd>
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_4" class="passed">ProfilesController</dt>
   </dl>
 </div>
 <div id="div_group_5" class="example_group passed">
-  <dl style="margin-left: 0px;">
-  <dt id="example_group_5" class="passed">User connection</dt>
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_5" class="passed">GET #edit</dt>
   </dl>
 </div>
 <div id="div_group_6" class="example_group passed">
-  <dl style="margin-left: 15px;">
-  <dt id="example_group_6" class="passed">with correct parameters</dt>
-    <script type="text/javascript">moveProgressBar('27.2');</script>
-    <dd class="example passed"><span class="passed_spec_name">connect with the username</span><span class='duration'>0.88544s</span></dd>
-    <script type="text/javascript">moveProgressBar('31.8');</script>
-    <dd class="example passed"><span class="passed_spec_name">connect with the email</span><span class='duration'>0.61643s</span></dd>
+  <dl style="margin-left: 30px;">
+  <dt id="example_group_6" class="passed">visit other profile</dt>
+    <script type="text/javascript">moveProgressBar('18.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">redirect if trying to edit somebody else profile</span><span class='duration'>0.67791s</span></dd>
   </dl>
 </div>
 <div id="div_group_7" class="example_group passed">
-  <dl style="margin-left: 0px;">
-  <dt id="example_group_7" class="passed">ProfilesController</dt>
+  <dl style="margin-left: 30px;">
+  <dt id="example_group_7" class="passed">edit my profile</dt>
+    <script type="text/javascript">moveProgressBar('22.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200</span><span class='duration'>0.61334s</span></dd>
   </dl>
 </div>
 <div id="div_group_8" class="example_group passed">
@@ -335,20 +331,20 @@ a {
 </div>
 <div id="div_group_9" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_9" class="passed">visit my profile</dt>
-    <script type="text/javascript">moveProgressBar('36.3');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200 with slug</span><span class='duration'>0.69477s</span></dd>
-    <script type="text/javascript">moveProgressBar('40.9');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200 with id</span><span class='duration'>0.79151s</span></dd>
+  <dt id="example_group_9" class="passed">visit other profile</dt>
+    <script type="text/javascript">moveProgressBar('27.2');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200 with id</span><span class='duration'>0.72459s</span></dd>
+    <script type="text/javascript">moveProgressBar('31.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200 with slug</span><span class='duration'>0.68722s</span></dd>
   </dl>
 </div>
 <div id="div_group_10" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_10" class="passed">visit other profile</dt>
-    <script type="text/javascript">moveProgressBar('45.4');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200 with slug</span><span class='duration'>0.87500s</span></dd>
-    <script type="text/javascript">moveProgressBar('50.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200 with id</span><span class='duration'>0.79201s</span></dd>
+  <dt id="example_group_10" class="passed">visit my profile</dt>
+    <script type="text/javascript">moveProgressBar('36.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200 with id</span><span class='duration'>0.69575s</span></dd>
+    <script type="text/javascript">moveProgressBar('40.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200 with slug</span><span class='duration'>0.73460s</span></dd>
   </dl>
 </div>
 <div id="div_group_11" class="example_group passed">
@@ -358,97 +354,101 @@ a {
 </div>
 <div id="div_group_12" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_12" class="passed">update my profile</dt>
-    <script type="text/javascript">moveProgressBar('54.5');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 302 with success</span><span class='duration'>0.61517s</span></dd>
-    <script type="text/javascript">moveProgressBar('59.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200 with failed</span><span class='duration'>0.62484s</span></dd>
+  <dt id="example_group_12" class="passed">update other profile</dt>
+    <script type="text/javascript">moveProgressBar('45.4');</script>
+    <dd class="example passed"><span class="passed_spec_name">redirect if trying to update somebody else profile</span><span class='duration'>0.74659s</span></dd>
   </dl>
 </div>
 <div id="div_group_13" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_13" class="passed">update other profile</dt>
-    <script type="text/javascript">moveProgressBar('63.6');</script>
-    <dd class="example passed"><span class="passed_spec_name">redirect if trying to update somebody else profile</span><span class='duration'>0.73679s</span></dd>
+  <dt id="example_group_13" class="passed">update my profile</dt>
+    <script type="text/javascript">moveProgressBar('50.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200 with failed</span><span class='duration'>0.63433s</span></dd>
+    <script type="text/javascript">moveProgressBar('54.5');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 302 with success</span><span class='duration'>0.71105s</span></dd>
   </dl>
 </div>
 <div id="div_group_14" class="example_group passed">
   <dl style="margin-left: 15px;">
-  <dt id="example_group_14" class="passed">GET #edit</dt>
+  <dt id="example_group_14" class="passed">DELETE #destroy</dt>
   </dl>
 </div>
 <div id="div_group_15" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_15" class="passed">edit my profile</dt>
-    <script type="text/javascript">moveProgressBar('68.1');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200</span><span class='duration'>0.79685s</span></dd>
+  <dt id="example_group_15" class="passed">destroy other profile</dt>
+    <script type="text/javascript">moveProgressBar('59.0');</script>
+    <dd class="example passed"><span class="passed_spec_name">redirect if trying to destroy somebody else profile</span><span class='duration'>0.70116s</span></dd>
   </dl>
 </div>
 <div id="div_group_16" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_16" class="passed">visit other profile</dt>
-    <script type="text/javascript">moveProgressBar('72.7');</script>
-    <dd class="example passed"><span class="passed_spec_name">redirect if trying to edit somebody else profile</span><span class='duration'>1.05971s</span></dd>
+  <dt id="example_group_16" class="passed">destroy my profile</dt>
+    <script type="text/javascript">moveProgressBar('63.6');</script>
+    <dd class="example passed"><span class="passed_spec_name">return 200</span><span class='duration'>0.69554s</span></dd>
   </dl>
 </div>
 <div id="div_group_17" class="example_group passed">
-  <dl style="margin-left: 15px;">
-  <dt id="example_group_17" class="passed">DELETE #destroy</dt>
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_17" class="passed">ProfilesController</dt>
   </dl>
 </div>
 <div id="div_group_18" class="example_group passed">
-  <dl style="margin-left: 30px;">
-  <dt id="example_group_18" class="passed">destroy my profile</dt>
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_18" class="passed">Routing</dt>
+    <script type="text/javascript">moveProgressBar('68.1');</script>
+    <dd class="example passed"><span class="passed_spec_name">routes to #edit</span><span class='duration'>0.70147s</span></dd>
+    <script type="text/javascript">moveProgressBar('72.7');</script>
+    <dd class="example passed"><span class="passed_spec_name">routes to #show</span><span class='duration'>0.68010s</span></dd>
     <script type="text/javascript">moveProgressBar('77.2');</script>
-    <dd class="example passed"><span class="passed_spec_name">return 200</span><span class='duration'>0.80664s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">routes to #update</span><span class='duration'>0.65802s</span></dd>
+    <script type="text/javascript">moveProgressBar('81.8');</script>
+    <dd class="example passed"><span class="passed_spec_name">routes to #destroy</span><span class='duration'>0.69405s</span></dd>
   </dl>
 </div>
 <div id="div_group_19" class="example_group passed">
-  <dl style="margin-left: 30px;">
-  <dt id="example_group_19" class="passed">destroy other profile</dt>
-    <script type="text/javascript">moveProgressBar('81.8');</script>
-    <dd class="example passed"><span class="passed_spec_name">redirect if trying to destroy somebody else profile</span><span class='duration'>0.78154s</span></dd>
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_19" class="passed">User connection</dt>
   </dl>
 </div>
 <div id="div_group_20" class="example_group passed">
-  <dl style="margin-left: 0px;">
-  <dt id="example_group_20" class="passed">User registration</dt>
+  <dl style="margin-left: 15px;">
+  <dt id="example_group_20" class="passed">with correct parameters</dt>
+    <script type="text/javascript">moveProgressBar('86.3');</script>
+    <dd class="example passed"><span class="passed_spec_name">connect with the email</span><span class='duration'>0.88239s</span></dd>
+    <script type="text/javascript">moveProgressBar('90.9');</script>
+    <dd class="example passed"><span class="passed_spec_name">connect with the username</span><span class='duration'>0.86655s</span></dd>
   </dl>
 </div>
 <div id="div_group_21" class="example_group passed">
-  <dl style="margin-left: 15px;">
-  <dt id="example_group_21" class="passed">with correct parameters</dt>
-    <script type="text/javascript">moveProgressBar('86.3');</script>
-    <dd class="example passed"><span class="passed_spec_name">register</span><span class='duration'>1.04678s</span></dd>
+  <dl style="margin-left: 0px;">
+  <dt id="example_group_21" class="passed">Product</dt>
   </dl>
 </div>
 <div id="div_group_22" class="example_group passed">
   <dl style="margin-left: 15px;">
-  <dt id="example_group_22" class="passed">with incorrect parameters</dt>
-    <script type="text/javascript">moveProgressBar('90.9');</script>
-    <dd class="example passed"><span class="passed_spec_name">doesn&#39;t allow register without username</span><span class='duration'>0.72440s</span></dd>
+  <dt id="example_group_22" class="passed">behaves like Slugable</dt>
     <script type="text/javascript">moveProgressBar('95.4');</script>
-    <dd class="example passed"><span class="passed_spec_name">doesn&#39;t allow register without email</span><span class='duration'>0.69002s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">return the right slug</span><span class='duration'>0.68444s</span></dd>
   </dl>
 </div>
 <div id="div_group_23" class="example_group passed">
   <dl style="margin-left: 0px;">
-  <dt id="example_group_23" class="passed">Product</dt>
+  <dt id="example_group_23" class="passed">User</dt>
   </dl>
 </div>
 <div id="div_group_24" class="example_group passed">
   <dl style="margin-left: 15px;">
   <dt id="example_group_24" class="passed">behaves like Slugable</dt>
     <script type="text/javascript">moveProgressBar('100.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">return the right slug</span><span class='duration'>0.60904s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">return the right slug</span><span class='duration'>0.68577s</span></dd>
   </dl>
 </div>
-<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>17.11134 seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>16.18949 seconds</strong>";</script>
 <script type="text/javascript">document.getElementById('totals').innerHTML = "22 examples, 0 failures";</script>
 </div>
 </div>
 </body>
 </html>
 
-Randomized with seed 62929
+Randomized with seed 53901
 

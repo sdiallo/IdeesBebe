@@ -53,7 +53,7 @@
         null,
         null,
         1,
-        4,
+        2,
         null,
         null
       ],
@@ -228,6 +228,8 @@
       "/home/alexktf/ruby/IdeesBebe/app/models/profile.rb": [
         1,
         1,
+        null,
+        1,
         null
       ],
       "/home/alexktf/ruby/IdeesBebe/app/controllers/welcome_controller.rb": [
@@ -237,7 +239,7 @@
         null
       ]
     },
-    "timestamp": 1384295153
+    "timestamp": 1384372121
   },
   "Cucumber Features": {
     "coverage": {
