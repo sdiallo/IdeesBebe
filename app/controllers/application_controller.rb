@@ -12,9 +12,14 @@ class ApplicationController < ActionController::Base
   	devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation) }
   end
 
+  #TODO:: IMPROVE! and test
   def must_be_current_user
     if @user != current_user
-      redirect_to profile_path(@user.slug), notice: "Vous ne pouvez pas altérer le profil d'un autre utilisateur" 
+      if params[:controller] == 'products'
+        redirect_to product_path(@product.slug), notice: "Vous ne pouvez pas altérer le produit d'un autre utilisateur" 
+      else
+        redirect_to profile_path(@user.slug), notice: "Vous ne pouvez pas altérer le profil d'un autre utilisateur" 
+      end
     end
   end
 end
