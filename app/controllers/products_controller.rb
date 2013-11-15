@@ -7,11 +7,10 @@ class ProductsController < ApplicationController
     @products = current_user.products
   end
   # GET /products/1
-  # GET /products/1.json
   def show
   end
 
-  # GET /products/new
+  # GET /profiles/:profile_id/products/new
   def new
     @product = Product.new
   end
@@ -20,45 +19,30 @@ class ProductsController < ApplicationController
   def edit
   end
 
-  # POST /products
-  # POST /products.json
+  # POST /profiles/:profile_id/products
   def create
     @product = Product.new(product_params)
     current_user.products << @product
-
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to product_path(@product.slug), notice: 'Product was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @product }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
   # PATCH/PUT /products/1
-  # PATCH/PUT /products/1.json
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to product_path(@product.slug), notice: 'Product was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.update(product_params)
+      redirect_to product_path(@product.slug), notice: 'Product was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
   # DELETE /products/1
-  # DELETE /products/1.json
   def destroy
     @product.destroy
-    respond_to do |format|
-      format.html { redirect_to profile_path(current_user.slug) }
-      format.json { head :no_content }
-    end
+    redirect_to profile_path(current_user.slug)
   end
 
   private

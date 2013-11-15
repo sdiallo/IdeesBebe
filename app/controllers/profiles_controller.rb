@@ -14,14 +14,10 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1
   # PATCH/PUT /profiles/1.json
   def update
-    respond_to do |format|
-      if @user.profile.update(profile_params)
-        format.html { redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour' }
-        format.json { render json: true }
-      else
-        format.html { render action: 'edit', notice: "Une erreur s'est produite"  }
-        format.json { render json: @user.profile.errors, status: :unprocessable_entity }
-      end
+    if @user.profile.update(profile_params)
+      redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour.'
+    else
+      render action: 'edit', notice: "Une erreur s'est produite."
     end
   end
 
@@ -29,10 +25,7 @@ class ProfilesController < ApplicationController
   # DELETE /profiles/1.json
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to root_url }
-      format.json { head :no_content }
-    end
+    redirect_to root_url
   end
 
   private
