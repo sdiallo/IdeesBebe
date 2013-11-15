@@ -6,4 +6,8 @@ FactoryGirl.define do
   sequence :username do |n|
     "username#{n}"
   end
+
+  sequence :name do |n|
+    "product_name#{n}"
+  end
 end

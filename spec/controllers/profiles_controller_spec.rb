@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe ProfilesController do
-  subject { FactoryGirl.create(:user) }
-  let(:user2) { FactoryGirl.create(:user) }
+  subject { FactoryGirl.create :user }
+  let(:user2) { FactoryGirl.create :user }
 
   before(:each) { sign_in subject }
 
