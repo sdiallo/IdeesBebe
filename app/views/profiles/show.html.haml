@@ -5,6 +5,6 @@
 %p
   %strong Nom:
   = @user.profile.last_name
-- if current_user == @user
+- if can? :edit, @user.profile or can? :destroy, @user.profile
   = link_to 'Editer', edit_profile_path(@user.slug)
   = link_to 'Supprimer mon compte', profile_path(@user.slug), method: :delete

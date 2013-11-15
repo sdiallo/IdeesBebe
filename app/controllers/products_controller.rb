@@ -1,7 +1,9 @@
 class ProductsController < ApplicationController
-
+  
   before_action :set_product
-  before_action :must_be_current_user, except: [:index]
+  before_filter :must_be_current_user, except: [:index, :show] 
+  
+  
 
   def index
     @products = current_user.products

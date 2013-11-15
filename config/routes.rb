@@ -1,6 +1,7 @@
 IdeesBebe::Application.routes.draw do
 
   root 'welcome#index'
+  get '/forbidden' => 'welcome#forbidden', as: 'forbidden'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes"
   resources :profiles, except: [:index, :create, :new] do

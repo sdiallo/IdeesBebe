@@ -1,6 +1,8 @@
 class ProfilesController < ApplicationController
+ #before_filter :authenticate_user!, :except => :show
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
-  before_action :must_be_current_user, only: [:edit, :update, :destroy]
+  before_filter :must_be_current_user, except: [:show] 
+
 
   # GET /profiles/1
   # GET /profiles/1.json
@@ -33,6 +35,9 @@ class ProfilesController < ApplicationController
     def set_profile
       @user = User.find_by_slug(params[:id])
       @user ||= User.find(params[:id])
+      # if @user == current_user
+      #   authorize! params[:action].to_s, Profile
+      # end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
