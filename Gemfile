@@ -9,6 +9,9 @@ gem 'pg'
 gem 'rails_12factor', group: :production
 gem 'unicorn'
 
+gem 'carrierwave'
+gem 'mini_magick'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 gem "haml-rails"
@@ -44,6 +47,7 @@ group :development, :test do
   gem "factory_girl_rails", "~> 4.0"
   gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   gem 'database_cleaner'
+  gem 'selenium-webdriver', '~> 2.35.1'
 end
 
 # Use ActiveModel has_secure_password
