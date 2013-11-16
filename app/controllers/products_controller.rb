@@ -2,11 +2,8 @@ class ProductsController < ApplicationController
   
   before_action :set_product
   before_filter :must_be_current_user, except: [:index, :show] 
-  
-  
 
   def index
-    @products = current_user.products
   end
   # GET /products/1
   def show
@@ -48,7 +45,7 @@ class ProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_product
       if params[:profile_id].blank?
         @product = Product.find_by_slug(params[:id])
@@ -57,10 +54,8 @@ class ProductsController < ApplicationController
       else 
         @user = current_user
       end
-
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
       params.require(:product).permit(:name, :description)
     end
