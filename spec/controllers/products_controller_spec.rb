@@ -9,11 +9,6 @@ describe ProductsController do
   describe 'GET #index' do
 
     context "with my profile" do
-      it "show all products" do
-        get :index, profile_id: subject.slug
-        expect(assigns(:products)).to eq(subject.products)
-      end
-
       it "render_template index" do
         get :index, profile_id: subject.slug
         response.should render_template 'index'
