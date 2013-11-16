@@ -11,6 +11,7 @@
     - if current_user
       %div
         = link_to "Mon profil", profile_path(current_user.slug), method: :get
+        = link_to "Mes produits", products_path(current_user.slug), method: :get
         = link_to "Ajouter un produit", new_profile_product_path(profile_id: current_user.slug), method: :get
         = link_to "Deconnexion", destroy_user_session_path, method: :delete
     - else

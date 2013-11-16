@@ -3,6 +3,10 @@ require "spec_helper"
 describe ProductsController do
   describe "Routing" do
 
+    it "routes to #index" do
+      get("/profiles/test/products").should route_to("products#index", profile_id: "test")
+    end
+
     it "routes to #new" do
       get("/profiles/test/products/new").should route_to("products#new", profile_id: "test")
     end
