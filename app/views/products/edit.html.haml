@@ -2,4 +2,7 @@
 
 = render 'form'
 
+- @product.assets.each do |asset|
+  = image_tag(asset.photo)
+
 = link_to 'Retour', product_path(@product.slug)

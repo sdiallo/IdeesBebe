@@ -20,9 +20,13 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_params.except(:assets))
     current_user.products << @product
+
     if @product.save
+      uploader = PhotoUploader.new
+      uploader.store!(params[:product][:assets])
+      @product.assets.create(photo: params[:product][:assets])
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
     else
       render action: 'new'
@@ -31,8 +35,15 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.update(product_params)
-      redirect_to product_path(@product.slug), notice: 'Product was successfully updated.'
+    if @product.update(product_params.except(:assets))
+      unless params[:product][:assets].nil?
+        unless @product.upload_photo(params[:product][:assets])
+          flash[:notice] = "Maximum photos"
+        else
+          flash[:notice] = 'Product was successfully updated.'
+        end
+      end
+      redirect_to product_path(@product.slug)
     else
       render action: 'edit'
     end
@@ -57,6 +68,6 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description)
+      params.require(:product).permit(:name, :description, :assets)
     end
 end
