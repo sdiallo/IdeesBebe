@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
 
   before_save :to_slug, :if => :username_changed?
 
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
