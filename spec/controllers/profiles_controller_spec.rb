@@ -51,7 +51,7 @@ describe ProfilesController do
     context 'visit other profile' do
       it 'redirect if trying to edit somebody else profile' do
         get :edit, { id: user2.slug }
-        expect(response).to redirect_to profile_path(user2.slug)
+        expect(response).to redirect_to forbidden_path
       end
     end
   end
@@ -77,7 +77,7 @@ describe ProfilesController do
     context 'update other profile' do
       it 'redirect if trying to update somebody else profile' do
         put :update, { id: user2.slug, profile: {"first_name" => "test"} }
-        expect(response).to redirect_to profile_path(user2.slug)
+        expect(response).to redirect_to forbidden_path
         expect(user2.slug).to eq(user2.slug)
       end
     end
@@ -96,7 +96,7 @@ describe ProfilesController do
     context 'destroy other profile' do
       it 'redirect if trying to destroy somebody else profile' do
         delete :destroy, { id: user2.id }
-        expect(response).to redirect_to profile_path(user2.slug)
+        expect(response).to redirect_to forbidden_path
       end
     end
   end

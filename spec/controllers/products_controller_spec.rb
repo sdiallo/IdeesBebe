@@ -112,7 +112,7 @@ describe ProductsController do
     context 'edit product from other' do
       it 'redirect if trying to edit somebody else product' do
         get :edit, { id: product2.id }
-        expect(response).to redirect_to product_path(product2.slug)
+        expect(response).to redirect_to forbidden_path
       end
     end
   end
@@ -158,7 +158,7 @@ describe ProductsController do
     context 'update product from other' do
       it 'redirect if trying to update somebody else product' do
         get :edit, { id: product2.id }
-        expect(response).to redirect_to product_path(product2.slug)
+        expect(response).to redirect_to forbidden_path
       end
     end
   end
@@ -188,7 +188,7 @@ describe ProductsController do
     context 'destroy product from other' do
       it 'redirect if trying to destroy somebody else product' do
         delete :destroy, { id: product2.id }
-        expect(response).to redirect_to product_path(product2.slug)
+        expect(response).to redirect_to forbidden_path
       end
     end
   end
