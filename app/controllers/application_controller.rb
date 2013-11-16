@@ -6,6 +6,11 @@
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+
+  rescue_from CarrierWave::DownloadError, :with => :carrierwave_download_error
+  rescue_from CarrierWave::IntegrityError, :with => :carrierwave_integrity_error
+
+
   protected
 
   def configure_permitted_parameters
@@ -15,5 +20,15 @@
 
   def must_be_current_user
     redirect_to forbidden_path if @user != current_user
+  end
+
+  def carrierwave_download_error
+    flash[:alert] = "There was an error trying to download that remote file for upload. Please try again or download to your computer first."
+    redirect_to :back
+  end
+
+  def carrierwave_integrity_error
+    flash[:alert] = "There was an error with that remote file for upload. It seems it's not a valid file."
+    redirect_to :back
   end
 end
