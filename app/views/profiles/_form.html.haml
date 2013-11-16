@@ -1,4 +1,4 @@
-= form_for(@user.profile) do |f|
+= form_for @user.profile, url: profile_path(@user.slug), method: :put, html: { multipart: true } do |f|
   - if @user.profile.errors.any?
     #error_explanation
       %h2
@@ -15,5 +15,9 @@
     = f.label 'Nom'
     %br/
     = f.text_field :last_name
+  .field
+    = f.label 'Avatar'
+    %br/
+    = f.file_field :avatar
   .actions
     = f.submit 'Sauvegarder'

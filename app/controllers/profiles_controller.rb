@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
- #before_filter :authenticate_user!, :except => :show
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+
+  before_action :set_profile
   before_filter :must_be_current_user, except: [:show] 
 
 
@@ -14,6 +14,8 @@ class ProfilesController < ApplicationController
 
   # PATCH/PUT /profiles/1
   def update
+    uploader = AvatarUploader.new
+    uploader.store!(params[:profile][:avatar])
     if @user.profile.update(profile_params)
       redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour.'
     else
@@ -35,6 +37,6 @@ class ProfilesController < ApplicationController
     end
 
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name)
+      params.require(:profile).permit(:first_name, :last_name, :avatar)
     end
 end

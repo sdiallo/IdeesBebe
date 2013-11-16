@@ -5,6 +5,10 @@
 %p
   %strong Nom:
   = @user.profile.last_name
+
+= image_tag(@user.profile.avatar_url, size: '160x160', alt: 'Avatar', title: @user.username)
+= image_tag(@user.profile.avatar.thumb.url, size: '100x100', alt: 'Avatar', title: @user.username)
+
 - if current_user == @user
   = link_to 'Editer', edit_profile_path(@user.slug)
   = link_to 'Supprimer mon compte', profile_path(@user.slug), method: :delete

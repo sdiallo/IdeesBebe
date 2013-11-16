@@ -14,8 +14,6 @@
   end
 
   def must_be_current_user
-    if @user != current_user
-      redirect_to forbidden_path
-    end
+    redirect_to forbidden_path if @user != current_user
   end
 end
