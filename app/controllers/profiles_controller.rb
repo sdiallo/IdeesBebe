@@ -29,6 +29,13 @@ class ProfilesController < ApplicationController
     redirect_to root_url
   end
 
+  # DELETE /profiles/1
+  def destroy_avatar
+    @user.profile.remove_avatar!
+    @user.profile.save
+    render nothing: true
+  end
+
   private
 
     def set_profile

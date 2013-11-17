@@ -1,3 +1,9 @@
 %h1 Editer mon profil
 = render 'form'
+
+- if @user.profile.has_avatar?
+  #avatar
+    = image_tag(@user.profile.avatar_url)
+    .destroy_avatar_link= link_to 'Supprimer', destroy_avatar_path(id: @user.slug), remote: true, method: :delete
+
 = link_to 'Retour', profile_path(@user.slug)
