@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'carrierwave/test/matchers'
 
 describe Profile do
 
@@ -9,7 +8,7 @@ describe Profile do
     before do
       AvatarUploader.enable_processing = true
       @uploader = AvatarUploader.new(@user, :avatar)
-      @uploader.store!(File.open("#{Rails.root}/public/default_avatar.png"))
+      @uploader.store!(File.open("#{Rails.root}/app/assets/images/default_avatar.png"))
     end
 
     after do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131116164409) do
+ActiveRecord::Schema.define(version: 20131117142041) do
 
   create_table "assets", force: true do |t|
     t.string   "photo"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20131116164409) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "star_id"
   end
 
   add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree

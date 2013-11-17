@@ -8,7 +8,7 @@ describe Asset do
     before do
       PhotoUploader.enable_processing = true
       @uploader = PhotoUploader.new(@user, :avatar)
-      @uploader.store!(File.open("#{Rails.root}/public/default_avatar.png"))
+      @uploader.store!(File.open("#{Rails.root}/app/assets/images/default_avatar.png"))
     end
 
     after do
