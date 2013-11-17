@@ -281,34 +281,50 @@ a {
 <div class="results">
 <div id="div_group_1" class="example_group passed">
   <dl style="margin-left: 0px;">
-  <dt id="example_group_1" class="passed">Asset</dt>
+  <dt id="example_group_1" class="passed">Product</dt>
   </dl>
 </div>
 <div id="div_group_2" class="example_group passed">
   <dl style="margin-left: 15px;">
-  <dt id="example_group_2" class="passed">PhotoUploader</dt>
+  <dt id="example_group_2" class="passed">when update</dt>
   </dl>
 </div>
 <div id="div_group_3" class="example_group passed">
   <dl style="margin-left: 30px;">
-  <dt id="example_group_3" class="passed">the thumb version</dt>
+  <dt id="example_group_3" class="passed">when add an asset</dt>
+    <script type="text/javascript">makeRed('rspec-header');</script>
+    <script type="text/javascript">makeRed('div_group_3');</script>
+    <script type="text/javascript">makeRed('example_group_3');</script>
     <script type="text/javascript">moveProgressBar('50.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">create an avatar with 100x100</span><span class='duration'>1.17518s</span></dd>
+    <dd class="example failed">
+      <span class="failed_spec_name">stars the asset if it is the only one</span>
+      <span class="duration">0.90880s</span>
+      <div class="failure" id="failure_1">
+        <div class="message"><pre>undefined method `get_star&#39; for #&lt;Product:0x000000051ac3e0&gt;</pre></div>
+        <div class="backtrace"><pre>./spec/models/product_spec.rb:29:in `block (4 levels) in &lt;top (required)&gt;&#39;</pre></div>
+    <pre class="ruby"><code><span class="linenum">27</span>
+<span class="linenum">28</span>      it 'stars the asset if it is the only one' do
+<span class="offending"><span class="linenum">29</span>        subject.get_star.should == asset</span>
+<span class="linenum">30</span>      end
+<span class="linenum">31</span>
+<span class="linenum">32</span><span class="comment"># gem install syntax to get syntax highlighting</span></code></pre>
+      </div>
+    </dd>
   </dl>
 </div>
 <div id="div_group_4" class="example_group passed">
-  <dl style="margin-left: 30px;">
-  <dt id="example_group_4" class="passed">avatar version</dt>
+  <dl style="margin-left: 45px;">
+  <dt id="example_group_4" class="passed">#set_main_asset</dt>
     <script type="text/javascript">moveProgressBar('100.0');</script>
-    <dd class="example passed"><span class="passed_spec_name">create an avatar with 160x160</span><span class='duration'>1.05643s</span></dd>
+    <dd class="example passed"><span class="passed_spec_name">stars the asset</span><span class='duration'>0.86549s</span></dd>
   </dl>
 </div>
-<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>2.24754 seconds</strong>";</script>
-<script type="text/javascript">document.getElementById('totals').innerHTML = "2 examples, 0 failures";</script>
+<script type="text/javascript">document.getElementById('duration').innerHTML = "Finished in <strong>1.80790 seconds</strong>";</script>
+<script type="text/javascript">document.getElementById('totals').innerHTML = "2 examples, 1 failure";</script>
 </div>
 </div>
 </body>
 </html>
 
-Randomized with seed 43630
+Randomized with seed 34675
 

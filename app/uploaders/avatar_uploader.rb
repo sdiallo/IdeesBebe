@@ -23,11 +23,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "#{Rails.root}/tmp/uploads/avatar"
   end
 
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  def default_url
-    "/default_avatar.png"
-  end
-
   def filename
      "#{secure_token}.#{file.extension}" if original_filename.present?
   end

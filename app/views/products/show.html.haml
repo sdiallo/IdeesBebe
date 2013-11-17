@@ -5,7 +5,14 @@
   %b Description:
   = @product.description
 
-- @product.assets.each do |asset|
-  = image_tag(asset.photo)
+#destroy_asset_link
+  - unless @product.assets.empty?
+    - @product.assets.each do |asset|
+      %div{id: "asset_#{asset.id}"}
+        = image_tag(asset.photo)
+  - else
+    = image_tag("default_avatar.png")
+
+
 - if current_user == @user
   = link_to 'Editer', edit_product_path(@product.slug)

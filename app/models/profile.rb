@@ -6,4 +6,7 @@ class Profile < ActiveRecord::Base
 
   validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
 
+  def has_avatar?
+    avatar.url.nil? ? false : true
+  end
 end

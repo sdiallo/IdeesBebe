@@ -7,6 +7,13 @@ IdeesBebe::Application.routes.draw do
   resources :profiles, except: [:index, :create, :new] do
     resources :products, shallow: true
   end
+  
+  delete 'profiles/:id/delete_avatar' => 'profiles#destroy_avatar', as: 'destroy_avatar'
+
+  delete 'products/:id/asset/:asset_id' => 'products#destroy_asset', as: 'destroy_asset'
+  put 'products/:id/asset/:asset_id' => 'products#main_asset', as: 'set_main_asset'
+
+
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
   devise_for :user
 

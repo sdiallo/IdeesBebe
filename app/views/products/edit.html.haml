@@ -2,7 +2,16 @@
 
 = render 'form'
 
-- @product.assets.each do |asset|
-  = image_tag(asset.photo)
+#asset_link
+  - @product.assets.each do |asset|
+    %div{ id: "asset_#{asset.id}"}
+      = image_tag(asset.photo)
+      %div{ class: "star_product_#{asset.id}"}
+        - if @product.has_main_asset? and @product.get_main_asset.id == asset.id
+          = image_tag('product_star_thumb.jpg', id: "img_star")
+      .star_asset_link
+        = link_to 'Mettre en avant', set_main_asset_path(id: @product, asset_id: asset.id), remote: true, method: :put
+      .destroy_asset_link
+        = link_to 'Supprimer', destroy_asset_path(id: @product, asset_id: asset.id), remote: true, method: :delete
 
 = link_to 'Retour', product_path(@product.slug)
