@@ -19,15 +19,11 @@ describe Product do
     end
   end
 
-  context 'when update', focus: true do
+  context 'when update' do
     subject { FactoryGirl.create :product }
     let(:asset) { FactoryGirl.create :asset, product_id: subject.id }
 
     context 'when add an asset' do
-
-      it 'stars the asset if it is the only one' do
-        subject.get_star.should == asset
-      end
 
       describe '#set_main_asset' do
 
@@ -35,13 +31,6 @@ describe Product do
           subject.set_main_asset asset
           subject.star_id.should == asset.id
         end
-      end
-
-      describe '#get_star' do
-
-        # it 'returns the starred asset' do
-        #   subject.get_star.should == asset
-        # end
       end
     end
   end
