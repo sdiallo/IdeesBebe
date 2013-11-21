@@ -3,11 +3,11 @@ class Asset < ActiveRecord::Base
 
   mount_uploader :asset, PhotoUploader
 
-  before_create :stars_if_first_asset, if: :product_referencer?
-  before_destroy :random_starred_asset, if: [:product_referencer? , :starred]
+  before_create :stars_if_first, if: :product_referencer?
+  before_destroy :random_starred, if: [:product_referencer? , :starred]
 
   # Set starred at true if it's the first asset for a product
-  def stars_if_first_asset
+  def stars_if_first
     starred_asset = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: true)
     if starred_asset.empty?
       self.starred = true
@@ -15,8 +15,7 @@ class Asset < ActiveRecord::Base
   end
 
   # Set starred at true for another asset of the product if the destroyed asset is the starred one
-  def random_starred_asset
-
+  def random_starred
     distance = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: false).map(&:id)
     random_asset = Asset.find(distance.sample).update_attributes!(starred: true) unless distance
   end
