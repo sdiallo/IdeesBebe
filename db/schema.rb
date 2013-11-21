@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117142041) do
+ActiveRecord::Schema.define(version: 20131118185029) do
 
   create_table "assets", force: true do |t|
-    t.string   "photo"
-    t.integer  "product_id"
+    t.string   "asset"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "referencer_id"
+    t.string   "referencer_type"
+    t.boolean  "starred",         default: false
   end
-
-  add_index "assets", ["product_id"], name: "index_assets_on_product_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20131117142041) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "star_id"
   end
 
   add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
@@ -40,7 +39,6 @@ ActiveRecord::Schema.define(version: 20131117142041) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "avatar"
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree

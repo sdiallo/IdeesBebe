@@ -1,6 +1,6 @@
 class Product < ActiveRecord::Base
   belongs_to :user
-  has_many :assets, :dependent => :destroy
+  has_many :assets, as: :referencer, dependent: :destroy
 
   include Slugable
 
@@ -10,25 +10,16 @@ class Product < ActiveRecord::Base
 
   MAXIMUM_UPLOAD_PHOTO = 2
 
-  def upload_photo asset
-
-    if assets.count < MAXIMUM_UPLOAD_PHOTO
-      uploader = PhotoUploader.new
-      uploader.store!(asset)
-      new_asset = assets.create(photo: asset)
-      set_main_asset new_asset if assets.count == 1
-    end
+  def starred_asset
+    return assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.asset if self.assets?
+    return nil
   end
 
-  def set_main_asset asset
-    update_attributes!(star_id: asset.id)
+  def assets?
+    assets.where(referencer_id: self.id, referencer_type: self.class.name).empty? ? false : true
   end
 
-  def get_main_asset
-    assets.find(star_id)
-  end
-
-  def has_main_asset?
-    star_id.nil? ? false : true
+  def has_maximum_upload?
+    assets.count == MAXIMUM_UPLOAD_PHOTO ? true : false
   end
 end

@@ -3,15 +3,17 @@
 = render 'form'
 
 #asset_link
-  - @product.assets.each do |asset|
-    %div{ id: "asset_#{asset.id}"}
-      = image_tag(asset.photo)
-      %div{ class: "star_product_#{asset.id}"}
-        - if @product.has_main_asset? and @product.get_main_asset.id == asset.id
+  - @product.assets.each do |a|
+    %div{ id: "asset_#{a.id}"}
+      = image_tag(a.asset)
+      %div{ class: "star_product_#{a.id}"}
+        - if a.starred
           = image_tag('product_star_thumb.jpg', id: "img_star")
-      .star_asset_link
-        = link_to 'Mettre en avant', set_main_asset_path(id: @product, asset_id: asset.id), remote: true, method: :put
-      .destroy_asset_link
-        = link_to 'Supprimer', destroy_asset_path(id: @product, asset_id: asset.id), remote: true, method: :delete
+        - else
+          .star_asset_link
+            = link_to 'Mettre en avant', become_starred_path(id: a.id), method: :put
+        .destroy_asset_link
+          = link_to 'Supprimer', destroy_asset_path(id: a.id), method: :delete
 
 = link_to 'Retour', product_path(@product.slug)
+= link_to 'Destroy', @product, :method => :delete, :data => { :confirm => 'Are you sure?' }

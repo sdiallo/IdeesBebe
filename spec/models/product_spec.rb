@@ -5,6 +5,8 @@ describe Product do
     subject { FactoryGirl.create :product, name: "mom & dad @home!" }
   end
 
+  subject { FactoryGirl.create :product }
+
   context 'when create' do
     it 'fails without name' do
       FactoryGirl.build(:product, name: "").should_not be_valid
@@ -19,18 +21,40 @@ describe Product do
     end
   end
 
-  context 'when update' do
-    subject { FactoryGirl.create :product }
-    let(:asset) { FactoryGirl.create :asset, product_id: subject.id }
 
-    context 'when add an asset' do
+  describe '#starred_asset' do
 
-      describe '#set_main_asset' do
+    context 'with assets' do
+      let(:asset) { FactoryGirl.create :asset, referencer_id: subject.id, referencer_type: subject.class.name, starred: true }
 
-        it 'stars the asset' do
-          subject.set_main_asset asset
-          subject.star_id.should == asset.id
-        end
+      it 'return the starred asset' do
+        asset
+        subject.starred_asset.model.id.should == asset.id
+      end
+    end
+
+    context 'with no assets' do
+
+      it 'return nil' do
+        subject.starred_asset.should == nil
+      end
+    end
+  end
+
+  describe '#assets?' do
+
+    context 'with assets' do
+      let(:asset) { FactoryGirl.create :asset, referencer_id: subject.id, referencer_type: subject.class.name }
+
+      it 'return true' do
+        asset
+        subject.assets?.should == true
+      end
+    end
+
+    context 'with no assets' do
+      it 'return false' do
+        subject.assets?.should == false
       end
     end
   end

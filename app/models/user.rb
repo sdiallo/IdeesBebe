@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
     uniqueness: { :case_sensitive => false }
   validates :email, presence: { message: I18n.t('devise.failed.email') }
   
-  has_one :profile, :dependent => :destroy
-  has_many :products, :dependent => :destroy
+  has_one :profile, dependent: :destroy
+  has_many :products, dependent: :destroy
+  has_many :assets, as: :referencer, dependent: :destroy
 
   attr_accessor :login
 
@@ -29,5 +30,15 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
+  end
+
+  def avatar
+    avatar = assets.where(referencer_type: self.class.name).first
+    avatar.nil? ? nil : avatar.asset
+  end
+
+  def avatar_id
+    avatar = assets.where(referencer_type: self.class.name).first
+    avatar.nil? ? nil : avatar.id
   end
 end

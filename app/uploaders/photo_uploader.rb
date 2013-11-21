@@ -2,8 +2,6 @@
 
 class PhotoUploader < CarrierWave::Uploader::Base
   
-  after :store, :delete_old_tmp_file
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
@@ -16,28 +14,34 @@ class PhotoUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
+
+  before :store, :remember_cache_id
+  after :store, :delete_tmp_dir
+
+  # store! nil's the cache_id after it finishes so we need to remember it for deletion
+  def remember_cache_id(new_file)
+    @cache_id_was = cache_id
+  end
+  
+  def delete_tmp_dir(new_file)
+    # make sure we don't delete other things accidentally by checking the name pattern
+    if @cache_id_was.present? && @cache_id_was =~ /\A[\d]{8}\-[\d]{4}\-[\d]+\-[\d]{4}\z/
+      FileUtils.rm_rf(cache_dir)
+    end
+  end
+
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "#{Rails.root}/public/uploads/product"
+    "#{Rails.root}/public/uploads/assets"
   end
 
   def cache_dir
-    "#{Rails.root}/tmp/uploads/product"
+    "#{Rails.root}/tmp/uploads/assets/#{model.id}"
   end
 
   def filename
      "#{secure_token}.#{file.extension}" if original_filename.present?
-  end
-
-  # remember the tmp file
-  def cache!(new_file)
-    super
-    @old_tmp_file = new_file
-  end
-  
-  def delete_old_tmp_file(dummy)
-    @old_tmp_file.try :delete
   end
 
   process :resize_to_fill => [160,160]

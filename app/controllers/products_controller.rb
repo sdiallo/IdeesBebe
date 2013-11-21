@@ -20,14 +20,10 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = Product.new(product_params.except(:assets))
-    current_user.products << @product
-
+    @product = current_user.products.build(product_params.except(:asset))
     if @product.save
-      unless params[:product][:assets].nil?
-        uploader = PhotoUploader.new
-        uploader.store!(params[:product][:assets])
-        @product.assets.create(photo: params[:product][:assets])
+      unless params[:product][:asset].nil?
+        @product.assets.create(asset: params[:product][:asset])
       end
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
     else
@@ -37,14 +33,13 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.update(product_params.except(:assets))
-      unless params[:product][:assets].nil?
-        unless @product.upload_photo(params[:product][:assets])
-          flash[:notice] = "Maximum photos"
-        else
-          flash[:notice] = 'Product was successfully updated.'
-        end
+    if @product.update(product_params.except(:asset))
+      if @product.has_maximum_upload?
+        flash[:notice] = "Maximum photos"
+      else
+        @product.assets.create(asset: params[:product][:asset])
       end
+      flash[:notice] ||= 'Product was successfully updated.'
       redirect_to edit_product_path(@product.slug)
     else
       render action: 'edit'
@@ -54,32 +49,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
-    redirect_to profile_path(current_user.slug)
-  end
-
-
-  # DELETE /products/1/asset/1
-  def destroy_asset
-    Asset.find(params[:asset_id]).destroy
-    @product.update_attributes!(star_id: nil) if @product.assets.count == 0
-    @product.update_attributes!(star_id: @product.assets.first.id) if @product.star_id == params[:asset_id].to_i
-
-    respond_to do |format|
-        format.json {
-          render :json => { :id => params[:asset_id], :new_id => @product.star_id }
-        }
-    end
-  end
-
-  def main_asset
-    if params[:asset_id].to_i != @product.star_id
-      @product.set_main_asset Asset.find(params[:asset_id])
-      respond_to do |format|
-          format.json {
-            render :json => { :id => params[:asset_id] }
-          }
-      end
-    end
+    redirect_to products_path(@user.slug)
   end
 
   private
@@ -95,6 +65,6 @@ class ProductsController < ApplicationController
     end
 
     def product_params
-      params.require(:product).permit(:name, :description, :assets)
+      params.require(:product).permit(:name, :description, :asset)
     end
 end
