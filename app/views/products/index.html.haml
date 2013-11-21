@@ -12,16 +12,17 @@
 
   - @user.products.each do |product|
     %tr
-      - if product.has_main_asset?
-        %td= image_tag(product.get_main_asset.photo.thumb.url, alt: product.name, title: product.name)
+      - if product.assets?
+        %td= image_tag(product.starred_asset.thumb.url, alt: product.name, title: product.name)
       - else
         %td= image_tag('default_avatar_thumb.png')
       %td= product.name
       %td= product.slug
       %td= product.description
       %td= link_to 'Show', product_path(product.slug)
-      %td= link_to 'Edit', edit_product_path(product.slug)
-      %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      - if current_user == @user
+        %td= link_to 'Edit', edit_product_path(product.slug)
+        %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 

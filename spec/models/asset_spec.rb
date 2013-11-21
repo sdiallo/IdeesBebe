@@ -4,10 +4,11 @@ describe Asset do
 
   describe PhotoUploader do
     include CarrierWave::Test::Matchers
+    subject { FactoryGirl.create :asset }
 
     before do
       PhotoUploader.enable_processing = true
-      @uploader = PhotoUploader.new(@user, :avatar)
+      @uploader = PhotoUploader.new(subject, :avatar)
       @uploader.store!(File.open("#{Rails.root}/app/assets/images/default_avatar.png"))
     end
 

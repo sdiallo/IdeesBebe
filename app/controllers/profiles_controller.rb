@@ -12,28 +12,27 @@ class ProfilesController < ApplicationController
   def edit
   end
 
+  # TODO : improve method
   # PATCH/PUT /profiles/1
   def update
-    uploader = AvatarUploader.new
-    uploader.store!(params[:profile][:avatar])
-    if @user.profile.update(profile_params)
-      redirect_to profile_path(@user.slug), notice: 'Votre profil à été mise à jour.'
+    # Avatar is store on Asset
+    if @user.profile.update(profile_params.except(:avatar)) and not params[:profile][:avatar].nil?
+      if @user.avatar.nil?
+        @user.assets.create(asset: params[:profile][:avatar])
+      else
+        flash[:notice] = 'Vous avez déjà un avatar.'
+      end
     else
-      render action: 'edit', notice: "Une erreur s'est produite."
+      flash[:notice] ||= 'Votre profil à été mise à jour.'
     end
+    render :edit
   end
 
   # DELETE /profiles/1
   def destroy
     @user.destroy
+    flash[:notice] = 'Votre compte et vos informations ont été supprimé'
     redirect_to root_url
-  end
-
-  # DELETE /profiles/1
-  def destroy_avatar
-    @user.profile.remove_avatar!
-    @user.profile.save
-    render nothing: true
   end
 
   private

@@ -1,4 +1,3 @@
-%p#notice= notice
 %p
   %strong Pr&eacute;nom:
   = @user.profile.first_name
@@ -6,8 +5,8 @@
   %strong Nom:
   = @user.profile.last_name
 
-- unless @user.profile.avatar_url.nil?
-  = image_tag(@user.profile.avatar_url, size: '160x160', alt: 'Avatar', title: @user.username)
+- unless @user.avatar.nil?
+  = image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
 - else
   = image_tag("default_avatar.png")
 

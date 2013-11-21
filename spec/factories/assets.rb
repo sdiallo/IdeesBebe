@@ -2,7 +2,13 @@
 
 FactoryGirl.define do
   factory :asset do
-    photo "MyString"
-    product nil
+    asset "MyString"
+    referencer_id nil
+    referencer_type nil
+    starred false
+
+    trait :starred do
+      starred true
+    end
   end
 end

@@ -5,13 +5,13 @@
   %b Description:
   = @product.description
 
-#destroy_asset_link
-  - unless @product.assets.empty?
-    - @product.assets.each do |asset|
-      %div{id: "asset_#{asset.id}"}
-        = image_tag(asset.photo)
-  - else
-    = image_tag("default_avatar.png")
+- unless @product.assets.empty?
+  #destroy_asset_link
+    - @product.assets.each do |a|
+      %div{id: "asset_#{a.id}"}
+        = image_tag(a.asset)
+- else
+  = image_tag("default_avatar.png")
 
 
 - if current_user == @user

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :product do
-    name
+    name 'Great product'
     description 'This is a great product'
   end
 end

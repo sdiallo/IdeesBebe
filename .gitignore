@@ -15,8 +15,8 @@
 /log/*.log
 /tmp
 
-.env
-config/database.yml
-rspec.html
-coverage
+/.env
+/config/database.yml
+/rspec.html
+/coverage
 /public/uploads
