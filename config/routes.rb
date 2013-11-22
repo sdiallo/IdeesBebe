@@ -10,6 +10,8 @@ IdeesBebe::Application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resources :comments, only: [:destroy]
+
   delete 'assets/:id' => 'assets#destroy', as: 'destroy_asset'
   put 'assets/:id' => 'assets#become_starred', as: 'become_starred'
 

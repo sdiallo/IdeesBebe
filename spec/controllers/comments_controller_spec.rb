@@ -41,4 +41,44 @@ describe CommentsController do
       end
     end
   end
+
+  describe 'DELETE #destroy', focus: true do
+    context 'for the product comments' do
+
+      context 'with signed in user' do
+
+        context 'with my comment' do
+          before(:each) do
+            product
+            sign_in user
+          end
+          subject { FactoryGirl.create :comment, user_id: user.id, product_id: product.id }
+          
+          it 'delete the comment' do
+            delete :destroy, { id: subject.id }
+            Comment.exists?(subject).should == nil        
+          end
+        end
+
+        context 'with other comment' do
+          subject { FactoryGirl.create :comment, user_id: user2.id, product_id: product.id }
+
+          it 'redirect to forbidden' do
+            sign_in user
+            delete :destroy, { id: subject.id }
+            response.should redirect_to forbidden_path
+          end
+        end
+      end
+
+      context 'with unsigned user' do
+        subject { FactoryGirl.create :comment, user_id: user.id, product_id: product.id }
+        it 'redirect to forbidden' do
+          delete :destroy, { id: subject.id }
+          response.should redirect_to forbidden_path
+        end
+      end
+    end
+
+  end
 end
