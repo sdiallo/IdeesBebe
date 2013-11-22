@@ -37,16 +37,19 @@ describe AssetsController do
 
     context 'for the product assets' do
     let(:asset2) { FactoryGirl.create :asset, referencer_id: product2.id, referencer_type: product2.class.name }
+    let(:asset3) { FactoryGirl.create :asset, referencer_id: product.id, referencer_type: product.class.name }
     subject { FactoryGirl.create :asset, referencer_id: product.id, referencer_type: product.class.name }
 
       context 'with my product' do
         it 'destroys asset' do
+          asset3
           subject
           delete :destroy, { id: subject.id }
           Asset.exists?(subject.id).should == nil        
         end
 
         it 'redirect to #edit' do
+          asset3
           subject
           delete :destroy, { id: subject.id }
           response.should redirect_to edit_product_path(product.slug)
