@@ -42,7 +42,7 @@ describe CommentsController do
     end
   end
 
-  describe 'DELETE #destroy', focus: true do
+  describe 'DELETE #destroy' do
     context 'for the product comments' do
 
       context 'with signed in user' do
