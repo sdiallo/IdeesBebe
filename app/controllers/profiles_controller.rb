@@ -18,6 +18,7 @@ class ProfilesController < ApplicationController
     # Avatar is store on Asset
     if @user.profile.update(profile_params.except(:avatar)) and not params[:profile][:avatar].nil?
       if @user.avatar.nil?
+        Cloudinary::Uploader.upload(params[:profile][:avatar])
         @user.assets.create(asset: params[:profile][:avatar])
       else
         flash[:notice] = 'Vous avez déjà un avatar.'

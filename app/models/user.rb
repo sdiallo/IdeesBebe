@@ -34,7 +34,8 @@ class User < ActiveRecord::Base
 
   def avatar
     avatar = assets.where(referencer_type: self.class.name).first
-    avatar.nil? ? nil : avatar.asset
+    return nil if avatar.nil?
+    return avatar.asset
   end
 
   def avatar_id

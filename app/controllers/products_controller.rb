@@ -23,6 +23,7 @@ class ProductsController < ApplicationController
     @product = current_user.products.build(product_params.except(:asset))
     if @product.save
       unless params[:product][:asset].nil?
+        Cloudinary::Uploader.upload(params[:product][:asset])
         @product.assets.create(asset: params[:product][:asset])
       end
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
