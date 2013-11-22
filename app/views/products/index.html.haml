@@ -4,7 +4,6 @@
   %tr
     %th 
     %th Name
-    %th Slug
     %th Description
     %th
     %th
@@ -16,8 +15,7 @@
         %td= image_tag(product.starred_asset.thumb.url, alt: product.name, title: product.name)
       - else
         %td= image_tag('default_avatar_thumb.png')
-      %td= product.name
-      %td= product.slug
+      %td= product.name.capitalize
       %td= product.description
       %td= link_to 'Show', product_path(product.slug)
       - if current_user == @user

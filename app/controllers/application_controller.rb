@@ -19,7 +19,7 @@
   end
 
   def must_be_current_user
-    redirect_to forbidden_path if @user != current_user
+    redirect_to forbidden_path if not user_signed_in? or @user != current_user
   end
 
   def carrierwave_download_error

@@ -1,11 +1,13 @@
 IdeesBebe::Application.routes.draw do
 
-  root 'welcome#index'
   get '/forbidden' => 'welcome#forbidden', as: 'forbidden'
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes"
+
   resources :profiles, except: [:index, :create, :new] do
     resources :products, shallow: true
+  end
+
+  resources :products, only: [] do
+    resources :comments, only: [:create]
   end
 
   delete 'assets/:id' => 'assets#destroy', as: 'destroy_asset'
@@ -13,7 +15,9 @@ IdeesBebe::Application.routes.draw do
 
 
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
+
   devise_for :user
+  root 'welcome#index'
 
   
   # You can have the root of your site routed with "root"

@@ -10,8 +10,10 @@ class User < ActiveRecord::Base
   validates :email, presence: { message: I18n.t('devise.failed.email') }
   
   has_one :profile, dependent: :destroy
+
   has_many :products, dependent: :destroy
-  has_many :assets, as: :referencer, dependent: :destroy
+  has_many :assets, as: :referencer, dependent: :destroy # For avatar
+  has_many :comments, dependent: :destroy
 
   attr_accessor :login
 

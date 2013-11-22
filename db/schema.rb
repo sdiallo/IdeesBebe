@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131118185029) do
+ActiveRecord::Schema.define(version: 20131122150649) do
 
   create_table "assets", force: true do |t|
     t.string   "asset"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20131118185029) do
     t.integer  "referencer_id"
     t.string   "referencer_type"
     t.boolean  "starred",         default: false
+  end
+
+  create_table "comments", force: true do |t|
+    t.text     "content"
+    t.integer  "product_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "products", force: true do |t|

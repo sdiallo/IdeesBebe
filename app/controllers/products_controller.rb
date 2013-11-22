@@ -7,6 +7,7 @@ class ProductsController < ApplicationController
   end
   # GET /products/1
   def show
+    @comment = Comment.new
   end
 
   # GET /profiles/:profile_id/products/new
@@ -60,6 +61,9 @@ class ProductsController < ApplicationController
         @product = Product.find_by_slug(params[:id])
         @product ||= Product.find(params[:id])
         @user = @product.user
+      elsif params[:action] == "index"
+        @user = User.find_by_slug(params[:profile_id])
+        @user ||= User.find(params[:profile_id])
       else 
         @user = current_user
       end
