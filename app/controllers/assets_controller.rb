@@ -18,8 +18,9 @@ class AssetsController < ApplicationController
   private
     def set_asset
       @asset = Asset.find(params[:id])
-      if @asset.referencer_type == 'User'
-        @user = User.find(@asset.referencer_id)
+      if @asset.referencer_type == 'Profile'
+        @profile = Profile.find(@asset.referencer_id)
+        @user = @profile.user
         @@redirect = edit_profile_path(@user.slug)
       else
         @product = Product.find(@asset.referencer_id)

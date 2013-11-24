@@ -11,8 +11,7 @@ class User < ActiveRecord::Base
   
   has_one :profile, dependent: :destroy
 
-  has_many :products, dependent: :destroy
-  has_many :assets, as: :referencer, dependent: :destroy # For avatar
+  has_many :products, dependent: :destroy  
   has_many :comments, dependent: :destroy
 
   attr_accessor :login
@@ -35,13 +34,16 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    avatar = assets.where(referencer_type: self.class.name).first
-    return nil if avatar.nil?
-    return avatar.asset
+    if profile.asset and not profile.asset.id.nil?
+      return profile.asset.asset
+    end
+    return nil
   end
 
   def avatar_id
-    avatar = assets.where(referencer_type: self.class.name).first
-    avatar.nil? ? nil : avatar.id
+    if profile.asset and not profile.asset.id.nil?
+      return profile.asset.id
+    end
+    return nil
   end
 end
