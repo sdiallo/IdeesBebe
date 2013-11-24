@@ -21,7 +21,7 @@ describe ProductsController do
     context "with my profile" do
       it "authorize to create a product" do
         get :new, profile_id: subject.slug
-        expect(assigns(:user)).to eq(subject)
+        expect(assigns(:product)).to eq(Product.new)
       end
 
       it "render_template new" do
@@ -71,13 +71,7 @@ describe ProductsController do
     let(:product) { FactoryGirl.create :product, user_id: subject.id}
     it 'return 200 with slug' do
       get :show, { id: product.slug }
-      expect(assigns(:user)).to eq(subject)
-      expect(response.code).to eq('200')
-    end
-
-    it 'return 200 with id' do
-      get :show, { id: product.id }
-      expect(assigns(:user)).to eq(subject)
+      expect(assigns(:product)).to eq(product)
       expect(response.code).to eq('200')
     end
   end
@@ -106,7 +100,7 @@ describe ProductsController do
 
     context 'edit product from other' do
       it 'redirect if trying to edit somebody else product' do
-        get :edit, { id: product2.id }
+        get :edit, { id: product2.slug }
         expect(response).to redirect_to forbidden_path
       end
     end
@@ -152,7 +146,7 @@ describe ProductsController do
 
     context 'update product from other' do
       it 'redirect if trying to update somebody else product' do
-        get :edit, { id: product2.id }
+        get :edit, { id: product2.slug }
         expect(response).to redirect_to forbidden_path
       end
     end
@@ -165,24 +159,28 @@ describe ProductsController do
 
     context 'with my product' do
       it 'destroy the product' do
-        delete :destroy, { id: product.id }
+        product
+        delete :destroy, { id: product.slug }
         Product.exists?(product.id).should == nil
       end
 
       it 'redirect_to my product' do
-        delete :destroy, { id: product.id }
+        product
+        delete :destroy, { id: product.slug }
         expect(response).to redirect_to products_path(subject.slug)
       end
 
       it 'assigns user' do
-        delete :destroy, { id: product.id }
+        product
+        delete :destroy, { id: product.slug }
         expect(assigns(:user)).to eq(subject)
       end
     end
 
     context 'with product from other' do
       it 'redirect if trying to destroy somebody else product' do
-        delete :destroy, { id: product2.id }
+        product
+        delete :destroy, { id: product2.slug }
         expect(response).to redirect_to forbidden_path
       end
     end

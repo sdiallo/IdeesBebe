@@ -1,8 +1,7 @@
 class ProfilesController < ApplicationController
 
-  before_action :set_profile
-  before_filter :must_be_current_user, except: [:show] 
-
+  load_resource :user, find_by: :slug, id_param: :id
+  load_and_authorize_resource :profile, through: :user, singleton: true
 
   # GET /profiles/1
   def show
@@ -16,7 +15,7 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1
   def update
     # Avatar is store on Asset
-    if @user.profile.update(profile_params.except(:avatar)) and not params[:profile][:avatar].nil?
+    if @profile.update(profile_params.except(:avatar)) and not params[:profile][:avatar].nil?
       if @user.avatar.nil?
         Cloudinary::Uploader.upload(params[:profile][:avatar])
         @user.assets.create(asset: params[:profile][:avatar])
@@ -24,7 +23,7 @@ class ProfilesController < ApplicationController
         flash[:notice] = 'Vous avez déjà un avatar.'
       end
     else
-      flash[:notice] ||= 'Votre profil à été mise à jour.'
+      flash[:notice] = 'Votre profil à été mise à jour.'
     end
     render :edit
   end
@@ -37,11 +36,6 @@ class ProfilesController < ApplicationController
   end
 
   private
-
-    def set_profile
-      @user = User.find_by_slug(params[:id])
-      @user ||= User.find(params[:id])
-    end
 
     def profile_params
       params.require(:profile).permit(:first_name, :last_name, :avatar)
