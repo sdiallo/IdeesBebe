@@ -20,10 +20,6 @@ class Asset < ActiveRecord::Base
     random_asset = Asset.find(distance.sample).update_attributes!(starred: true) if distance
   end
 
-  def product_referencer?
-    referencer_type == 'Product' ? true : false
-  end
-
   # Set starred at true and unstar the previous starred asset if exists
   def become_starred
     old_asset = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: true)
@@ -32,4 +28,10 @@ class Asset < ActiveRecord::Base
     end
     self.update_attributes!(starred: true)
   end
+
+
+  private
+    def product_referencer?
+      referencer_type == 'Product' ? true : false
+    end
 end
