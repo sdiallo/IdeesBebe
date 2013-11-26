@@ -21,11 +21,10 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = current_user.products.build(product_params.except(:asset))
-    if @product.save
-      unless params[:product][:asset].nil?
-        Cloudinary::Uploader.upload(params[:product][:asset])
-        @product.assets.create(asset: params[:product][:asset])
+    if @product = current_user.products.create(product_params.except(:asset))
+      unless product_params[:asset].nil?
+        Cloudinary::Uploader.upload(product_params[:asset])
+        @product.assets.create(asset: product_params[:asset])
       end
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
     else
@@ -39,7 +38,7 @@ class ProductsController < ApplicationController
       if @product.has_maximum_upload?
         flash[:notice] = "Maximum photos"
       else
-        @product.assets.create(asset: params[:product][:asset])
+        @product.assets.create(asset: product_params[:asset])
       end
       flash[:notice] ||= 'Product was successfully updated.'
       redirect_to edit_product_path(@product.slug)
