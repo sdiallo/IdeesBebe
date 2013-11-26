@@ -10,18 +10,20 @@ describe AssetsController do
   before(:each) { sign_in user }
 
   describe 'DELETE #destroy' do
-    let(:asset2) { FactoryGirl.create :asset, referencer_id: user2.id, referencer_type: user2.class.name }
-    subject { FactoryGirl.create :asset, referencer_id: user.id, referencer_type: user.class.name }
+    let(:asset2) { FactoryGirl.create :asset, referencer_id: user2.profile.id, referencer_type: 'Profile' }
+    subject { FactoryGirl.create :asset, referencer_id: user.profile.id, referencer_type: 'Profile' }
     
     context 'for the user avatar' do
 
       context 'with my profile' do
         it 'destroys asset' do
+          subject
           delete :destroy, { id: subject.id }
           Asset.exists?(subject.id).should == nil        
         end
 
         it 'redirect to #edit' do
+          subject
           delete :destroy, { id: subject.id }
           response.should redirect_to edit_profile_path(user.slug)
         end
@@ -29,6 +31,7 @@ describe AssetsController do
 
       context 'with profile from other' do
         it 'redirect to forbidden' do
+          subject
           delete :destroy, { id: asset2.id }
           response.should redirect_to forbidden_path
         end
