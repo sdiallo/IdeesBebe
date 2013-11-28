@@ -17,15 +17,13 @@ class Asset < ActiveRecord::Base
   # Set starred at true for another asset of the product if the destroyed asset is the starred one
   def random_starred
     distance = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: false).map(&:id)
-    random_asset = Asset.find(distance.sample).update_attributes!(starred: true) if distance.count > 0
+    random_asset = Asset.find(distance.sample).update_attributes!(starred: true) if distance.any?
   end
 
   # Set starred at true and unstar the previous starred asset if exists
   def become_starred
     old_asset = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: true)
-    unless old_asset.empty?
-      old_asset.first.update_attributes!(starred: false)
-    end
+    old_asset.first.update_attributes!(starred: false) unless old_asset.empty?
     self.update_attributes!(starred: true)
   end
 

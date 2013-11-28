@@ -17,7 +17,7 @@ class Product < ActiveRecord::Base
   end
 
   def assets?
-    assets.where(referencer_id: self.id, referencer_type: self.class.name).empty? ? false : true
+    assets.where(referencer_id: self.id, referencer_type: self.class.name).any? ? true : false
   end
 
   def has_maximum_upload?
