@@ -9,23 +9,22 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
+    if @profile.asset.nil?
+      @profile.build_asset
+    end
   end
 
-  # TODO : improve method
   # PATCH/PUT /profiles/1
   def update
-    # Avatar is store on Asset
-    if @profile.update(profile_params.except(:avatar)) and not params[:profile][:avatar].nil?
-      if @user.avatar.nil?
-        Cloudinary::Uploader.upload(params[:profile][:avatar])
-        @user.assets.create(asset: params[:profile][:avatar])
-      else
-        flash[:notice] = 'Vous avez déjà un avatar.'
+    if @profile.update(profile_params)
+      unless profile_params[:asset_attributes].nil? 
+        Cloudinary::Uploader.upload(profile_params[:asset_attributes][:asset])
       end
-    else
       flash[:notice] = 'Votre profil à été mise à jour.'
+      redirect_to edit_profile_path(@user.slug)
+    else
+      render :edit
     end
-    render :edit
   end
 
   # DELETE /profiles/1
@@ -36,8 +35,7 @@ class ProfilesController < ApplicationController
   end
 
   private
-
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, :avatar)
+      params.require(:profile).permit(:first_name, :last_name, asset_attributes: [:asset])
     end
 end

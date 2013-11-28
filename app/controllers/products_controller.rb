@@ -1,7 +1,10 @@
 class ProductsController < ApplicationController
   
   load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index]
-  load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index]
+  load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index, :update, :create, :destroy]
+
+  load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
+
 
   def index
   end
@@ -20,11 +23,10 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = current_user.products.build(product_params.except(:asset))
-    if @product.save
-      unless params[:product][:asset].nil?
-        Cloudinary::Uploader.upload(params[:product][:asset])
-        @product.assets.create(asset: params[:product][:asset])
+    if @product = current_user.products.create(product_params.except(:asset))
+      unless product_params[:asset].nil?        
+        Cloudinary::Uploader.upload(product_params[:asset])
+        @product.assets.create(asset: product_params[:asset])
       end
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
     else
@@ -38,7 +40,7 @@ class ProductsController < ApplicationController
       if @product.has_maximum_upload?
         flash[:notice] = "Maximum photos"
       else
-        @product.assets.create(asset: params[:product][:asset])
+        @product.assets.create(asset: product_params[:asset])
       end
       flash[:notice] ||= 'Product was successfully updated.'
       redirect_to edit_product_path(@product.slug)
@@ -49,6 +51,7 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
+    @user = @product.user
     @product.destroy
     redirect_to products_path(@user.slug)
   end

@@ -50,14 +50,12 @@ describe ProfilesController do
       it 'return 200 with success' do
         put :update, { id: subject.slug, profile: {"first_name" => "test"} }
         expect(assigns(:user)).to eq(subject)
-        expect(response.code).to eq('200')
         expect(subject.reload.profile.first_name).to eq('test')
       end
 
       it 'return 200 with failed' do
         put :update, { id: subject.slug, profile: {"first_name" => "123"} }
         expect(assigns(:user)).to eq(subject)
-        expect(response.code).to eq('200')
         expect(subject.reload.profile.first_name).to eq(subject.profile.first_name)
       end
     end

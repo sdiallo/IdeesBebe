@@ -10,12 +10,12 @@ describe CommentsController do
     subject { FactoryGirl.build :comment }
     
     context 'for the product comments' do
-
-      context 'with signed in user' do
         before(:each) do
           product
           sign_in user
         end
+
+      context 'with signed in user' do
         
         it 'create the comment' do
           post :create, { product_id: product.slug, comment: { content: "test" } }
@@ -30,13 +30,6 @@ describe CommentsController do
         it 'assign the comment to the user' do
           post :create, { product_id: product.slug, comment: { content: "test" } }
           product.reload.comments.first.user_id.should == user.id
-        end
-      end
-
-      context 'with unsigned user' do
-        it 'redirect to forbidden' do
-          post :create, { product_id: product.slug, comment: { content: "test" } }
-          response.should redirect_to forbidden_path
         end
       end
     end

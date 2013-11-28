@@ -9,6 +9,9 @@ class Ability
       
       can :crud, [Profile, Product], user_id: user.id
 
+      can [:destroy, :become_starred], Asset do |asset|
+        user.products.map(&:id).include?(asset.referencer_id) or user.profile.id == asset.referencer_id
+      end
       can :destroy, Comment, user_id: user.id
       can :destroy, User, id: user.id
 
