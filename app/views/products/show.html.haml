@@ -14,10 +14,10 @@
   = image_tag("default_avatar.png")
 
 
-- if current_user == @user
+- if can? :edit, @product
   = link_to 'Editer', edit_product_path(@product.slug)
 
-- if user_signed_in?
+- if can? :create, @comment
   = render 'products/form_comments'
 
 = render 'products/comments'

@@ -1,8 +1,7 @@
 class ProfilesController < ApplicationController
 
-  before_action :set_profile
-  before_filter :must_be_current_user, except: [:show] 
-
+  load_resource :user, find_by: :slug, id_param: :id
+  load_and_authorize_resource :profile, through: :user, singleton: true
 
   # GET /profiles/1
   def show
@@ -36,13 +35,6 @@ class ProfilesController < ApplicationController
   end
 
   private
-
-    def set_profile
-      @user = User.find_by_slug(params[:id])
-      @user ||= User.find(params[:id])
-      @profile = @user.profile
-    end
-
     def profile_params
       params.require(:profile).permit(:first_name, :last_name, asset_attributes: [:asset])
     end

@@ -1,32 +1,28 @@
 class CommentsController < ApplicationController
 
-  before_action :set_product, only:  [:create]
-  before_action :set_comment, only:  [:destroy]
-  before_action :must_be_current_user
+  load_and_authorize_resource :product, find_by: :slug, id_param: :product_id, only: :create
+  load_and_authorize_resource :comment, only: :destroy
 
   def create
-    comment = comments_params.merge(user_id: @user.id)
-    @product.comments.create(comment)
+    comment = comments_params.merge(user_id: current_user.id)
+    if @product.comments.create(comment)
+      flash[:notice] = "Votre commentaire a bien été ajouté"
+    else
+      flash[:error] = "Une erreur s'est produite"
+    end
     redirect_to product_path(@product.slug)
   end
 
   def destroy
-    @comment.destroy
-    redirect_to product_path(@product.slug)
+    if @comment.destroy
+      flash[:notice] = "Votre commentaire a bien été supprimé"
+    else
+      flash[:error] = "Une erreur s'est produite"
+    end
+    redirect_to product_path(@comment.product.slug)
   end
 
   private
-
-    def set_product
-      @product = Product.find(params[:product_id])
-      @user = current_user
-    end
-
-    def set_comment
-      @comment = Comment.find(params[:id])
-      @product = @comment.product
-      @user = @comment.user
-    end
 
     def comments_params
       params.require(:comment).permit(:content)

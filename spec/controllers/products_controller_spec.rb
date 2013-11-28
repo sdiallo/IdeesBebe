@@ -19,9 +19,9 @@ describe ProductsController do
   describe 'GET #new' do
 
     context "with my profile" do
-      it "authorize to create a product" do
+      it "assigns a product" do
         get :new, profile_id: subject.slug
-        expect(assigns(:user)).to eq(subject)
+        assigns(:product).should_not be_nil
       end
 
       it "render_template new" do
@@ -39,7 +39,7 @@ describe ProductsController do
         it "create a product" do
           post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test" }
           expect(response).to redirect_to product_path(Product.last.slug)
-          expect(assigns(:user)).to eq(subject)
+          expect(assigns(:product)).to eq(Product.last)
         end
       end
 
@@ -55,14 +55,6 @@ describe ProductsController do
             post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Long string"*1000 }
           }.to change{ Product.count }.by(0)
         end
-
-        it 'assigns user' do
-          expect {
-            post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Long string"*1000 }
-          }.to change{ Product.count }.by(0)
-
-          expect(assigns(:user)).to eq(subject)
-        end
       end
     end
   end
@@ -71,13 +63,7 @@ describe ProductsController do
     let(:product) { FactoryGirl.create :product, user_id: subject.id}
     it 'return 200 with slug' do
       get :show, { id: product.slug }
-      expect(assigns(:user)).to eq(subject)
-      expect(response.code).to eq('200')
-    end
-
-    it 'return 200 with id' do
-      get :show, { id: product.id }
-      expect(assigns(:user)).to eq(subject)
+      expect(assigns(:product)).to eq(product)
       expect(response.code).to eq('200')
     end
   end
@@ -106,7 +92,7 @@ describe ProductsController do
 
     context 'edit product from other' do
       it 'redirect if trying to edit somebody else product' do
-        get :edit, { id: product2.id }
+        get :edit, { id: product2.slug }
         expect(response).to redirect_to forbidden_path
       end
     end
@@ -119,41 +105,34 @@ describe ProductsController do
     context 'update my product' do
       context 'with correct parameters' do
         it 'update product' do
-          put :update, { id: product.slug, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
           product.reload
           product.name.should == "Great thing"
           product.slug.should == "Great_thing"
         end
 
         it 'assign product' do
-          put :update, { id: product.slug, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
           expect(assigns(:product)).to eq(product)
         end
 
         it 'redirect_to #show' do
-          put :update, { id: product.slug, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
           response.should redirect_to edit_product_path(product.reload.slug)
         end
       end
 
       context 'with incorrect parameters' do
         it "doesn't update without name" do
-          put :update, { id: product.slug, product: {"name" => "", description: "SO Great!"} }
+          put :update, { id: product.id, product: {"name" => "", description: "SO Great!"} }
           product.reload.name.should == product.name          
         end
 
 
         it "doesn't update with a too long description" do
-          put :update, { id: product.slug, product: {"name" => "Great thing", description: "1000"*1000 } }
+          put :update, { id: product.id, product: {"name" => "Great thing", description: "1000"*1000 } }
           product.reload.description.should == product.description          
         end
-      end
-    end
-
-    context 'update product from other' do
-      it 'redirect if trying to update somebody else product' do
-        get :edit, { id: product2.id }
-        expect(response).to redirect_to forbidden_path
       end
     end
   end
@@ -165,25 +144,21 @@ describe ProductsController do
 
     context 'with my product' do
       it 'destroy the product' do
+        product
         delete :destroy, { id: product.id }
         Product.exists?(product.id).should == nil
       end
 
       it 'redirect_to my product' do
+        product
         delete :destroy, { id: product.id }
         expect(response).to redirect_to products_path(subject.slug)
       end
 
       it 'assigns user' do
+        product
         delete :destroy, { id: product.id }
         expect(assigns(:user)).to eq(subject)
-      end
-    end
-
-    context 'with product from other' do
-      it 'redirect if trying to destroy somebody else product' do
-        delete :destroy, { id: product2.id }
-        expect(response).to redirect_to forbidden_path
       end
     end
   end

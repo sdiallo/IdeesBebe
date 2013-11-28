@@ -11,15 +11,15 @@
   rescue_from CarrierWave::IntegrityError, :with => :carrierwave_integrity_error
 
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to forbidden_path
+  end
+  
   protected
 
   def configure_permitted_parameters
   	devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:username, :email, :password) }
   	devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password, :password_confirmation) }
-  end
-
-  def must_be_current_user
-    redirect_to forbidden_path if not user_signed_in? or @user != current_user
   end
 
   def carrierwave_download_error

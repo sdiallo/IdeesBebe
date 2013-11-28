@@ -14,23 +14,11 @@ describe ProfilesController do
         expect(assigns(:user)).to eq(subject)
         expect(response.code).to eq('200')
       end
-
-      it 'return 200 with id' do
-        get :show, { id: subject.id }
-        expect(assigns(:user)).to eq(subject)
-        expect(response.code).to eq('200')
-      end
     end
 
     context 'visit other profile' do
       it 'return 200 with slug' do
         get :show, { id: user2.slug }
-        expect(assigns(:user)).to eq(user2)
-        expect(response.code).to eq('200')
-      end
-
-      it 'return 200 with id' do
-        get :show, { id: user2.id }
         expect(assigns(:user)).to eq(user2)
         expect(response.code).to eq('200')
       end
@@ -93,7 +81,7 @@ describe ProfilesController do
 
     context 'destroy other profile' do
       it 'redirect if trying to destroy somebody else profile' do
-        delete :destroy, { id: user2.id }
+        delete :destroy, { id: user2.slug }
         expect(response).to redirect_to forbidden_path
       end
     end

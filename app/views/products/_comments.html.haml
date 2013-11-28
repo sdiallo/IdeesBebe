@@ -9,7 +9,7 @@
       = comment.user.username
       %br
       = comment.content
-    - if comment.user == current_user
+    - if can? :destroy, comment
       %div
         = link_to 'Supprimer', comment_path(comment.id), method: :delete
 %br
