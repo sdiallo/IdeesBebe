@@ -10,7 +10,7 @@ class Category < ActiveRecord::Base
   before_save :to_slug, :if => :name_changed?
 
   def all_products
-    return products unless self.main_category_id.nil?
+    return products unless main_category_id.nil?
     global_products = products
     subcategories.each do |sub|
       global_products << sub.products
