@@ -8,6 +8,6 @@ FactoryGirl.define do
   end
 
   sequence :name do |n|
-    "product_name#{n}"
+    "example_name#{n}"
   end
 end

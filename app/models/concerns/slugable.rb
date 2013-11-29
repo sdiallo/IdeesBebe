@@ -3,10 +3,10 @@ module Slugable
 
   def to_slug
     #strip the string
-    if self.instance_of? Product
-      ret = self.name.strip
-    else 
+    if self.instance_of? User
       ret = self.username.strip
+    else 
+      ret = self.name.strip
     end
 
     #blow away apostrophes

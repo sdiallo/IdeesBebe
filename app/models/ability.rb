@@ -18,6 +18,7 @@ class Ability
     end
 
     can :show, :all
+    can :by_category, Product
     can :index, Product
   end
 end
