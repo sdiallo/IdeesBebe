@@ -66,6 +66,15 @@ describe AssetsController do
         end
       end
     end
+
+    context 'with a failed destroy' do
+      it 'flash an error' do
+        Asset.any_instance.stub(:destroy).and_return(false)
+        subject
+        delete :destroy, { id: subject.id }
+        flash[:error].should_not be_nil
+      end
+    end
   end
 
   describe 'PUT #become_starred' do
@@ -77,20 +86,29 @@ describe AssetsController do
         asset2
         subject
         put :become_starred, { id: subject.id }       
-        asset2.reload.starred.should == false        
+        asset2.reload.starred.should == false
       end
 
       it 'stars the asset' do
         asset2
         subject
         put :become_starred, { id: subject.id }
-        subject.reload.starred.should == true        
+        subject.reload.starred.should == true
       end
 
       it 'redirect to #edit' do
         subject
         put :become_starred, { id: subject.id }
         response.should redirect_to edit_product_path(product.slug)
+      end
+
+      context 'with a failed changed' do
+        it 'flash an error' do
+          Asset.any_instance.stub(:become_starred).and_return(false)
+          subject
+          put :become_starred, { id: subject.id }
+          flash[:error].should_not be_nil
+        end
       end
     end
 

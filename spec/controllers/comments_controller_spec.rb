@@ -31,6 +31,14 @@ describe CommentsController do
           post :create, { product_id: product.slug, comment: { content: "test" } }
           product.reload.comments.first.user_id.should == user.id
         end
+
+        context 'with a failed save' do
+          it 'flash an error' do
+            Product.any_instance.stub_chain(:comments, :create).and_return(false)
+            post :create, { product_id: product.slug, comment: { content: "test" } }
+            flash[:error].should_not be_nil
+          end
+        end
       end
     end
   end
@@ -51,6 +59,20 @@ describe CommentsController do
             subject
             delete :destroy, { id: subject.id }
             Comment.exists?(subject).should == nil        
+          end
+        end
+
+        context 'with destroy problem' do
+          before(:each) do
+            product
+            sign_in user
+          end
+          subject { FactoryGirl.create :comment, user_id: user.id, product_id: product.id }
+
+          it 'flash an error' do
+            Comment.any_instance.should_receive(:destroy).and_return(false)
+            delete :destroy, { id: subject.id }
+            flash[:error].should_not be_nil
           end
         end
 
