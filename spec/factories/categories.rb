@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :category do
-    name
+    name 'CatégorieExAmple'
     slug "si-si"
   end
 end

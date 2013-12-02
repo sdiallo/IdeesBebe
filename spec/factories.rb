@@ -1,13 +1,13 @@
 FactoryGirl.define do
-  sequence :email do |n|
+  sequence :email_example do |n|
     "person#{n}@example.com"
   end
 
-  sequence :username do |n|
+  sequence :username_example do |n|
     "username#{n}"
   end
 
-  sequence :name do |n|
+  sequence :name_example do |n|
     "example_name#{n}"
   end
 end
