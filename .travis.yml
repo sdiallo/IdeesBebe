@@ -4,8 +4,7 @@ rvm:
 env:
   - DB=postgresql
 script: 
-  - bundle exec rake db:test:prepare
-  - bundle exec rspec spec/
+  - RAILS_ENV=test bundle exec rake db:migrate && bundle exec rspec spec
 before_script:
   - psql -c "CREATE USER ideesbebe WITH PASSWORD 'sefsef';" -U postgres
   - psql -c 'CREATE DATABASE ideesbebe_test OWNER ideesbebe;' -U postgres
