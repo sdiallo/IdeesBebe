@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user do
-    :email
-    :username
+    email
+    username
     password 'myamazingpassword'
   end
 end
