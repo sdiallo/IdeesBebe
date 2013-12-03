@@ -1,12 +1,18 @@
 class ProductsController < ApplicationController
   
-  load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index]
-  load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index, :update, :create, :destroy]
+  load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index, :new]
+  load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index, :by_category, :update, :create, :destroy]
 
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
 
   def index
+  end
+
+  def by_category
+    @category = Category.find_by_slug(params[:id])
+    return redirect_to '/404.html' if @category.nil?
+    @products = @category.all_products
   end
   # GET /products/1
   def show
@@ -15,6 +21,7 @@ class ProductsController < ApplicationController
 
   # GET /profiles/:profile_id/products/new
   def new
+    raise CanCan::AccessDenied.new("Not authorized!") if @user != current_user
   end
 
   # GET /products/1/edit
@@ -23,7 +30,8 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    if @product = current_user.products.create(product_params.except(:asset))
+    @product = current_user.products.create(product_params.except(:asset))
+    unless @product.id.nil?
       unless product_params[:asset].nil?        
         Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(asset: product_params[:asset])
@@ -39,7 +47,8 @@ class ProductsController < ApplicationController
     if @product.update(product_params.except(:asset))
       if @product.has_maximum_upload?
         flash[:notice] = "Maximum photos"
-      else
+      elsif product_params[:asset].present?
+        Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(asset: product_params[:asset])
       end
       flash[:notice] ||= 'Product was successfully updated.'
@@ -59,6 +68,6 @@ class ProductsController < ApplicationController
   private
 
     def product_params
-      params.require(:product).permit(:name, :description, :asset)
+      params.require(:product).permit(:name, :description, :asset, :category_id)
     end
 end

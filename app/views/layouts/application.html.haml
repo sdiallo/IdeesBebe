@@ -18,4 +18,8 @@
       %div
         = link_to "S'inscrire", new_user_registration_path, method: :get
         = link_to "Se connecter", new_user_session_path, method: :get
+
+    - Category::main_categories.each do |main|
+      %a{ href: products_by_categories_path(main.slug) }
+        = main.name
     = yield

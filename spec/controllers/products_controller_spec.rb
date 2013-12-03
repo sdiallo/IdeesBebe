@@ -34,10 +34,11 @@ describe ProductsController do
   describe 'POST #create' do
 
     context "with my profile" do
+      let(:category) { FactoryGirl.create :category }
 
       context "with correct params" do
         it "create a product" do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test" }
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(response).to redirect_to product_path(Product.last.slug)
           expect(assigns(:product)).to eq(Product.last)
         end
@@ -105,32 +106,39 @@ describe ProductsController do
     context 'update my product' do
       context 'with correct parameters' do
         it 'update product' do
-          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           product.reload
           product.name.should == "Great thing"
           product.slug.should == "Great_thing"
         end
 
         it 'assign product' do
-          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           expect(assigns(:product)).to eq(product)
         end
 
         it 'redirect_to #show' do
-          put :update, { id: product.id, product: {"name" => "Great thing", description: "SO Great!"} }
+          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           response.should redirect_to edit_product_path(product.reload.slug)
         end
       end
 
       context 'with incorrect parameters' do
         it "doesn't update without name" do
-          put :update, { id: product.id, product: {"name" => "", description: "SO Great!"} }
+          put :update, { id: product.id, product: {name:"", description: "SO Great!"} }
           product.reload.name.should == product.name          
         end
 
 
         it "doesn't update with a too long description" do
-          put :update, { id: product.id, product: {"name" => "Great thing", description: "1000"*1000 } }
+          put :update, { id: product.id, product: {name: "Great thing", description: "1000"*1000 } }
+          product.reload.description.should == product.description          
+        end
+
+
+        it "flash an error if assets' limit is reached" do
+          Product.any_instance.stub(:has_maximum_upload?).and_return(false)
+          put :update, { id: product.id, product: {name: "Great thing", description: "1000" } }
           product.reload.description.should == product.description          
         end
       end

@@ -1,6 +1,9 @@
 IdeesBebe::Application.routes.draw do
 
+
+
   get '/forbidden' => 'welcome#forbidden', as: 'forbidden'
+  
 
   resources :profiles, except: [:index, :create, :new] do
     resources :products, shallow: true
@@ -9,6 +12,7 @@ IdeesBebe::Application.routes.draw do
   resources :products, only: [] do
     resources :comments, only: [:create]
   end
+  get '/categories/:id' => 'products#by_category', as: 'products_by_categories'
 
   resources :comments, only: [:destroy]
 

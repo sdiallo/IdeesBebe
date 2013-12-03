@@ -25,9 +25,10 @@ describe User do
     end
 
     context 'with a connected user' do
-      let(:user_attr) { FactoryGirl.attributes_for :user }
-      let(:user) { User.create! user_attr }
+      let(:user) { FactoryGirl.create :user }
       let(:user2) { FactoryGirl.create :user }
+
+      before(:each) { user.stub(:new_record?).and_return(false) }
 
       context 'concerning a comment' do
 
