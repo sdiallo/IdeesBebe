@@ -9,4 +9,3 @@ script:
 before_script:
   - psql -c "CREATE USER ideesbebe WITH PASSWORD 'sefsef';" -U postgres
   - psql -c 'CREATE DATABASE ideesbebe_test OWNER ideesbebe;' -U postgres
-bundler_args: --binstubs=./bundler_stubs
