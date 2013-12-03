@@ -15,8 +15,7 @@ class Product < ActiveRecord::Base
   MAXIMUM_UPLOAD_PHOTO = 2
 
   def starred_asset
-    return assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.asset if self.assets?
-    return nil
+    self.assets? ? assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.asset : nil
   end
 
   def assets?

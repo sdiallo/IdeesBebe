@@ -34,16 +34,10 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    if profile.asset and not profile.asset.id.nil?
-      return profile.asset.asset
-    end
-    return nil
+    profile.asset.nil? ? nil : profile.asset.asset
   end
 
   def avatar_id
-    if profile.asset and not profile.asset.id.nil?
-      return profile.asset.id
-    end
-    return nil
+    profile.asset.id.nil? ? nil : profile.asset.id
   end
 end
