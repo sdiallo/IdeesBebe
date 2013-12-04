@@ -109,7 +109,7 @@ describe ProductsController do
           put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           product.reload
           product.name.should == "Great thing"
-          product.slug.should == "Great_thing"
+          product.slug.should == "great-thing"
         end
 
         it 'assign product' do
