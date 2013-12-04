@@ -1,12 +1,15 @@
 class User < ActiveRecord::Base
   
+  include Slugable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :username,
     length: { minimum: 2, message: I18n.t('devise.failed.username') },
     presence: true,
-    uniqueness: { :case_sensitive => false }
+    uniqueness: { :case_sensitive => false },
+    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
   validates :email, presence: { message: I18n.t('devise.failed.email') }
   
   has_one :profile, dependent: :destroy
@@ -18,8 +21,6 @@ class User < ActiveRecord::Base
 
   
   after_create :create_profile!
-
-  include Slugable
 
   before_save :to_slug, :if => :username_changed?
 
@@ -34,16 +35,10 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    if profile.asset and not profile.asset.id.nil?
-      return profile.asset.asset
-    end
-    return nil
+    profile.asset.nil? ? nil : profile.asset.asset
   end
 
   def avatar_id
-    if profile.asset and not profile.asset.id.nil?
-      return profile.asset.id
-    end
-    return nil
+    profile.asset.id.nil? ? nil : profile.asset.id
   end
 end

@@ -1,7 +1,7 @@
 %h1 Editer mon profil
 = render 'form'
 
-- unless @user.avatar.nil?
+- unless @user.avatar_id.nil?
   #avatar
     = image_tag(@user.avatar.url)
     .destroy_avatar_link= link_to 'Supprimer', destroy_asset_path(id: @user.avatar_id), method: :delete

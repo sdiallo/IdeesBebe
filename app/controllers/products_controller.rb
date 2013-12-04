@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
 
   # GET /profiles/:profile_id/products/new
   def new
-    raise CanCan::AccessDenied.new("Not authorized!") if @user != current_user
+    raise CanCan::AccessDenied.new("Not authorized!") if @user.slug != current_user.slug
   end
 
   # GET /products/1/edit
