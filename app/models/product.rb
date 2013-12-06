@@ -21,7 +21,7 @@ class Product < ActiveRecord::Base
   before_save :to_slug, :if => :name_changed?
 
   def starred_asset
-    self.assets? ? assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.asset : nil
+    self.assets? ? assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.file : nil
   end
 
   def assets?

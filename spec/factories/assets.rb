@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :asset do
-    asset "MyString"
+    file "MyString"
     referencer_id nil
     referencer_type nil
     starred false
