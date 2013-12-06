@@ -5,7 +5,7 @@
 #asset_link
   - @product.assets.each do |a|
     %div{ id: "asset_#{a.id}"}
-      = image_tag(a.asset)
+      = image_tag(a.file)
       %div{ class: "star_product_#{a.id}"}
         - if a.starred
           = image_tag('product_star_thumb.jpg', id: "img_star")

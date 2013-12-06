@@ -14,6 +14,6 @@
   - if @user.avatar_id.nil?
     .field
       = f.simple_fields_for :asset do |a|
-        = a.input :asset, label: 'Avatar', as: :file, include_blank: true
+        = a.input :file, label: 'Avatar', as: :file, include_blank: true
   .actions
     = f.button :submit, 'Sauvegarder'

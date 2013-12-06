@@ -1,7 +1,7 @@
 class Asset < ActiveRecord::Base
   belongs_to :referencer, polymorphic: true
 
-  mount_uploader :asset, PhotoUploader
+  mount_uploader :file, PhotoUploader
 
   before_create :stars_if_first, if: :product_referencer?
   before_destroy :random_starred, if: [:product_referencer? , :starred]

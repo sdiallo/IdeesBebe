@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
   def update
     if @profile.update(profile_params)
       unless profile_params[:asset_attributes].nil? 
-        Cloudinary::Uploader.upload(profile_params[:asset_attributes][:asset])
+        Cloudinary::Uploader.upload(profile_params[:asset_attributes][:file])
       end
       flash[:notice] = 'Votre profil à été mise à jour.'
       redirect_to edit_profile_path(@user.slug)
@@ -36,6 +36,6 @@ class ProfilesController < ApplicationController
 
   private
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, asset_attributes: [:asset])
+      params.require(:profile).permit(:first_name, :last_name, asset_attributes: [:file])
     end
 end

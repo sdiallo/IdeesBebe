@@ -34,7 +34,7 @@ class ProductsController < ApplicationController
     unless @product.id.nil?
       unless product_params[:asset].nil?        
         Cloudinary::Uploader.upload(product_params[:asset])
-        @product.assets.create(asset: product_params[:asset])
+        @product.assets.create(file: product_params[:asset])
       end
       redirect_to product_path(@product.slug), notice: 'Product was successfully created.'
     else
@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
         flash[:notice] = "Maximum photos"
       elsif product_params[:asset].present?
         Cloudinary::Uploader.upload(product_params[:asset])
-        @product.assets.create(asset: product_params[:asset])
+        @product.assets.create(file: product_params[:asset])
       end
       flash[:notice] ||= 'Product was successfully updated.'
       redirect_to edit_product_path(@product.slug)
