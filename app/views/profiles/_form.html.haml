@@ -11,7 +11,7 @@
     = f.input :first_name, label: 'Prénom', input_html: { size: 20 }
   .field
     = f.input :last_name, label: 'Nom', input_html: { size: 20 }
-  - if @user.avatar.nil?
+  - if @user.avatar_id.nil?
     .field
       = f.simple_fields_for :asset do |a|
         = a.input :asset, label: 'Avatar', as: :file, include_blank: true
