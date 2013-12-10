@@ -34,7 +34,7 @@ describe CommentsController do
 
         context 'with a failed save' do
           it 'flash an error' do
-            Product.any_instance.stub_chain(:comments, :create).and_return(false)
+            Product.any_instance.stub_chain(:comments, :build).and_return(false)
             post :create, { product_id: product.slug, comment: { content: "test" } }
             flash[:alert].should_not be_nil
           end

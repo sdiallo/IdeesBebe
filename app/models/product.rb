@@ -22,7 +22,8 @@ class Product < ActiveRecord::Base
   before_save :to_slug, :if => :name_changed?
 
   def starred_asset
-    assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.file
+    star = assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true)
+    star.empty? ? nil : star.first.file
   end
 
   def assets?
