@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
 
   # GET /profiles/:profile_id/products/new
   def new
-    raise CanCan::AccessDenied.new("Not authorized!") if @user.slug != current_user.slug
+    raise CanCan::AccessDenied.new("Not authorized!") if @user != current_user
   end
 
   # GET /products/1/edit
@@ -30,9 +30,9 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = current_user.products.create(product_params.except(:asset))
-    unless @product.id.nil?
-      unless product_params[:asset].nil?        
+    @product = current_user.products.build(product_params.except(:asset))
+    if @product.save
+      if product_params[:asset].present? and Asset.new(file: product_params[:asset]).valid?
         Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(file: product_params[:asset])
       end
@@ -46,8 +46,8 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params.except(:asset))
       if @product.has_maximum_upload?
-        flash[:error] = I18n.t('product.update.too_many_assets')
-      elsif product_params[:asset].present?
+        flash[:alert] = I18n.t('product.update.too_many_assets')
+      elsif product_params[:asset].present? and Asset.new(file: product_params[:asset]).valid?
         Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(file: product_params[:asset])
       end
@@ -62,9 +62,9 @@ class ProductsController < ApplicationController
   def destroy
     @user = @product.user
     if @product.destroy
-      flash[:notice] = I18n.t('products.destroy.success')
+      flash[:notice] = I18n.t('product.destroy.success')
     else
-      flash[:error] = I18n.t('products.destroy.error')
+      flash[:alert] = I18n.t('product.destroy.error')
     end
     redirect_to products_path(@user.slug)
   end

@@ -36,7 +36,7 @@ describe CommentsController do
           it 'flash an error' do
             Product.any_instance.stub_chain(:comments, :create).and_return(false)
             post :create, { product_id: product.slug, comment: { content: "test" } }
-            flash[:error].should_not be_nil
+            flash[:alert].should_not be_nil
           end
         end
       end
@@ -72,7 +72,7 @@ describe CommentsController do
           it 'flash an error' do
             Comment.any_instance.should_receive(:destroy).and_return(false)
             delete :destroy, { id: subject.id }
-            flash[:error].should_not be_nil
+            flash[:alert].should_not be_nil
           end
         end
 

@@ -6,10 +6,11 @@ class Product < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :category
+
   has_many :assets, as: :referencer, dependent: :destroy
   has_many :comments, dependent: :destroy
-  accepts_nested_attributes_for :category
 
+  accepts_nested_attributes_for :category
 
   validates :name,
     length: { minimum: 2, maximum: 60, message: I18n.t('product.name.length')  },
@@ -21,14 +22,14 @@ class Product < ActiveRecord::Base
   before_save :to_slug, :if => :name_changed?
 
   def starred_asset
-    self.assets? ? assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.file : nil
+    assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true).first.file
   end
 
   def assets?
-    assets.where(referencer_id: self.id, referencer_type: self.class.name).any? ? true : false
+    assets.where(referencer_id: self.id, referencer_type: self.class.name).any?
   end
 
   def has_maximum_upload?
-    assets.count == MAXIMUM_UPLOAD_PHOTO ? true : false
+    assets.count == MAXIMUM_UPLOAD_PHOTO
   end
 end

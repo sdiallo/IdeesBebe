@@ -56,8 +56,11 @@ fr:
       success: 'La photo mise en avant a bien été mise à jour'
       error: "Une erreur s'est produite"
   comment:
+    content:
+      presence: 'Saisissez votre commentaire'
+      length: 'Votre commentaire est trop long'
     create:
-      error: "Une erreur s'est produite"
+      error: "Votre commentaire n'est pas correcte"
       success: 'Votre commentaire à bien été enregistré'
     destroy:
       error: "Une erreur s'est produite"

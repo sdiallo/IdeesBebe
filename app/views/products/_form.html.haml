@@ -12,9 +12,9 @@
     = f.input :description, label: 'Description'
   .field
     - if @product.category_id.nil?
-      = f.association :category, collection: Category.all(order: 'main_category_id'), label: 'Catégorie', prompt: "Choisissez une catégorie", hint: "Prenez soin de choisir la bonne catégorie"
+      = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', prompt: "Choisissez une catégorie", hint: "Prenez soin de choisir la bonne catégorie"
     - else
-      = f.association :category, collection: Category.all(order: 'main_category_id'), label: 'Catégorie', default: @product.category_id, hint: "Prenez soin de choisir la bonne catégorie"
+      = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', default: @product.category_id, hint: "Prenez soin de choisir la bonne catégorie"
   - unless @product.has_maximum_upload?
     .field
       = f.input :asset, label: 'Photos', as: :file, include_blank: true

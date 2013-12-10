@@ -30,7 +30,7 @@ class ProfilesController < ApplicationController
     if @user.destroy
       flash[:notice] = I18n.t('profile.destroy.success')
     else
-      flash[:error] = I18n.t('profile.destroy.error')
+      flash[:alert] = I18n.t('profile.destroy.error')
     end
     redirect_to root_url
   end
