@@ -1,14 +1,13 @@
 class Profile < ActiveRecord::Base
   
   belongs_to :user
-  has_one :asset, as: :referencer, dependent: :destroy # For avatar
+  has_one :asset, as: :referencer, dependent: :destroy
   accepts_nested_attributes_for :asset, reject_if: :has_avatar?
 
 
-  validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
+  validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/, message: I18n.t('profile.first_and_last_name.format') }, allow_blank: true
 
-  private
-    def has_avatar?
-      self.asset.nil? ? false : true
-    end
+  def has_avatar?
+    self.asset.nil? ? false : true
+  end
 end

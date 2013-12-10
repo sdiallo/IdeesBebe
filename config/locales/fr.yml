@@ -1,0 +1,64 @@
+fr:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: 'Un email est obligatoire'
+            password:
+              blank: 'Un mot de passe est nécessaire'
+              too_short: 'Votre mot de passe doit être de 6 caractères minimum'
+            password_confirmation:
+              confirmation: 'La confirmation ne correspond pas'
+  user:
+    username:
+      length: "Votre nom d'utilisateur doit contenir 2 caractères au minimum"
+      presence: "Un nom d'utilisateur est nécessaire"
+      uniqueness: "Ce nom d'utilisateur est déjà pris"
+      format: "Un nom d'utilisateur ne peut contenir ces caractères"
+    email:
+      presence: 'Un email est nécessaire'
+  product:
+    name:
+      uniqueness: 'Ce nom de produit est déjà utilisé'
+      length: 'Le nom doit contenir entre 2 et 60 caractères'
+      format: 'Les caractères spéciaux sont intédits'
+    description:
+      length: 'La description ne peut excéder 140 caractères'
+    category:
+      presence: 'Une catégorie est obligatoire'
+    create:
+      success: 'Votre produit à été enregistré'
+    update:
+      success: 'Votre produit à été mise à jour'
+      too_many_assets: 'Vous avez déjà atteints le nombre maximum de photo'
+    destroy:
+      success: 'Votre produit à bien été supprimé'
+      error: "Une erreur s'est produite"
+  profile:
+    first_and_last_name:
+      format: 'Le nom et prénom doivent être composé de lettres'
+    update:
+      success: 'Votre profil à été mise à jour'
+    destroy:
+      success: 'Votre compte et vos informations ont été supprimé'
+      error: "Une erreur s'est produite"
+  upload:
+    error:
+      integrity: "Ce fichier n'est pas valide"
+      download: "Une erreur s'est produite"
+  assets:
+    destroy:
+      success: 'La photo à bien été supprimé'
+      error: "Une erreur s'est produite"
+    become_starred:
+      success: 'La photo mise en avant a bien été mise à jour'
+      error: "Une erreur s'est produite"
+  comments:
+    create:
+      error: "Une erreur s'est produite"
+      success: 'Votre commentaire à bien été enregistré'
+    destroy:
+      error: "Une erreur s'est produite"
+      success: 'Votre commentaire à bien été supprimé'

@@ -12,11 +12,11 @@ class Product < ActiveRecord::Base
 
 
   validates :name,
-    length: { minimum: 2, maximum: 60 },
-    uniqueness: { case_sensitive: false, message: "Ce nom de produit est déjà utilisé" },
-    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
-  validates :description, length: { maximum: 140 }, allow_blank: true
-  validates :category_id, presence: { message: "une categorie est oblgiatoire" }
+    length: { minimum: 2, maximum: 60, message: I18n.t('product.name.length')  },
+    uniqueness: { case_sensitive: false, message: I18n.t('product.name.uniqueness') },
+    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u, message: I18n.t('product.name.format')  }
+  validates :description, length: { maximum: 140, message: I18n.t('product.description.length')  }, allow_blank: true
+  validates :category_id, presence: { message: I18n.t('product.category.presence') }
 
   before_save :to_slug, :if => :name_changed?
 

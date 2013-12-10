@@ -9,9 +9,7 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    if @profile.asset.nil?
-      @profile.build_asset
-    end
+    @asset = @profile.has_avatar? ? @profile.asset : @profile.build_asset 
   end
 
   # PATCH/PUT /profiles/1
@@ -20,7 +18,7 @@ class ProfilesController < ApplicationController
       unless profile_params[:asset_attributes].nil? 
         Cloudinary::Uploader.upload(profile_params[:asset_attributes][:file])
       end
-      flash[:notice] = 'Votre profil à été mise à jour.'
+      flash[:notice] = I18n.t('profile.update.success')
       redirect_to edit_profile_path(@user.slug)
     else
       render :edit
@@ -29,8 +27,11 @@ class ProfilesController < ApplicationController
 
   # DELETE /profiles/1
   def destroy
-    @user.destroy
-    flash[:notice] = 'Votre compte et vos informations ont été supprimé'
+    if @user.destroy
+      flash[:notice] = I18n.t('profile.destroy.success')
+    else
+      flash[:error] = I18n.t('profile.destroy.error')
+    end
     redirect_to root_url
   end
 

@@ -31,7 +31,7 @@ describe "User registration" do
       end
       click_button "S'inscrire"
 
-      page.should have_content(I18n.t('devise.failed.username'))
+      page.should have_content(I18n.t('user.username.presence'))
     end
 
     it "doesn't allow register without email" do
@@ -45,7 +45,7 @@ describe "User registration" do
       end
       click_button "S'inscrire"
 
-      page.should have_content(I18n.t('devise.failed.email'))
+      page.should have_content(I18n.t('activerecord.errors.models.user.attributes.email.blank'))
     end
   end
 end
