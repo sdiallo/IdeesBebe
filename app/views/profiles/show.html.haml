@@ -1,11 +1,11 @@
 %p
   %strong Pr&eacute;nom:
-  = @user.profile.first_name
+  = @profile.first_name
 %p
   %strong Nom:
-  = @user.profile.last_name
+  = @profile.last_name
 
-- unless @user.avatar.nil?
+- if @profile.has_avatar?
   = image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
 - else
   = image_tag("default_avatar.png")

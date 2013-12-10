@@ -72,7 +72,7 @@ describe AssetsController do
         Asset.any_instance.stub(:destroy).and_return(false)
         subject
         delete :destroy, { id: subject.id }
-        flash[:error].should_not be_nil
+        flash[:alert].should_not be_nil
       end
     end
   end
@@ -107,7 +107,7 @@ describe AssetsController do
           Asset.any_instance.stub(:become_starred).and_return(false)
           subject
           put :become_starred, { id: subject.id }
-          flash[:error].should_not be_nil
+          flash[:alert].should_not be_nil
         end
       end
     end

@@ -21,13 +21,12 @@ class Asset < ActiveRecord::Base
 
     # Set starred at true if it's the first asset for a product
     def stars_if_first
-      starred_asset = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: true)
-      self.starred = true if starred_asset.empty?
+      self.starred = true if Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: true).empty?
     end
 
     # Set starred at true for another asset of the product if the destroyed asset is the starred one
     def random_starred
       distance = Asset.where(referencer_id: referencer_id, referencer_type: referencer_type, starred: false).map(&:id)
-      random_asset = Asset.find(distance.sample).update_attributes!(starred: true) if distance.any?
+      Asset.find(distance.sample).update_attributes!(starred: true) if distance.any?
     end
 end

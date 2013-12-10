@@ -4,20 +4,20 @@ class CommentsController < ApplicationController
   load_and_authorize_resource :comment, only: :destroy
 
   def create
-    comment = comments_params.merge(user_id: current_user.id)
-    if @product.comments.create(comment)
-      flash[:notice] = "Votre commentaire a bien été ajouté"
+    @product.comments.build(comments_params.merge(user_id: current_user.id))
+    if @product.save
+      flash[:notice] = I18n.t('comment.create.success')
     else
-      flash[:error] = "Une erreur s'est produite"
+      flash[:alert] = I18n.t('comment.create.error')
     end
     redirect_to product_path(@product.slug)
   end
 
   def destroy
     if @comment.destroy
-      flash[:notice] = "Votre commentaire a bien été supprimé"
+      flash[:notice] = I18n.t('comment.destroy.success')
     else
-      flash[:error] = "Une erreur s'est produite"
+      flash[:alert] = I18n.t('comment.destroy.error')
     end
     redirect_to product_path(@comment.product.slug)
   end

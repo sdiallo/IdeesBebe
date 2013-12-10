@@ -23,12 +23,12 @@
   end
 
   def carrierwave_download_error
-    flash[:alert] = "There was an error trying to download that remote file for upload. Please try again or download to your computer first."
+    flash[:alert] = I18n.t('upload.error.download')
     redirect_to :back
   end
 
   def carrierwave_integrity_error
-    flash[:alert] = "There was an error with that remote file for upload. It seems it's not a valid file."
+    flash[:alert] = I18n.t('upload.error.integrity')
     redirect_to :back
   end
 end

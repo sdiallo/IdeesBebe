@@ -1,17 +1,17 @@
-= simple_form_for @user.profile, url: profile_path(@user.slug), method: :put, html: { multipart: true } do |f|
-  - if @user.profile.errors.any?
+= simple_form_for @profile, url: profile_path(@user.slug), method: :put, html: { multipart: true } do |f|
+  - if @profile.errors.any?
     #error_explanation
       %h2
-        = pluralize(@user.profile.errors.count, "error")
+        = pluralize(@profile.errors.count, "error")
         prohibited this profile from being saved:
       %ul
-        - @user.profile.errors.full_messages.each do |msg|
+        - @profile.errors.full_messages.each do |msg|
           %li= msg
   .field
     = f.input :first_name, label: 'Prénom', input_html: { size: 20 }
   .field
     = f.input :last_name, label: 'Nom', input_html: { size: 20 }
-  - if @user.avatar_id.nil?
+  - if @asset.new_record?
     .field
       = f.simple_fields_for :asset do |a|
         = a.input :file, label: 'Avatar', as: :file, include_blank: true

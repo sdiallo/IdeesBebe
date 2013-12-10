@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :username,
-    length: { minimum: 2, message: I18n.t('devise.failed.username') },
-    presence: true,
-    uniqueness: { :case_sensitive => false },
-    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
-  validates :email, presence: { message: I18n.t('devise.failed.email') }
+    length: { minimum: 2, message: I18n.t('user.username.length') },
+    presence: { message: I18n.t('user.username.presence')},
+    uniqueness: { :case_sensitive => false, message: I18n.t('user.username.uniqueness') },
+    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u, message: I18n.t('user.username.format') }
+  validates :email, presence: { message: I18n.t('user.email.presence') }
   
   has_one :profile, dependent: :destroy
 
