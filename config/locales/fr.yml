@@ -48,14 +48,14 @@ fr:
     error:
       integrity: "Ce fichier n'est pas valide"
       download: "Une erreur s'est produite"
-  assets:
+  asset:
     destroy:
       success: 'La photo à bien été supprimé'
       error: "Une erreur s'est produite"
     become_starred:
       success: 'La photo mise en avant a bien été mise à jour'
       error: "Une erreur s'est produite"
-  comments:
+  comment:
     create:
       error: "Une erreur s'est produite"
       success: 'Votre commentaire à bien été enregistré'

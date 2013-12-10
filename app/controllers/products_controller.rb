@@ -36,7 +36,7 @@ class ProductsController < ApplicationController
         Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(file: product_params[:asset])
       end
-      redirect_to product_path(@product.slug), notice: I18n.t('products.create.success')
+      redirect_to product_path(@product.slug), notice: I18n.t('product.create.success')
     else
       render action: 'new'
     end
@@ -46,12 +46,12 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params.except(:asset))
       if @product.has_maximum_upload?
-        flash[:error] = I18n.t('products.update.too_many_assets')
+        flash[:error] = I18n.t('product.update.too_many_assets')
       elsif product_params[:asset].present?
         Cloudinary::Uploader.upload(product_params[:asset])
         @product.assets.create(file: product_params[:asset])
       end
-      flash[:notice] ||= I18n.t('products.update.success')
+      flash[:notice] ||= I18n.t('product.update.success')
       redirect_to edit_product_path(@product.slug)
     else
       render action: 'edit'

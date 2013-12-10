@@ -6,9 +6,9 @@ class AssetsController < ApplicationController
   # PUT /products/1/asset/1
   def become_starred
     if @asset.become_starred
-      flash[:notice] = I18n.t('assets.become_starred.success')
+      flash[:notice] = I18n.t('asset.become_starred.success')
     else
-      flash[:error] = I18n.t('assets.become_starred.error')
+      flash[:error] = I18n.t('asset.become_starred.error')
     end
     @product = Product.find(@asset.referencer_id)
     redirect_to edit_product_path(@product.slug)
@@ -24,9 +24,9 @@ class AssetsController < ApplicationController
     end
 
     if @asset.destroy
-      flash[:notice] = I18n.t('assets.destroy.success')
+      flash[:notice] = I18n.t('asset.destroy.success')
     else
-      flash[:error] = I18n.t('assets.destroy.error')
+      flash[:error] = I18n.t('asset.destroy.error')
     end
     redirect_to redirect
   end
