@@ -19,7 +19,7 @@ describe AssetsController do
         it 'destroys asset' do
           subject
           delete :destroy, { id: subject.id }
-          Asset.exists?(subject.id).should == nil        
+          Asset.exists?(subject.id).should == false        
         end
 
         it 'redirect to #edit' do
@@ -48,7 +48,7 @@ describe AssetsController do
           asset3
           subject
           delete :destroy, { id: subject.id }
-          Asset.exists?(subject.id).should == nil        
+          Asset.exists?(subject.id).should == false        
         end
 
         it 'redirect to #edit' do
