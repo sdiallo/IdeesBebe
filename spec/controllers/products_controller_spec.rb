@@ -154,7 +154,7 @@ describe ProductsController do
       it 'destroy the product' do
         product
         delete :destroy, { id: product.id }
-        Product.exists?(product.id).should == nil
+        Product.exists?(product.id).should == false
       end
 
       it 'redirect_to my product' do

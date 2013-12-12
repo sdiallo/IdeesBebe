@@ -58,7 +58,7 @@ describe CommentsController do
           it 'delete the comment' do
             subject
             delete :destroy, { id: subject.id }
-            Comment.exists?(subject).should == nil        
+            Comment.exists?(subject).should == false        
           end
         end
 

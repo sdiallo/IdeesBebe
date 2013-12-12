@@ -75,7 +75,7 @@ describe ProfilesController do
     context 'destroy my profile' do
       it 'return 200' do
         delete :destroy, { id: subject.slug }
-        expect(User.exists?(subject.id)).to eq(nil)
+        User.exists?(subject.id).should == false
       end
     end
 
