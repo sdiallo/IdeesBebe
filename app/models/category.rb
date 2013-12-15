@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id               :integer          not null, primary key
+#  name             :string(255)
+#  slug             :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  main_category_id :integer
+#
+
 class Category < ActiveRecord::Base
   has_many :products
   has_many :subcategories, class_name: "Category",
@@ -12,7 +24,7 @@ class Category < ActiveRecord::Base
   def all_products
     return products unless main_category_id.nil?
     global_products = products
-    subcategories.each do |sub|
+    subcategories.includes(:products).each do |sub|
       global_products << sub.products
     end
     return global_products
