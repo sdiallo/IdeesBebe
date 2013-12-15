@@ -11,7 +11,7 @@
 
   - @user.products.each do |product|
     %tr
-      - if product.assets?
+      - if product.starred_asset
         %td= image_tag(product.starred_asset.thumb.url, alt: product.name, title: product.name)
       - else
         %td= image_tag('default_avatar_thumb.png')

@@ -1,5 +1,5 @@
 - unless @product.comments.blank?
-  - @product.comments.each do |comment|
+  - @product.comments.includes(user: { profile: :asset }).each do |comment|
     %div
       - if comment.user.avatar
         = image_tag(comment.user.avatar.thumb.url, alt: comment.user.username, title: comment.user.username)

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id               :integer          not null, primary key
+#  name             :string(255)
+#  slug             :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  main_category_id :integer
+#
+
 require 'spec_helper'
 
 describe Category do
@@ -27,7 +39,7 @@ describe Category do
         product
         product2
         product3
-        main.all_products.map(&:id).should == [product3, product, product2].map(&:id)
+        main.all_products.map(&:id).should == [product3, product2, product].map(&:id)
       end
     end
   end

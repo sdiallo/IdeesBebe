@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  slug        :string(255)
+#  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  user_id     :integer
+#  category_id :integer
+#
+# Indexes
+#
+#  index_products_on_category_id  (category_id)
+#  index_products_on_user_id      (user_id)
+#
+
 class Product < ActiveRecord::Base
 
   include Slugable
@@ -24,10 +43,6 @@ class Product < ActiveRecord::Base
   def starred_asset
     star = assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true)
     star.empty? ? nil : star.first.file
-  end
-
-  def assets?
-    assets.where(referencer_id: self.id, referencer_type: self.class.name).any?
   end
 
   def has_maximum_upload?

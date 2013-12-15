@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  slug        :string(255)
+#  description :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  user_id     :integer
+#  category_id :integer
+#
+# Indexes
+#
+#  index_products_on_category_id  (category_id)
+#  index_products_on_user_id      (user_id)
+#
+
 require 'spec_helper'
 
 describe Product do
@@ -37,24 +56,6 @@ describe Product do
 
       it 'return nil' do
         subject.starred_asset.should == nil
-      end
-    end
-  end
-
-  describe '#assets?' do
-
-    context 'with assets' do
-      let(:asset) { FactoryGirl.create :asset, referencer_id: subject.id, referencer_type: subject.class.name }
-
-      it 'return true' do
-        asset
-        subject.assets?.should == true
-      end
-    end
-
-    context 'with no assets' do
-      it 'return false' do
-        subject.assets?.should == false
       end
     end
   end

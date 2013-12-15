@@ -17,7 +17,7 @@ gem 'cancan'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
-gem "haml-rails"
+gem 'haml-rails'
 gem 'simple_form'
 
 # Use Uglifier as compressor for JavaScript assets
@@ -46,6 +46,9 @@ group :doc do
 end
 
 group :development, :test do
+  gem 'annotate', ">=2.6.0"
+  gem 'bullet'
+  gem "better_errors"
   gem 'dotenv-rails'
   gem 'rspec-rails', '~> 2.0'
   gem "factory_girl_rails", "~> 4.0"
