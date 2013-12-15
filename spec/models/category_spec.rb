@@ -39,7 +39,7 @@ describe Category do
         product
         product2
         product3
-        main.all_products.map(&:id).should == [product3, product, product2].map(&:id)
+        main.all_products.map(&:id).should == [product3, product2, product].map(&:id)
       end
     end
   end
