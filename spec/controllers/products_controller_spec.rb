@@ -37,21 +37,39 @@ describe ProductsController do
       let(:category) { FactoryGirl.create :category }
 
       context "with correct params" do
+
         it "create a product" do
           post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(response).to redirect_to product_path(Product.last.slug)
+        end
+
+        it 'assigns product' do
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(assigns(:product)).to eq(Product.last)
+        end
+
+        it 'does not call authorized_upload' do
+          controller.should_not_receive(:authorized_upload)
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+        end
+
+        context 'with an asset' do
+
+          it 'calls authorized_upload' do
+            controller.should_receive(:authorized_upload)
+            post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id, "asset" => "test" }
+          end
         end
       end
 
       context "with incorrect params" do
-        it "doesn't create a product without name" do
+        it "doesn't create a product without a name" do
           expect {
             post :create, profile_id: subject.slug, product: {"name" => "", "description" => "Great product for a golden test" }
           }.to change{ Product.count }.by(0)
         end
 
-        it "doesn't create a product without a more than 140char description" do
+        it "doesn't create a product with a more than 140char description" do
           expect {
             post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Long string"*1000 }
           }.to change{ Product.count }.by(0)
@@ -121,6 +139,19 @@ describe ProductsController do
           put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           response.should redirect_to edit_product_path(product.reload.slug)
         end
+
+        it 'does not call authorized_upload' do
+          controller.should_not_receive(:authorized_upload)
+          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
+        end
+
+        context 'with an asset' do
+
+          it 'calls authorized_upload' do
+            controller.should_receive(:authorized_upload)
+            put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!", asset: 'test'} }
+          end
+        end
       end
 
       context 'with incorrect parameters' do
@@ -137,7 +168,7 @@ describe ProductsController do
 
 
         it "flash an error if assets' limit is reached" do
-          Product.any_instance.stub(:has_maximum_upload?).and_return(false)
+          Product.any_instance.stub(:has_maximum_upload?).and_return(true)
           put :update, { id: product.id, product: {name: "Great thing", description: "1000" } }
           product.reload.description.should == product.description          
         end
@@ -168,6 +199,14 @@ describe ProductsController do
         delete :destroy, { id: product.id }
         expect(assigns(:user)).to eq(subject)
       end
+
+      context 'with a failed destroy' do
+        it 'flash an error' do
+          Product.any_instance.stub(:destroy).and_return(false)
+          delete :destroy, { id: product.id }
+          flash[:alert].should_not be_nil
+        end
+      end
     end
   end
 
@@ -193,6 +232,14 @@ describe ProductsController do
         get :by_category, { id: "Unknow-category" }
         response.should redirect_to '/404.html'
       end
+    end
+  end
+
+  describe '#authorized_upload' do
+
+    it 'raise an error with an unvalid asset' do
+      Asset.any_instance.stub(:new).and_return(nil)
+      controller.authorized_upload 'test'
     end
   end
 end
