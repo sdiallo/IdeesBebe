@@ -41,8 +41,7 @@ class Product < ActiveRecord::Base
   before_save :to_slug, :if => :name_changed?
 
   def starred_asset
-    star = assets.where(referencer_id: self.id, referencer_type: self.class.name, starred: true)
-    star.empty? ? nil : star.first.file
+    assets.where(starred: true).first.try(:file)
   end
 
   def has_maximum_upload?

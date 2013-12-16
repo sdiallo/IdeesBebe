@@ -15,9 +15,6 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profiles/1
   def update
     if @profile.update(profile_params)
-      unless profile_params[:asset_attributes].nil? 
-        Cloudinary::Uploader.upload(profile_params[:asset_attributes][:file])
-      end
       flash[:notice] = I18n.t('profile.update.success')
       redirect_to edit_profile_path(@user.slug)
     else

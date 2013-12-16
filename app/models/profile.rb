@@ -24,6 +24,6 @@ class Profile < ActiveRecord::Base
   validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/, message: I18n.t('profile.first_and_last_name.format') }, allow_blank: true
 
   def has_avatar?
-    self.asset.nil? ? false : true
+    asset.present?
   end
 end
