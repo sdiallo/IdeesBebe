@@ -5,6 +5,8 @@ class ProductsController < ApplicationController
 
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
+  before_action :authorized_upload, only: [:create, :update]
+
 
   def index
   end
@@ -32,13 +34,10 @@ class ProductsController < ApplicationController
   def create
     @product = current_user.products.build(product_params.except(:asset))
     if @product.save
-      if product_params[:asset].present? and Asset.new(file: product_params[:asset]).valid?
-        Cloudinary::Uploader.upload(product_params[:asset])
-        @product.assets.create(file: product_params[:asset])
-      end
+      @product.assets.create(file: product_params[:asset]) if product_params[:asset].present?
       redirect_to product_path(@product.slug), notice: I18n.t('product.create.success')
     else
-      render action: 'new'
+      render action: :new
     end
   end
 
@@ -46,15 +45,12 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params.except(:asset))
       if @product.has_maximum_upload?
-        flash[:alert] = I18n.t('product.update.too_many_assets')
-      elsif product_params[:asset].present? and Asset.new(file: product_params[:asset]).valid?
-        Cloudinary::Uploader.upload(product_params[:asset])
-        @product.assets.create(file: product_params[:asset])
+        return redirect_to action: :edit, alert: I18n.t('product.update.too_many_assets')
       end
-      flash[:notice] ||= I18n.t('product.update.success')
-      redirect_to edit_product_path(@product.slug)
+      @product.assets.create(file: product_params[:asset]) if product_params[:asset].present?
+      redirect_to edit_product_path(@product.slug), notice: I18n.t('product.update.success')
     else
-      render action: 'edit'
+      render action: :edit
     end
   end
 
@@ -73,5 +69,9 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:name, :description, :asset, :category_id)
+    end
+
+    def authorized_upload
+      raise 'Unauthorized file type' unless Asset.new(file: product_params[:asset]).valid?
     end
 end
