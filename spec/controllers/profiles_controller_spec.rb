@@ -47,6 +47,12 @@ describe ProfilesController do
   describe 'PUT #update' do
 
     context 'update my profile' do
+
+      it 'does not call authorized upload method' do
+        controller.should_not_receive(:authorized_upload)
+        put :update, { id: subject.slug, profile: {"first_name" => "test"} }
+      end
+
       it 'return 200 with success' do
         put :update, { id: subject.slug, profile: {"first_name" => "test"} }
         expect(assigns(:user)).to eq(subject)
@@ -57,6 +63,14 @@ describe ProfilesController do
         put :update, { id: subject.slug, profile: {"first_name" => "123"} }
         expect(assigns(:user)).to eq(subject)
         expect(subject.reload.profile.first_name).to eq(subject.profile.first_name)
+      end
+
+      context 'with an asset' do
+
+        it 'calls authorized upload method' do
+          controller.should_receive(:authorized_upload)
+          put :update, { id: subject.slug, profile: {"first_name" => "test", "asset_attributes" => { "file" => 'test' }} }
+        end
       end
     end
 

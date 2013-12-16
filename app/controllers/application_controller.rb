@@ -14,6 +14,11 @@
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to forbidden_path
   end
+
+
+  def authorized_upload file
+    raise 'Unauthorized file type' unless Asset.new(file: file).valid?
+  end
   
   protected
 

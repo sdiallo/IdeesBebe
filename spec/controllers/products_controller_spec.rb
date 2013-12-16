@@ -37,10 +37,28 @@ describe ProductsController do
       let(:category) { FactoryGirl.create :category }
 
       context "with correct params" do
+
         it "create a product" do
           post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(response).to redirect_to product_path(Product.last.slug)
+        end
+
+        it 'assigns product' do
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(assigns(:product)).to eq(Product.last)
+        end
+
+        it 'does not call authorized_upload' do
+          controller.should_not_receive(:authorized_upload)
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+        end
+
+        context 'with an asset' do
+
+          it 'calls authorized_upload' do
+            controller.should_receive(:authorized_upload)
+            post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id, "asset" => "test" }
+          end
         end
       end
 
@@ -120,6 +138,19 @@ describe ProductsController do
         it 'redirect_to #show' do
           put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           response.should redirect_to edit_product_path(product.reload.slug)
+        end
+
+        it 'does not call authorized_upload' do
+          controller.should_not_receive(:authorized_upload)
+          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
+        end
+
+        context 'with an asset' do
+
+          it 'calls authorized_upload' do
+            controller.should_receive(:authorized_upload)
+            put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!", asset: 'test'} }
+          end
         end
       end
 
@@ -204,8 +235,11 @@ describe ProductsController do
     end
   end
 
-  describe '#authorized_upload_type' do
+  describe '#authorized_upload' do
 
-
+    it 'raise an error with an unvalid asset' do
+      Asset.any_instance.stub(:new).and_return(nil)
+      controller.authorized_upload 'test'
+    end
   end
 end

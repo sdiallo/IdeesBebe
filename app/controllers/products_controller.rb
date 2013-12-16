@@ -5,8 +5,7 @@ class ProductsController < ApplicationController
 
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
-  before_action :authorized_upload, only: [:create, :update]
-
+  before_action lambda { authorized_upload(product_params[:asset]) if product_params[:asset].present? }, only: [:create, :update]
 
   def index
   end
@@ -69,9 +68,5 @@ class ProductsController < ApplicationController
 
     def product_params
       params.require(:product).permit(:name, :description, :asset, :category_id)
-    end
-
-    def authorized_upload
-      raise 'Unauthorized file type' unless Asset.new(file: product_params[:asset]).valid?
     end
 end
