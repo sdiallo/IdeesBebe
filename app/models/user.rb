@@ -62,10 +62,6 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    profile.asset.nil? ? nil : profile.asset.file
-  end
-
-  def avatar_id
-    profile.asset.id.nil? ? nil : profile.asset.id
+    profile.asset.try(:file)
   end
 end

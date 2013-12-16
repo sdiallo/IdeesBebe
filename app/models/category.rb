@@ -27,7 +27,7 @@ class Category < ActiveRecord::Base
     subcategories.includes(:products).each do |sub|
       global_products << sub.products
     end
-    return global_products
+    global_products
   end
 
   def self.main_categories
