@@ -29,6 +29,7 @@ class Asset < ActiveRecord::Base
 
 
   private
+
     def product_referencer?
       referencer_type == 'Product'
     end
