@@ -5,6 +5,6 @@ class WelcomeController < ApplicationController
   end
 
   def forbidden
-    render :file => 'public/422.html', :status => :forbidden
+    render file: 'public/422.html', status: :forbidden
   end
 end

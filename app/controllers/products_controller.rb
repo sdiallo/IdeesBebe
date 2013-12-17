@@ -1,11 +1,10 @@
 class ProductsController < ApplicationController
-  
   load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index, :new]
   load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index, :by_category, :update, :create, :destroy]
 
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
-  before_action lambda { authorized_upload(product_params[:asset]) if product_params[:asset].present? }, only: [:create, :update]
+  before_action ->() { authorized_upload(product_params[:asset]) if product_params[:asset].present? }, only: [:create, :update]
 
   def index
   end
@@ -22,7 +21,7 @@ class ProductsController < ApplicationController
 
   # GET /profiles/:profile_id/products/new
   def new
-    raise CanCan::AccessDenied.new("Not authorized!") if @user != current_user
+    raise CanCan::AccessDenied.new('Not authorized!') if @user != current_user
   end
 
   # GET /products/1/edit
