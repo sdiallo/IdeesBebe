@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProductsController do
+describe ProductsController  do
   subject { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
 
@@ -238,7 +238,7 @@ describe ProductsController do
   describe '#authorized_upload' do
 
     it 'raise an error with an unvalid asset' do
-      Asset.any_instance.stub(:new).and_return(nil)
+      ProductAsset.any_instance.stub(:new).and_return(nil)
       controller.authorized_upload 'test'
     end
   end

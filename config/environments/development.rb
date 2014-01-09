@@ -31,14 +31,14 @@ IdeesBebe::Application.configure do
   config.assets.debug = true
 
   config.after_initialize do
-  Bullet.enable = true
-  Bullet.alert = false
-  Bullet.bullet_logger = false
-  Bullet.console = true
-  Bullet.growl = false
-  Bullet.xmpp = false
-  Bullet.rails_logger = true
-  Bullet.airbrake = false
-  Bullet.add_footer = false
+    Bullet.enable = true
+    Bullet.alert = false
+    Bullet.bullet_logger = false
+    Bullet.console = true
+    Bullet.growl = false
+    Bullet.xmpp = false
+    Bullet.rails_logger = true
+    Bullet.airbrake = false
+    Bullet.add_footer = false
   end
 end

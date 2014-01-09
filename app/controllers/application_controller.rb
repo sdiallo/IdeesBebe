@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorized_upload file
-    raise CarrierWave::IntegrityError unless Asset.new(file: file).valid?
+    raise CarrierWave::IntegrityError unless ProductAsset.new(file: file).valid?
   end
   
   protected

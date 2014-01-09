@@ -7,8 +7,8 @@ class Ability
           
       can :manage, [Profile, Product], user_id: user.id
 
-      can [:destroy, :become_starred], Asset do |asset|
-        (user.products.map(&:id).include?(asset.referencer_id) and asset.referencer_type == 'Product') or (user.profile.id == asset.referencer_id and asset.referencer_type == 'Profile')
+      can [:destroy, :update], ProductAsset do |asset|
+        user.products.map(&:id).include?(asset.product.id)
       end
       can :destroy, Comment, user_id: user.id
       can :destroy, User, id: user.id

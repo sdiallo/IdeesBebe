@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
   load_resource :user, find_by: :slug, id_param: :id
   load_and_authorize_resource :profile, through: :user, singleton: true
 
-  before_action ->() { authorized_upload(profile_params[:asset_attributes][:file]) if profile_params[:asset_attributes].present? }, only: :update
+  before_action ->() { authorized_upload(profile_params[:avatar]) if profile_params[:avatar].present? }, only: :update
 
   # GET /profiles/1
   def show
@@ -11,7 +11,6 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @asset = @profile.has_avatar? ? @profile.asset : @profile.build_asset
   end
 
   # PATCH/PUT /profiles/1
@@ -37,6 +36,6 @@ class ProfilesController < ApplicationController
   private
 
     def profile_params
-      params.require(:profile).permit(:first_name, :last_name, asset_attributes: [:file])
+      params.require(:profile).permit(:first_name, :last_name, :avatar, :remove_avatar)
     end
 end

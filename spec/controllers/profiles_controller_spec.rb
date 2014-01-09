@@ -50,17 +50,17 @@ describe ProfilesController do
 
       it 'does not call authorized upload method' do
         controller.should_not_receive(:authorized_upload)
-        put :update, { id: subject.slug, profile: {"first_name" => "test"} }
+        put :update, { id: subject.slug, profile: {'first_name' => 'test'} }
       end
 
       it 'return 200 with success' do
-        put :update, { id: subject.slug, profile: {"first_name" => "test"} }
+        put :update, { id: subject.slug, profile: {'first_name' => 'test'} }
         expect(assigns(:user)).to eq(subject)
         expect(subject.reload.profile.first_name).to eq('test')
       end
 
       it 'return 200 with failed' do
-        put :update, { id: subject.slug, profile: {"first_name" => "123"} }
+        put :update, { id: subject.slug, profile: {'first_name' => '123'} }
         expect(assigns(:user)).to eq(subject)
         expect(subject.reload.profile.first_name).to eq(subject.profile.first_name)
       end
@@ -69,14 +69,22 @@ describe ProfilesController do
 
         it 'calls authorized upload method' do
           controller.should_receive(:authorized_upload)
-          put :update, { id: subject.slug, profile: {"first_name" => "test", "asset_attributes" => { "file" => 'test' }} }
+          put :update, { id: subject.slug, profile: {'first_name' => 'test', 'avatar' => 'test' } }
+        end
+      end
+
+      context 'delete the avatar' do
+
+        it 'success' do
+          put :update, { id: subject.slug, profile: {'first_name' => 'test', 'avatar' => 'test' } }
+          subject.reload.profile.avatar?.should == false
         end
       end
     end
 
     context 'update other profile' do
       it 'redirect if trying to update somebody else profile' do
-        put :update, { id: user2.slug, profile: {"first_name" => "test"} }
+        put :update, { id: user2.slug, profile: {'first_name' => 'test'} }
         expect(response).to redirect_to forbidden_path
         expect(user2.slug).to eq(user2.slug)
       end

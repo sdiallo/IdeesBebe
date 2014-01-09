@@ -17,8 +17,8 @@
 class Profile < ActiveRecord::Base
   
   belongs_to :user
-  has_one :asset, as: :referencer, dependent: :destroy
-  accepts_nested_attributes_for :asset, reject_if: :has_avatar?
+
+  mount_uploader :avatar, PhotoUploader
 
   validates :first_name, :last_name,
     format: {
@@ -27,7 +27,4 @@ class Profile < ActiveRecord::Base
     },
     allow_blank: true
 
-  def has_avatar?
-    asset.present?
-  end
 end

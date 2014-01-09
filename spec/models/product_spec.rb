@@ -44,7 +44,7 @@ describe Product do
   describe '#starred_asset' do
 
     context 'with assets' do
-      let(:asset) { FactoryGirl.create :asset, referencer_id: subject.id, referencer_type: subject.class.name, starred: true }
+      let(:asset) { FactoryGirl.create :product_asset, product: subject, starred: true }
 
       it 'return the starred asset' do
         asset

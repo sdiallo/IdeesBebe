@@ -77,6 +77,6 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    profile.asset.try(:file)
+    profile.avatar
   end
 end

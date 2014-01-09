@@ -11,9 +11,8 @@
     = f.input :first_name, label: 'Prénom', input_html: { size: 20 }
   .field
     = f.input :last_name, label: 'Nom', input_html: { size: 20 }
-  - if @asset.new_record?
+  - if not @profile.avatar?
     .field
-      = f.simple_fields_for :asset do |a|
-        = a.input :file, label: 'Avatar', as: :file, include_blank: true
+      = f.input :avatar, label: 'Avatar', as: :file, include_blank: true, input_html: { size: 20 }
   .actions
     = f.button :submit, 'Sauvegarder'

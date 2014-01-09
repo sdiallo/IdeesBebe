@@ -19,6 +19,7 @@ IdeesBebe::Application.routes.draw do
   delete 'assets/:id' => 'assets#destroy', as: 'destroy_asset'
   put 'assets/:id' => 'assets#become_starred', as: 'become_starred'
 
+  resources :product_assets, only: [:destroy, :update]
 
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
 

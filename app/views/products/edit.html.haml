@@ -11,9 +11,11 @@
           = image_tag('product_star_thumb.jpg', id: "img_star")
         - else
           .star_asset_link
-            = link_to 'Mettre en avant', become_starred_path(id: a.id), method: :put
+            = simple_form_for a, url: product_asset_path(id: a.id), html: { multipart: true }, method: :put do |f|
+              = f.hidden_field :starred, value: true
+              = f.button :submit, 'Mettre en avant'
         .destroy_asset_link
-          = link_to 'Supprimer', destroy_asset_path(id: a.id), method: :delete
+          = link_to 'Supprimer', product_asset_path(id: a.id), method: :delete
 
 = link_to 'Retour', product_path(@product.slug)
 = link_to 'Destroy', @product, :method => :delete, :data => { :confirm => 'Are you sure?' }
