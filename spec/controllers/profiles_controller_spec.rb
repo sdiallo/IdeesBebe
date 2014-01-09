@@ -72,6 +72,14 @@ describe ProfilesController do
           put :update, { id: subject.slug, profile: {"first_name" => "test", "asset_attributes" => { "file" => 'test' }} }
         end
       end
+
+      context 'delete the avatar' do
+
+        it 'success' do
+          put :update, { id: subject.slug, profile: {"first_name" => "test", "asset_attributes" => { "file" => 'test' }} }
+          subject.reload.profile.avatar?.should == false
+        end
+      end
     end
 
     context 'update other profile' do
