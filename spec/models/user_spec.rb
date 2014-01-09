@@ -83,32 +83,24 @@ describe User do
         end
       end
 
-      context 'concerning an asset' do
+      context 'concerning an product asset' do
         let(:product) { FactoryGirl.create :product, user: user }
         let(:product2) { FactoryGirl.create :product, user: user2 }
 
-        it 'can :destroy his profile avatar' do
-          ability.should be_able_to(:destroy, Asset.new(referencer_id: user.id, referencer_type: 'Profile'))
-        end
-
-        it 'cannot :destroy profile avatar from another' do
-          ability.should_not be_able_to(:destroy, Asset.new(referencer_id: user2.id, referencer_type: 'Profile'))
-        end
-
         it 'can :destroy asset for his product' do
-          ability.should be_able_to(:destroy, Asset.new(referencer_id: product.id, referencer_type: 'Product'))
+          ability.should be_able_to(:destroy, ProductAsset.new(product: product))
         end
 
         it 'cannot :destroy asset from product of another' do
-          ability.should_not be_able_to(:destroy, Asset.new(referencer_id: product2.id, referencer_type: 'Product'))
+          ability.should_not be_able_to(:destroy, ProductAsset.new(product: product2))
         end
 
-        it "can stars (:become_starred) one of his product's assets" do
-          ability.should be_able_to(:become_starred, Asset.new(referencer_id: product.id, referencer_type: 'Product'))
+        it "can stars (:update) one of his product's assets" do
+          ability.should be_able_to(:update, ProductAsset.new(product: product))
         end
 
-        it "cannot stars (:become_starred) asset from product of another" do
-          ability.should_not be_able_to(:become_starred, Asset.new(referencer_id: product2.id, referencer_type: 'Product'))
+        it "cannot stars (:update) asset from product of another" do
+          ability.should_not be_able_to(:update, ProductAsset.new(product: product2))
         end
       end
 

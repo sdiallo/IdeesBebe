@@ -11,19 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140107185823) do
+ActiveRecord::Schema.define(version: 20140109191715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "assets", force: true do |t|
-    t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "referencer_id"
-    t.string   "referencer_type"
-    t.boolean  "starred",         default: false
-  end
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -40,6 +31,16 @@ ActiveRecord::Schema.define(version: 20140107185823) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "product_assets", force: true do |t|
+    t.integer  "product_id"
+    t.string   "file"
+    t.boolean  "starred"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_assets", ["product_id"], name: "index_product_assets_on_product_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"

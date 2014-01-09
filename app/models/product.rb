@@ -26,7 +26,7 @@ class Product < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
 
-  has_many :assets, as: :referencer, dependent: :destroy
+  has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
   has_many :comments, dependent: :destroy
 
   accepts_nested_attributes_for :category
