@@ -8,10 +8,7 @@
 #  user_id    :integer
 #  created_at :datetime
 #  updated_at :datetime
-#
-# Indexes
-#
-#  index_profiles_on_user_id  (user_id)
+#  avatar     :string(255)
 #
 
 require 'spec_helper'

@@ -4,8 +4,6 @@ class ProductsController < ApplicationController
 
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
-  before_action ->() { authorized_upload(product_params[:asset]) if product_params[:asset].present? }, only: [:create, :update]
-
   def index
   end
 
@@ -30,9 +28,8 @@ class ProductsController < ApplicationController
 
   # POST /profiles/:profile_id/products
   def create
-    @product = current_user.products.build(product_params.except(:asset))
+    @product = current_user.products.build(product_params)
     if @product.save
-      @product.assets.create(file: product_params[:asset]) if product_params[:asset].present?
       redirect_to product_path(@product.slug), notice: I18n.t('product.create.success')
     else
       render action: :new
@@ -41,11 +38,7 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1
   def update
-    if @product.update(product_params.except(:asset))
-      if @product.has_maximum_upload?
-        return redirect_to action: :edit, alert: I18n.t('product.update.too_many_assets')
-      end
-      @product.assets.create(file: product_params[:asset]) if product_params[:asset].present?
+    if @product.update(product_params)
       redirect_to edit_product_path(@product.slug), notice: I18n.t('product.update.success')
     else
       render action: :edit
@@ -66,6 +59,6 @@ class ProductsController < ApplicationController
   private
 
     def product_params
-      params.require(:product).permit(:name, :description, :asset, :category_id)
+      params.require(:product).permit(:name, :description, :category_id)
     end
 end

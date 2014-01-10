@@ -1,15 +1,13 @@
 # == Schema Information
 #
-# Table name: assets
+# Table name: product_assets
 #
-#  id              :integer          not null, primary key
-#  file            :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  referencer_id   :integer
-#  referencer_type :string(255)
-#  starred         :boolean          default(FALSE)
-#  uploading       :boolean          default(FALSE)
+#  id         :integer          not null, primary key
+#  product_id :integer
+#  file       :string(255)
+#  starred    :boolean
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class ProductAsset < ActiveRecord::Base
@@ -17,6 +15,10 @@ class ProductAsset < ActiveRecord::Base
   belongs_to :product
 
   mount_uploader :file, PhotoUploader
+  validates :file,
+    presence: {
+      message: I18n.t('assets.file.presence')
+    }
 
   before_create :stars_if_first
   before_destroy :random_starred, if: :starred
@@ -31,7 +33,8 @@ class ProductAsset < ActiveRecord::Base
 
     # Set starred at true if it's the first asset for a product
     def stars_if_first
-      self.starred = true if product.assets.empty?
+      self.starred = product.assets.empty? ? true : false
+      nil
     end
 
     # Set starred at true for another asset of the product if the destroyed asset is the starred one

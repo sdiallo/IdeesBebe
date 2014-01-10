@@ -47,19 +47,6 @@ describe ProductsController  do
           post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
           expect(assigns(:product)).to eq(Product.last)
         end
-
-        it 'does not call authorized_upload' do
-          controller.should_not_receive(:authorized_upload)
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
-        end
-
-        context 'with an asset' do
-
-          it 'calls authorized_upload' do
-            controller.should_receive(:authorized_upload)
-            post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id, "asset" => "test" }
-          end
-        end
       end
 
       context "with incorrect params" do
@@ -138,19 +125,6 @@ describe ProductsController  do
         it 'redirect_to #show' do
           put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           response.should redirect_to edit_product_path(product.reload.slug)
-        end
-
-        it 'does not call authorized_upload' do
-          controller.should_not_receive(:authorized_upload)
-          put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
-        end
-
-        context 'with an asset' do
-
-          it 'calls authorized_upload' do
-            controller.should_receive(:authorized_upload)
-            put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!", asset: 'test'} }
-          end
         end
       end
 

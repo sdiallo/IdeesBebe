@@ -1,8 +1,22 @@
 class ProductAssetsController < ApplicationController
 
 
-  load_and_authorize_resource :product_asset
+  load_and_authorize_resource :product_asset, except: :create
+  load_resource :product, only: :create
+
+
   before_action :rename_cancan_var
+
+  def create
+    raise CanCan::AccessDenied if @product.user != current_user
+    authorized_upload(asset_params[:file])
+    asset = @product.assets.build(asset_params)
+    if asset.save!
+      redirect_to edit_product_path(@product.slug), alert: I18n.t('asset.create.success')
+    else
+      redirect_to edit_product_path(@product.slug), alert: I18n.t('asset.create.error')
+    end
+  end
 
   # PUT /product_asset/1
   def update
@@ -31,6 +45,6 @@ class ProductAssetsController < ApplicationController
     end
 
     def asset_params
-      params.require(:product_asset).permit(:starred)
+      params.require(:product_asset).permit(:file, :starred)
     end
 end

@@ -11,16 +11,12 @@ IdeesBebe::Application.routes.draw do
 
   resources :products, only: [] do
     resources :comments, only: [:create]
+    resources :product_assets, only: [:destroy, :update, :create], shallow: true
   end
-  get '/categories/:id' => 'products#by_category', as: 'products_by_categories'
 
   resources :comments, only: [:destroy]
 
-  delete 'assets/:id' => 'assets#destroy', as: 'destroy_asset'
-  put 'assets/:id' => 'assets#become_starred', as: 'become_starred'
-
-  resources :product_assets, only: [:destroy, :update]
-
+  get '/categories/:id' => 'products#by_category', as: 'products_by_categories'
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
 
   devise_for :user

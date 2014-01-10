@@ -2,6 +2,17 @@
 
 = render 'form'
 
+
+- unless @product.has_maximum_upload?
+  = simple_form_for ProductAsset.new, url: product_product_assets_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
+    .field
+      = f.hidden_field :starred, value: false
+      = f.input :file, label: 'Photos', as: :file, allow_blank: true
+    .actions
+      = f.button :submit, 'Ajouter'
+- else
+  Vous avez atteint le maximum de photo. Supprimez-en une pour en ajouter de nouvelles
+
 #asset_link
   - @product.assets.each do |a|
     %div{ id: "asset_#{a.id}"}
@@ -18,4 +29,4 @@
           = link_to 'Supprimer', product_asset_path(id: a.id), method: :delete
 
 = link_to 'Retour', product_path(@product.slug)
-= link_to 'Destroy', @product, :method => :delete, :data => { :confirm => 'Are you sure?' }
+= link_to 'Destroy', @product, method: :delete, data: { confirm: 'Are you sure?' }
