@@ -73,4 +73,8 @@ class User < ActiveRecord::Base
   def avatar
     profile.avatar
   end
+
+  def avatar?
+    profile.avatar?
+  end
 end
