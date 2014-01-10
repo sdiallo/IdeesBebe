@@ -11,11 +11,6 @@
 #  user_id     :integer
 #  category_id :integer
 #
-# Indexes
-#
-#  index_products_on_category_id  (category_id)
-#  index_products_on_user_id      (user_id)
-#
 
 class Product < ActiveRecord::Base
 

@@ -9,6 +9,44 @@ describe ProductAssetsController do
 
   before(:each) { sign_in user }
 
+  describe 'POST #create' do
+  
+    context 'for the product assets' do
+
+      context 'with my product' do
+        it 'create asset' do
+          product
+          expect {
+            post :create, { product_id: product, product_asset: { file: 'test' } }
+          }.to change{ProductAsset.count}.by 1
+        end
+
+        it 'redirect to #edit' do
+          product
+          post :create, { product_id: product.id, product_asset: { file: 'test' } }
+          response.should redirect_to edit_product_path(product.slug)
+        end
+
+        context 'with a failed create' do
+          it 'flash an error' do
+            ProductAsset.any_instance.stub(:save).and_return(false)
+            product
+            post :create, { product_id: product.id, product_asset: { file: 'test' } }
+            flash[:alert].should_not be_nil
+          end
+        end
+      end
+
+      context 'with product from other' do
+        it 'redirect to forbidden' do
+          post :create, { product_id: product2.id, product_asset: { file: 'test' } }
+          response.should redirect_to forbidden_path
+        end
+      end
+    end
+
+  end
+
   describe 'DELETE #destroy' do
   
     context 'for the product assets' do

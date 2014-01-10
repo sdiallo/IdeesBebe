@@ -1,15 +1,13 @@
 # == Schema Information
 #
-# Table name: assets
+# Table name: product_assets
 #
-#  id              :integer          not null, primary key
-#  file            :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  referencer_id   :integer
-#  referencer_type :string(255)
-#  starred         :boolean          default(FALSE)
-#  uploading       :boolean          default(FALSE)
+#  id         :integer          not null, primary key
+#  product_id :integer
+#  file       :string(255)
+#  starred    :boolean
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 require 'spec_helper'

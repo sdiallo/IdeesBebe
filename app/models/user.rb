@@ -18,12 +18,6 @@
 #  username               :string(255)
 #  slug                   :string(255)
 #
-# Indexes
-#
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_username              (username) UNIQUE
-#
 
 class User < ActiveRecord::Base
 
@@ -78,5 +72,9 @@ class User < ActiveRecord::Base
 
   def avatar
     profile.avatar
+  end
+
+  def avatar?
+    profile.avatar?
   end
 end
