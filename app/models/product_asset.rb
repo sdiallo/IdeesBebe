@@ -15,10 +15,6 @@ class ProductAsset < ActiveRecord::Base
   belongs_to :product
 
   mount_uploader :file, PhotoUploader
-  validates :file,
-    presence: {
-      message: I18n.t('assets.file.presence')
-    }
 
   before_create :stars_if_first
   before_destroy :random_starred, if: :starred
