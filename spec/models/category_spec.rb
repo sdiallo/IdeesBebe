@@ -21,16 +21,6 @@ describe Category do
     let(:product2) { FactoryGirl.create :product, name: "lol1",  category_id: subject.id }
     let(:product3) { FactoryGirl.create :product, name: "lol2",  category_id: subject.id }
    
-
-    context 'with a subcategory' do
-      it 'returns all the products this category' do
-        product
-        product2
-        product3
-        subject.all_products.map(&:id).should == [product3, product2, product].map(&:id)
-      end
-    end
-
     context 'with a main category' do
       let(:category2) { FactoryGirl.create :category, main_category_id: main.id }
       let(:product3) { FactoryGirl.create :product, name: "lol2",  category_id: category2.id }
@@ -39,6 +29,7 @@ describe Category do
         product
         product2
         product3
+        category2
         main.all_products.map(&:id).should == [product3, product2, product].map(&:id)
       end
     end

@@ -22,8 +22,8 @@ class Category < ActiveRecord::Base
   before_save :to_slug, if: :name_changed?
 
   def all_products
-    return products if main_category_id.nil?
-    Category.joins(:products).where('categories.main_category_id IN (?)', subcategories.pluck(&:id))
+    return products unless main_category_id.nil?
+    Product.where('category_id IN (?)', subcategories.map(&:id)).order('created_at DESC')
   end
 
   class << self
