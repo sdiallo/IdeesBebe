@@ -19,18 +19,17 @@ class Category < ActiveRecord::Base
 
   include Slugable
 
-  before_save :to_slug, :if => :name_changed?
+  before_save :to_slug, if: :name_changed?
 
   def all_products
-    return products unless main_category_id.nil?
-    global_products = products
-    subcategories.includes(:products).each do |sub|
-      global_products << sub.products
-    end
-    global_products
+    return products if main_category_id.nil?
+    Category.joins(:products).where('categories.main_category_id IN (?)', subcategories.pluck(&:id))
   end
 
-  def self.main_categories
-    Category.where(main_category_id: nil)
+  class << self
+
+    def main_categories
+      Category.where(main_category_id: nil)
+    end
   end
 end
