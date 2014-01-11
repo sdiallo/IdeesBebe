@@ -3,8 +3,6 @@ class ProfilesController < ApplicationController
   load_resource :user, find_by: :slug, id_param: :id
   load_and_authorize_resource :profile, through: :user, singleton: true
 
-  before_action ->() { authorized_upload(profile_params[:avatar]) if profile_params[:avatar].present? }, only: :update
-
   # GET /profiles/1
   def show
   end
@@ -15,6 +13,7 @@ class ProfilesController < ApplicationController
 
   # PATCH/PUT /profiles/1
   def update
+    authorized_upload(profile_params[:avatar]) if profile_params[:avatar].present?
     if @profile.update(profile_params)
       flash[:notice] = I18n.t('profile.update.success')
       redirect_to edit_profile_path(@user.slug)
