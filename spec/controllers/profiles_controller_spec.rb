@@ -99,6 +99,15 @@ describe ProfilesController do
         delete :destroy, { id: subject.slug }
         User.exists?(subject.id).should == false
       end
+
+      context 'with a failed destroy' do
+
+        it 'flash an alert' do
+          User.any_instance.stub(:destroy).and_return(false)
+          delete :destroy, { id: subject.slug }
+          flash[:alert].should_not be_nil
+        end
+      end
     end
 
     context 'destroy other profile' do

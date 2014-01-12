@@ -54,4 +54,25 @@ describe Product do
       end
     end
   end
+
+  describe '#has_maximum_upload?' do
+
+    context 'with already too many assets' do
+      let(:asset) { FactoryGirl.create :product_asset, product: subject }
+      let(:asset2) { FactoryGirl.create :product_asset, product: subject }
+
+      it 'return true' do
+        asset
+        asset2
+        subject.has_maximum_upload?.should == true
+      end
+    end
+
+    context 'without too many assets' do
+
+      it 'return false' do
+        subject.has_maximum_upload?.should == false
+      end
+    end
+  end
 end
