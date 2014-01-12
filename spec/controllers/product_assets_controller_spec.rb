@@ -15,6 +15,8 @@ describe ProductAssetsController do
 
       context 'with my product' do
         it 'create asset' do
+          ProductAsset.any_instance.stub(:file?).and_return(true)
+          ProductAsset.any_instance.stub(:valid?).and_return(true)
           product
           expect {
             post :create, { product_id: product, product_asset: { file: 'test' } }
@@ -32,6 +34,14 @@ describe ProductAssetsController do
             ProductAsset.any_instance.stub(:save).and_return(false)
             product
             post :create, { product_id: product.id, product_asset: { file: 'test' } }
+            flash[:alert].should_not be_nil
+          end
+        end
+
+        context 'without file' do
+          it 'flash an alert' do
+            product
+            post :create, { product_id: product.id, product_asset: { file: ''} }
             flash[:alert].should_not be_nil
           end
         end
