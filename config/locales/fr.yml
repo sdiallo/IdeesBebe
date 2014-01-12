@@ -50,7 +50,7 @@ fr:
       download: "Une erreur s'est produite"
   asset:
     file:
-      presence: 'Une image est nécessaire'
+      non-valid: "L'image n'est pas valide ou non présente"
     create:
       success: 'La photo à bien été ajouté'
       error: "Une erreur s'est produite"

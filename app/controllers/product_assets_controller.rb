@@ -6,14 +6,15 @@ class ProductAssetsController < ApplicationController
 
   def create
     raise CanCan::AccessDenied if @product.user != current_user
-    return redirect_to edit_product_path(@product.slug), alert: I18n.t('asset.file.presence') if not asset_params[:file].present?
-    authorized_upload(asset_params[:file])
     asset = @product.assets.build(asset_params)
-    if asset.save
-      redirect_to edit_product_path(@product.slug), alert: I18n.t('asset.create.success')
+    if not asset.file? or not asset.valid?
+      alert = I18n.t('asset.file.non-valid')
+    elsif asset.save!
+      alert = I18n.t('asset.create.success')
     else
-      redirect_to edit_product_path(@product.slug), alert: I18n.t('asset.create.error')
+      alert = I18n.t('asset.create.error')
     end
+    redirect_to edit_product_path(@product.slug), alert: alert
   end
 
   # PUT /product_asset/1
