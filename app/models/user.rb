@@ -44,9 +44,9 @@ class User < ActiveRecord::Base
     }
 
   validates :email,
-  presence: {
-    message: I18n.t('user.email.presence')
-  }
+    presence: {
+      message: I18n.t('user.email.presence')
+    }
 
   has_one :profile, dependent: :destroy
 
@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
 
 
   after_create :create_profile!
+  after_create ->(user) { Notifier.delay.welcome(user) }
 
   before_save :to_slug, if: :username_changed?
 

@@ -46,6 +46,8 @@ group :doc do
 end
 
 group :development, :test do
+
+  gem 'timecop'
   gem 'annotate', ">=2.6.0"
   gem 'bullet'
   gem "better_errors"
