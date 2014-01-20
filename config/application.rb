@@ -21,5 +21,17 @@ module IdeesBebe
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.enforce_available_locales = true
     I18n.default_locale = :fr
+
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.default_url_options = { host: 'dev-ideesbebe.herokuapp.com' }
+    config.action_mailer.smtp_settings = {
+      user_name: ENV['IDBB_MANDRILL_USERNAME'],
+      password: ENV['IDBB_MANDRILL_KEY'],
+      address: ENV['IDBB_MANDRILL_HOST'],
+      port: ENV['IDBB_MANDRILL_PORT'],
+      domain: 'dev-ideesbebe.herokuapp.com',
+      authentication: :plain
+    }
   end
 end
