@@ -8,7 +8,7 @@
 - unless @product.assets.empty?
   #destroy_asset_link
     - @product.assets.each do |a|
-      %div{id: "asset_#{a.id}"}
+      %div
         = image_tag(a.file)
 - else
   = image_tag("default_avatar.png")

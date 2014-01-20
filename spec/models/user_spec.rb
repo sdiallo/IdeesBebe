@@ -121,4 +121,22 @@ describe User do
       end
     end
   end
+
+  describe 'when creates an user' do
+    let(:user) { FactoryGirl.create :user }
+
+
+    it 'create a profile' do
+      expect {
+        user
+      }.to change{Profile.count}.by 1
+    end
+
+
+    it 'sends a welcoming email' do
+      user
+      Delayed::Worker.new.work_off
+      deliveries_with_subject(I18n.t('notifier.welcome.subject')).count == 1
+    end
+  end
 end

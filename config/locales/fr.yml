@@ -11,6 +11,20 @@ fr:
               too_short: 'Votre mot de passe doit être de 6 caractères minimum'
             password_confirmation:
               confirmation: 'La confirmation ne correspond pas'
+
+
+
+
+  notifier:
+    welcome:
+      subject: 'Bienvenue chez Idees Bebe !'
+
+
+
+
+
+
+
   user:
     username:
       length: "Votre nom d'utilisateur doit contenir 2 caractères au minimum"
