@@ -8,7 +8,7 @@ gem 'devise'
 gem 'pg'
 gem 'rails_12factor', group: :production
 gem 'unicorn'
-
+gem 'delayed_job_active_record'
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'cloudinary'
