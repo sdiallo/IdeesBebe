@@ -5,7 +5,7 @@ class Ability
 
     unless user.nil?
           
-      can :manage, [Profile, Product], user_id: user.id
+      can :manage, [Profile, Product, Message], user_id: user.id
 
       can [:destroy, :update], ProductAsset do |asset|
         user.products.map(&:id).include?(asset.product.id)

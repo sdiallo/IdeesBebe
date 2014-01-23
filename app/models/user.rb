@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
 
   has_many :products, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   attr_accessor :login
 
