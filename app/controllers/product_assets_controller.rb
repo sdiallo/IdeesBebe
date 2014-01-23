@@ -1,6 +1,5 @@
 class ProductAssetsController < ApplicationController
 
-
   load_and_authorize_resource :product_asset, except: :create
   load_resource :product, only: :create
 

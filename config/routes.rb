@@ -14,6 +14,8 @@ IdeesBebe::Application.routes.draw do
     resources :product_assets, only: [:destroy, :update, :create], shallow: true
   end
 
+  resources :messages, only: [:create]
+
   get '/categories/:id' => 'products#by_category', as: 'products_by_categories'
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
 

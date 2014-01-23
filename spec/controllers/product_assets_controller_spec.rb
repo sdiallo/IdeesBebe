@@ -54,7 +54,6 @@ describe ProductAssetsController do
         end
       end
     end
-
   end
 
   describe 'DELETE #destroy' do

@@ -23,6 +23,10 @@ require 'spec_helper'
 require 'cancan/matchers'
 
 describe User do
+  subject { FactoryGirl.create :user }
+
+
+
   it_behaves_like Slugable do
     subject { FactoryGirl.create :user, username: "momé dad hOme" }
   end
@@ -119,22 +123,32 @@ describe User do
           ability.should_not be_able_to(:manage, Product.new(user: user2))
         end
       end
+
+      context 'concerning a product' do
+        let(:product) { FactoryGirl.create :product, user: user }
+
+        it 'can :manage his message' do
+          ability.should be_able_to(:manage, Message.new(user: user, product: product, content: 'test'))
+        end
+
+        it 'cannot :manage message from another' do
+          ability.should_not be_able_to(:manage, Message.new(user: user2, product: product, content: 'test'))
+        end
+      end
     end
   end
 
   describe 'when creates an user' do
-    let(:user) { FactoryGirl.create :user }
-
 
     it 'create a profile' do
       expect {
-        user
+        subject
       }.to change{Profile.count}.by 1
     end
 
 
     it 'sends a welcoming email' do
-      user
+      subject
       Delayed::Worker.new.work_off
       deliveries_with_subject(I18n.t('notifier.welcome.subject')).count == 1
     end
