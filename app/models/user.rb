@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
 
   has_many :products, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :messages, dependent: :destroy
+  has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
+  has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
   attr_accessor :login
 
@@ -63,12 +64,21 @@ class User < ActiveRecord::Base
   before_save :to_slug, if: :username_changed?
 
 
+  def messages
+    messages_sent + messages_received
+  end
+
   def avatar
     profile.avatar
   end
 
   def avatar?
     profile.avatar?
+  end
+
+  def waiting_response_for? product
+    last_message = product.messages.select('sender_id').where('sender_id = ? OR receiver_id = ?', self.id, self.id).order('created_at DESC').limit(1)
+    last_message.any? and last_message.first.sender_id == self.id
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)

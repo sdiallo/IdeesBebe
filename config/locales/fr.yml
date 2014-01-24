@@ -19,7 +19,10 @@ fr:
     welcome:
       subject: 'Bienvenue chez Idees Bebe !'
     new_message:
-      subject: 'Un acheteur potentiel souhaite vous contacter !'
+      from_seller:
+        subject: 'Le propriètaire à répondu à votre message !'
+      from_buyer:
+        subject: 'Un acheteur potentiel souhaite vous contacter !'
 
 
 

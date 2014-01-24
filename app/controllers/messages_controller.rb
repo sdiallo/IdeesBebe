@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   authorize_resource :message
 
   def create
-    message = current_user.messages.build(message_params)
+    message = current_user.messages_sent.build(message_params)
     if message.save
       flash[:notice] = I18n.t('message.create.success')
     elsif message.errors.any?
@@ -17,6 +17,6 @@ class MessagesController < ApplicationController
   private
 
     def message_params
-      params.require(:message).permit(:content, :product_id)
+      params.require(:message).permit(:content, :product_id, :receiver_id)
     end
 end

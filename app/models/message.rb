@@ -11,7 +11,8 @@
 #
 
 class Message < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :sender, class_name: 'User', foreign_key: :sender_id
+  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :product
 
 
@@ -24,4 +25,8 @@ class Message < ActiveRecord::Base
     presence: { message: I18n.t('comment.content.presence') }
 
   after_create ->(message) { Notifier.delay.new_message(message) }
+
+  def from_seller?
+    product.user == sender
+  end
 end
