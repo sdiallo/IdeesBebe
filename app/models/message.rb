@@ -25,4 +25,8 @@ class Message < ActiveRecord::Base
     presence: { message: I18n.t('comment.content.presence') }
 
   after_create ->(message) { Notifier.delay.new_message(message) }
+
+  def seller_message?
+    product.user == sender
+  end
 end
