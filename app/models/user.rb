@@ -76,6 +76,11 @@ class User < ActiveRecord::Base
     profile.avatar?
   end
 
+  def waiting_response_for? product
+    last_message = product.messages.where('sender_id = ? OR receiver_id = ?', self.id, self.id).order('created_at DESC').limit(1)
+    last_message.any? and last_message.first.sender_id == self.id
+  end
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)

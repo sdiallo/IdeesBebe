@@ -152,13 +152,36 @@ describe User do
 
   describe '#messages' do
     let(:user2) { FactoryGirl.create :user }
-    let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, content: 'test' }
-    let(:msg2) { FactoryGirl.create :message, sender: user2, receiver: subject, content: 'test' }
+    let(:product) { FactoryGirl.create :product, user: user2 }
+    let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, product: product, content: 'test' }
+    let(:msg2) { FactoryGirl.create :message, sender: user2, receiver: subject, product: product, content: 'test' }
 
     it 'returns the received and sent messages' do
       msg
       msg2
       subject.messages.should == [msg, msg2]
+    end
+  end
+
+  describe '#waiting_response_for?' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:product) { FactoryGirl.create :product, user: user2 }
+
+    context 'when user has already sent a mail and is waiting a response' do
+      let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, product: product, content: 'test' }
+
+      it 'returns true' do
+        msg
+        subject.waiting_response_for?(product).should == true
+      end
+    end
+
+    context 'when user has not already sent a mail' do
+
+      it 'returns false' do
+        product
+        subject.waiting_response_for?(product).should == false
+      end
     end
   end
 end
