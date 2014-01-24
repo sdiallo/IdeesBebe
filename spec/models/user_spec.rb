@@ -153,4 +153,16 @@ describe User do
       deliveries_with_subject(I18n.t('notifier.welcome.subject')).count == 1
     end
   end
+
+  describe '#messages' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, content: 'test' }
+    let(:msg2) { FactoryGirl.create :message, sender: user2, receiver: subject, content: 'test' }
+
+    it 'returns the received and sent messages' do
+      msg
+      msg2
+      subject.messages.should == [msg, msg2]
+    end
+  end
 end

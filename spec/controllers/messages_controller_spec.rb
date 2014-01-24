@@ -15,19 +15,21 @@ describe MessagesController do
 
     it 'create the message' do
       expect {
-        post :create, message: { product_id: product.id, content: 'test' }
+        post :create, message: { receiver_id: product.user.id, product_id: product.id, content: 'test' }
       }.to change{ Message.count }.by 1
     end
 
     it 'redirect to the product page' do
-      post :create, product_id: product.id, message: { product_id: product.id, content: 'test' }
+      post :create, message: { receiver_id: product.user.id, product_id: product.id, content: 'test' }
       response.should redirect_to product_path(product.slug)
     end
 
     context 'with an incorrect comment' do
 
       it 'raise an error' do
-        post :create, product_id: product.id, message: { product_id: product.id, content: '' }
+        Message.any_instance.stub(:save).and_return(false)
+        Message.any_instance.stub(:errors).and_return([:content, "Too short"])
+        post :create, message: { receiver_id: product.user.id, product_id: product.id, content: '' }
         flash[:error].should_not be_nil
       end
     end
@@ -36,8 +38,8 @@ describe MessagesController do
 
       it 'raise an error' do
         Message.any_instance.stub(:save).and_return(false)
-        Message.any_instance.stub(:errors).and_return([:content, "Too short"])
-        post :create, product_id: product.id, message: { product_id: product.id, content: 'test' }
+        Message.any_instance.stub(:errors).and_return([])
+        post :create, message: { receiver_id: product.user.id, product_id: product.id, content: 'test' }
         flash[:error].should_not be_nil
       end
     end
