@@ -26,7 +26,7 @@ class Message < ActiveRecord::Base
 
   after_create ->(message) { Notifier.delay.new_message(message) }
 
-  def seller_message?
+  def from_seller?
     product.user == sender
   end
 end

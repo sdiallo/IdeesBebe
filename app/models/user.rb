@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
   end
 
   def waiting_response_for? product
-    last_message = product.messages.where('sender_id = ? OR receiver_id = ?', self.id, self.id).order('created_at DESC').limit(1)
+    last_message = product.messages.select('sender_id').where('sender_id = ? OR receiver_id = ?', self.id, self.id).order('created_at DESC').limit(1)
     last_message.any? and last_message.first.sender_id == self.id
   end
 

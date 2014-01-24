@@ -42,12 +42,12 @@ describe Message do
     end
   end
 
-  describe '#seller_message?' do
+  describe '#from_seller?' do
 
     context 'when the sender is not the owner of the product' do
 
       it 'returns false' do
-        subject.seller_message?.should == false
+        subject.from_seller?.should == false
       end
     end
 
@@ -58,7 +58,7 @@ describe Message do
       subject { FactoryGirl.create :message, sender: user, receiver: user2, product: product}
 
       it 'returns true' do
-        subject.seller_message?.should == true
+        subject.from_seller?.should == true
       end
     end
   end
