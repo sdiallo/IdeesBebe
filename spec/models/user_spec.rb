@@ -124,15 +124,11 @@ describe User do
         end
       end
 
-      context 'concerning a product' do
-        let(:product) { FactoryGirl.create :product, user: user }
+      context 'concerning a message' do
+        let(:product) { FactoryGirl.create :product, user: user2 }
 
-        it 'can :manage his message' do
-          ability.should be_able_to(:manage, Message.new(user: user, product: product, content: 'test'))
-        end
-
-        it 'cannot :manage message from another' do
-          ability.should_not be_able_to(:manage, Message.new(user: user2, product: product, content: 'test'))
+        it 'can :create message' do
+          ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, product: product, content: 'test'))
         end
       end
     end
