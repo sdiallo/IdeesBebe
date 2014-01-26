@@ -2,7 +2,7 @@
 - if message.present?
   - if message.from_seller?
     Dernier message recu :
-    = @product.last_message.content
+    = message.content
   - else
     Le vendeur n'a pas encore repondu a votre message
 - else

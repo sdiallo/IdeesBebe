@@ -1,13 +1,5 @@
-- message = @product.last_message_with(current_user)
-- if not message.from_seller?
-  Dernier message recu :
-  = @product.last_message.content
+- msg_count = @product.seller_pending_messages_count
+- if msg_count.zero?
+  Vous n'avez aucun messages
 - else
-  l'achteur n'a pas encore repondu a votre message
-
-- if message.nil? or (message.present? and not message.from_seller?)
-  = simple_form_for Message.new do |f|
-    = f.input :content, label: 'Texte', as: :text
-    = f.hidden_field :product_id, value: @product.id
-    = f.hidden_field :receiver_id, value: @product.user.id
-    = f.button :submit, 'Contacter'
+  = "Vous avez #{msg_count} message(s) en attente(s)"
