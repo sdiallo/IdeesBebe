@@ -64,11 +64,4 @@ class Product < ActiveRecord::Base
   def last_message_with user
     messages.where('sender_id = ? OR receiver_id = ?', user.id, user.id).order('created_at DESC').limit(1).try(:first)
   end
-
-  class << self
-
-    def with_starred_asset produts
-      ProductAsset.where('starred = t AND product_id IN (?)', products.map(&:id))
-    end
-  end
 end
