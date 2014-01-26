@@ -11,8 +11,8 @@ class Notifier < ActionMailer::Base
   end
 
   def new_message message
-    @product = message.product
     @message = message
+    @product = message.product
     @subject = message.from_seller? ? I18n.t('notifier.new_message.from_seller.subject') : I18n.t('notifier.new_message.from_buyer.subject')
     mail(
       from: "Idees Bebe <#{@message.sender.slug}.#{@product.id}@user.dev-ideesbebe.com>",
