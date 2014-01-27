@@ -6,14 +6,12 @@ class InboxController < ApplicationController
     data = event_payload['msg']
 
     # email : 'receiver-username'.'product-id'@user.idees-bebe.com
-    user, product = payload['headers']['To'].chomp('@user.dev-ideesbebe.com').split('.')
+    user, conversation = payload['headers']['To'].chomp('@user.dev-ideesbebe.com').split('.')
+    content = EmailReplyParser.parse_reply(mail['text'])
+    sender = User.find_by_email(payload['from_email'])
 
-    message = Message.new
-    message.content = EmailReplyParser.parse_reply(mail['text'])
-    message.sender_id = User.find_by_slug(payload['from_email']).id
-    message.receiver_id = User.find(user).id
-    message.product_id = Product.find(product).id
-
-    message.save!
+    conversation = Conversation.find(conversation)
+    conversation.messages.build(content: content, sender_id: sender.id)
+    conversation.save!
   end
 end

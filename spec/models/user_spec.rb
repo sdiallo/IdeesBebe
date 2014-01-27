@@ -162,26 +162,4 @@ describe User do
       subject.messages.should == [msg, msg2]
     end
   end
-
-  describe '#waiting_response_for?' do
-    let(:user2) { FactoryGirl.create :user }
-    let(:product) { FactoryGirl.create :product, user: user2 }
-
-    context 'when user has already sent a mail and is waiting a response' do
-      let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, product: product, content: 'test' }
-
-      it 'returns true' do
-        msg
-        subject.waiting_response_for?(product).should == true
-      end
-    end
-
-    context 'when user has not already sent a mail' do
-
-      it 'returns false' do
-        product
-        subject.waiting_response_for?(product).should == false
-      end
-    end
-  end
 end

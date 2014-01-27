@@ -1,0 +1,6 @@
+- user = @conversation.product.user == current_user ? @conversation.buyer.username : @conversation.product.user.username
+%h1= "Conversation avec #{user}"
+= @conversation.messages.each do |msg|
+  = msg.from_seller? ? 'Vous avez dit : ' : "#{msg.sender.username} à dit: "
+  %br
+  = msg.content

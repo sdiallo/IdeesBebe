@@ -1,5 +1,5 @@
-- message = @product.last_message_with(current_user)
-- if message.present?
+- if @conversation.present?
+  - message = @conversation.first.last_message
   - if message.from_seller?
     Dernier message recu :
     = message.content
@@ -9,8 +9,7 @@
   Contacter le vendeur :
 
 - if message.nil? or (message.present? and message.from_seller?)
-  = simple_form_for Message.new do |f|
+  = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
     = f.input :content, label: 'Texte', as: :text
-    = f.hidden_field :product_id, value: @product.id
-    = f.hidden_field :receiver_id, value: @product.user.id
+    = f.hidden_field :sender_id, value: current_user.id
     = f.button :submit, 'Contacter'

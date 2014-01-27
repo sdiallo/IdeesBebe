@@ -4,7 +4,7 @@ describe MessagesController do
   describe "Routing" do
 
     it "routes to #create" do
-      post("/messages").should route_to("messages#create")
+      post("/products/1/messages").should route_to("messages#create", product_id: '1')
     end
   end
 end
