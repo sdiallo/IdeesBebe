@@ -1,11 +1,10 @@
 %h1= "Tous les utilisateurs intéressé par #{@product.name}"
-= @conversations.each do |conversation|
-  Dernier messages de votre conversation
-  %br
+- @conversations.each do |conversation|
+  = "Dernier messages de votre conversation avec #{conversation.buyer.username}"
   - message = conversation.last_message
+  %br
   - label = message.from_seller? ? 'Vous avez dit : ' : "#{message.sender.username} vous à dit : "
-  - response = message.from_seller? ? 'Réenvoyer un message ' : 'Repondre'
   = label
   %br
   = message.content
-  = link_to response, product_conversation_path(product_id: @product.slug, id: conversation.id)
+  = link_to 'Voir la discussion', product_conversation_path(product_id: @product.slug, id: conversation.id)

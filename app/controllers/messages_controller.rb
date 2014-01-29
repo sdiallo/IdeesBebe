@@ -5,8 +5,10 @@ class MessagesController < ApplicationController
 
   def create
 
-    conversation = Conversation.find_or_create_by(product_id: params[:product_id], user_id: message_params[:sender_id])
-    message = conversation.messages.build(message_params)
+    conversation = Conversation.find(message_params[:conversation_id]) if message_params[:conversation_id].present?
+    conversation ||= Conversation.find_or_create_by(product: @product, user_id: current_user)
+
+    message = conversation.messages.build(message_params.merge(sender: current_user))
     if message.save
       flash[:notice] = I18n.t('message.create.success')
     elsif message.errors.any?
@@ -20,6 +22,6 @@ class MessagesController < ApplicationController
   private
 
     def message_params
-      params.require(:message).permit(:content, :sender_id)
+      params.require(:message).permit(:content, :conversation_id)
     end
 end

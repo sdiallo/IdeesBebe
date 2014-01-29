@@ -46,6 +46,22 @@ describe MessagesController do
         post :create, product_id: product.id, message: { sender_id: user2.id, content: 'test' }
         Message.last.conversation_id.should == conversation.id
       end
+
+      context 'when the seller respond' do
+
+        it 'does not create an associated conversation' do
+          subject
+          expect {
+            post :create, product_id: product.id, message: { sender_id: user.id, content: 'test', conversation_id: conversation.id }
+          }.to change{ Conversation.count }.by 0
+        end
+
+        it 'use the conversation' do
+          subject
+          post :create, product_id: product.id, message: { sender_id: user.id, content: 'test', conversation_id: conversation.id }
+          Message.last.conversation_id.should == conversation.id
+        end
+      end
     end
 
     context 'with an incorrect comment' do
