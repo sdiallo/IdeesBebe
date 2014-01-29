@@ -11,7 +11,6 @@ class InboxController < ApplicationController
     sender = User.find_by_email(payload['from_email'])
 
     conversation = Conversation.find(conversation)
-    conversation.messages.build(content: content, sender_id: sender.id)
-    conversation.save!
+    conversation.messages.create!(content: content, sender_id: sender.id)
   end
 end
