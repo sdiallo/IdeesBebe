@@ -31,19 +31,22 @@ describe MessagesController do
     end
 
     context 'with already a conversation' do
-      subject { FactoryGirl.create :message, conversation: conversation }
+      subject { FactoryGirl.create :message, conversation: conversation, sender_id: user2.id  }
+      let(:msg2) { FactoryGirl.create :message, conversation: conversation, sender_id: user.id  }
       let(:conversation) { FactoryGirl.create :conversation, user_id: user2.id, product: product }
 
       it 'does not create an associated conversation' do
         subject
+        msg2
         expect {
-          post :create, product_id: product.id, message: { sender_id: user2.id, content: 'test' }
+          post :create, product_id: product.id, message: { sender_id: user2.id, content: 'test', conversation_id: conversation.id }
         }.to change{ Conversation.count }.by 0
       end
 
       it 'use the conversation' do
         subject
-        post :create, product_id: product.id, message: { sender_id: user2.id, content: 'test' }
+        msg2
+        post :create, product_id: product.id, message: { sender_id: user2.id, content: 'test', conversation_id: conversation.id }
         Message.last.conversation_id.should == conversation.id
       end
 
