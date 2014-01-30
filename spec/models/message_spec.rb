@@ -16,7 +16,8 @@ describe Message do
   let(:product) { FactoryGirl.create :product, user: user }
   let(:user) { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
-  subject { FactoryGirl.create :message, sender: user2, receiver: user, product: product}
+  subject { FactoryGirl.create :message, sender_id: user2.id, conversation: conversation, content: 'test'}
+  let(:conversation) { FactoryGirl.create :conversation, product_id: product.id, user_id: user2.id }
 
   describe 'when creates a message' do
 
@@ -31,9 +32,12 @@ describe Message do
       let(:product) { FactoryGirl.create :product, user: user }
       let(:user) { FactoryGirl.create :user }
       let(:user2) { FactoryGirl.create :user }
-      subject { FactoryGirl.create :message, sender: user, receiver: user2, product: product}
+      let(:message) { FactoryGirl.create :message, sender_id: user2.id, conversation: conversation, content: 'test'}
+      subject { FactoryGirl.create :message, sender_id: user.id, conversation: conversation, content: 'test'}
+      let(:conversation) { FactoryGirl.create :conversation, product_id: product.id, user_id: user2.id }
 
       it 'sends a new_message from seller email' do
+        message
         expect {
           subject
           Delayed::Worker.new.work_off
@@ -52,10 +56,7 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      let(:product) { FactoryGirl.create :product, user: user }
-      let(:user) { FactoryGirl.create :user }
-      let(:user2) { FactoryGirl.create :user }
-      subject { FactoryGirl.create :message, sender: user, receiver: user2, product: product}
+      subject { FactoryGirl.create :message, sender_id: user.id, conversation: conversation, content: 'test'}
 
       it 'returns true' do
         subject.from_seller?.should == true

@@ -2,22 +2,22 @@
 %html
   %head
     %title IdeesBebe
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
-    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
     %p.notice= notice
     %p.alert= alert
     - if current_user
       %div
-        = link_to "Mon profil", profile_path(current_user.slug)
-        = link_to "Mes produits", products_path(current_user.slug)
-        = link_to "Ajouter un produit", new_profile_product_path(profile_id: current_user.slug)
-        = link_to "Deconnexion", destroy_user_session_path, method: :delete
+        = link_to 'Mon profil', profile_path(current_user.slug)
+        = link_to 'Mes produits', products_path(current_user.slug)
+        = link_to 'Ajouter un produit', new_profile_product_path(profile_id: current_user.slug)
+        = link_to 'Deconnexion', destroy_user_session_path, method: :delete
     - else
       %div
         = link_to "S'inscrire", new_user_registration_path
-        = link_to "Se connecter", new_user_session_path
+        = link_to 'Se connecter', new_user_session_path
 
     - Category::main_categories.each do |main|
       %a{ href: products_by_categories_path(main.slug) }

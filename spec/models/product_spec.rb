@@ -75,4 +75,45 @@ describe Product do
       end
     end
   end
+
+  describe '#seller_pending_messages_count' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:user) { FactoryGirl.create :user }
+    subject { FactoryGirl.create :product, user: user2 }
+
+    it 'returns 0' do
+      user
+      subject.seller_pending_messages_count.should == 0
+    end
+
+    context 'with two messages' do
+      let(:user3) { FactoryGirl.create :user }
+      let(:conversation) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user }
+      let(:conversation2) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user3 }
+      let(:msg) { FactoryGirl.create :message,  sender_id: user.id, conversation: conversation, content: 'test2' }
+      let(:msg2) { FactoryGirl.create :message,  sender_id: user3.id, conversation: conversation2,  content: 'test1' }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user3.id, conversation: conversation2,  content: 'test13' }
+
+      it 'returns 2' do
+        subject
+        msg
+        msg2
+        msg3
+        subject.seller_pending_messages_count.should == 2
+      end
+    end
+
+    context 'with one message which has already been respond' do
+      let(:conversation) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user }
+      let(:msg) { FactoryGirl.create :message,  sender_id: user.id, conversation: conversation, content: 'test2' }
+      let(:msg2) { FactoryGirl.create :message,  sender_id: user2.id, conversation: conversation,  content: 'test1' }
+
+      it 'returns 0' do
+        subject
+        msg
+        msg2
+        subject.seller_pending_messages_count.should == 0
+      end
+    end
+  end
 end

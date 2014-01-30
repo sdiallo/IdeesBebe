@@ -15,6 +15,8 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     @comment = Comment.new
+
+    @conversation = @product.user == current_user ? false : Conversation.about(@product).with(current_user)
   end
 
   # GET /profiles/:profile_id/products/new

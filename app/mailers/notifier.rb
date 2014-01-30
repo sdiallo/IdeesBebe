@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  default from: 'support@idees-bebe.com'
+  default from: 'Idees Bebe <support@dev-ideesbebe.com>'
 
   def welcome user
     @user = user
@@ -11,13 +11,13 @@ class Notifier < ActionMailer::Base
   end
 
   def new_message message
-    @receiver = message.receiver
-    @sender = message.sender
-    @product = message.product
+    @message = message
+    @conversation = message.conversation
+    @receiver = message.from_seller? ? @conversation.buyer.email : @conversation.product.user.email
     @subject = message.from_seller? ? I18n.t('notifier.new_message.from_seller.subject') : I18n.t('notifier.new_message.from_buyer.subject')
     mail(
-      from: "Idees Bebe <#{@sender.slug}.#{@product.id}@user.dev-idees-bebe.com>",
-      to: @receiver.email,
+      from: "Idees Bebe <#{@message.sender.slug}.#{@conversation.id}@user.dev-ideesbebe.com>",
+      to: @receiver,
       subject: @subject
     )
   end

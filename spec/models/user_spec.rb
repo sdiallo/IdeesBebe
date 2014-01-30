@@ -126,9 +126,10 @@ describe User do
 
       context 'concerning a message' do
         let(:product) { FactoryGirl.create :product, user: user2 }
+        let(:conversation) { FactoryGirl.create :conversation, product_id: product.id, user_id: user.id }
 
         it 'can :create message' do
-          ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, product: product, content: 'test'))
+          ability.should be_able_to(:create, Message.new(sender_id: user.id, conversation: conversation, content: 'test'))
         end
       end
     end
@@ -147,41 +148,6 @@ describe User do
       subject
       Delayed::Worker.new.work_off
       deliveries_with_subject(I18n.t('notifier.welcome.subject')).count == 1
-    end
-  end
-
-  describe '#messages' do
-    let(:user2) { FactoryGirl.create :user }
-    let(:product) { FactoryGirl.create :product, user: user2 }
-    let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, product: product, content: 'test' }
-    let(:msg2) { FactoryGirl.create :message, sender: user2, receiver: subject, product: product, content: 'test' }
-
-    it 'returns the received and sent messages' do
-      msg
-      msg2
-      subject.messages.should == [msg, msg2]
-    end
-  end
-
-  describe '#waiting_response_for?' do
-    let(:user2) { FactoryGirl.create :user }
-    let(:product) { FactoryGirl.create :product, user: user2 }
-
-    context 'when user has already sent a mail and is waiting a response' do
-      let(:msg) { FactoryGirl.create :message, sender: subject, receiver: user2, product: product, content: 'test' }
-
-      it 'returns true' do
-        msg
-        subject.waiting_response_for?(product).should == true
-      end
-    end
-
-    context 'when user has not already sent a mail' do
-
-      it 'returns false' do
-        product
-        subject.waiting_response_for?(product).should == false
-      end
     end
   end
 end

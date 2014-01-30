@@ -23,7 +23,8 @@ class Product < ActiveRecord::Base
 
   has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :messages, dependent: :destroy
+  has_many :conversations
+  has_many :messages, through: :conversations
 
   accepts_nested_attributes_for :category
 
@@ -59,5 +60,13 @@ class Product < ActiveRecord::Base
 
   def has_maximum_upload?
     assets.count == MAXIMUM_UPLOAD_PHOTO
+  end
+  
+  def seller_pending_messages_count
+    count = 0
+    conversations.includes(:messages).each do |conversation|
+      count += conversation.last_message.from_seller? ? 0 : 1
+    end
+    count
   end
 end

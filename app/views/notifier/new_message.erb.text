@@ -1,2 +1,2 @@
 <h1><%= @subject %></h1>
-<a href="<%= root_url %>">Cliquez ici</a>
+<%= link_to product_conversation_url(product_id: @conversation.product.slug, id: @conversation.id) %>">Cliquez ici</a>

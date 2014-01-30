@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
 
   has_many :products, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :conversations
   has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
@@ -74,11 +75,6 @@ class User < ActiveRecord::Base
 
   def avatar?
     profile.avatar?
-  end
-
-  def waiting_response_for? product
-    last_message = product.messages.select('sender_id').where('sender_id = ? OR receiver_id = ?', self.id, self.id).order('created_at DESC').limit(1)
-    last_message.any? and last_message.first.sender_id == self.id
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
