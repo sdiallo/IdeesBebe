@@ -126,10 +126,9 @@ describe User do
 
       context 'concerning a message' do
         let(:product) { FactoryGirl.create :product, user: user2 }
-        let(:conversation) { FactoryGirl.create :conversation, product_id: product.id, user_id: user.id }
 
         it 'can :create message' do
-          ability.should be_able_to(:create, Message.new(sender_id: user.id, conversation: conversation, content: 'test'))
+          ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, product: product, content: 'test'))
         end
       end
     end
@@ -148,6 +147,27 @@ describe User do
       subject
       Delayed::Worker.new.work_off
       deliveries_with_subject(I18n.t('notifier.welcome.subject')).count == 1
+    end
+  end
+
+  describe '#is_owner_of?' do
+    subject { FactoryGirl.create :user }
+    let(:product) { FactoryGirl.create :product, user: subject }
+
+    context 'with one of his products' do
+      
+      it 'returns true' do
+        subject.is_owner_of?(product).should == true
+      end
+    end
+
+    context 'with products from other' do
+      let(:user2) { FactoryGirl.create :user }
+      let(:product) { FactoryGirl.create :product, user: user2 }
+      
+      it 'returns false' do
+        subject.is_owner_of?(product).should == false
+      end
     end
   end
 end

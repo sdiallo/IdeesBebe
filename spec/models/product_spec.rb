@@ -76,44 +76,139 @@ describe Product do
     end
   end
 
-  describe '#seller_pending_messages_count' do
+  describe '#last_messages' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:user) { FactoryGirl.create :user }
+    subject { FactoryGirl.create :product, user: user2 }
+
+    it 'returns empty' do
+      user
+      subject.last_messages.should == []
+    end
+
+    context 'with two messages' do
+      let(:user3) { FactoryGirl.create :user }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+
+      it 'returns array of messages' do
+        msg
+        msg2
+        subject.last_messages.should == [msg2, msg]
+      end
+    end
+
+    context 'with two messages which has already been respond' do
+      let(:user3) { FactoryGirl.create :user }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
+
+      it 'returns array of messages' do
+        msg
+        msg2
+        msg3
+        msg4
+        subject.last_messages.should == [msg4, msg3]
+      end
+    end
+  end
+
+  describe '#potential_buyers_count' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:user) { FactoryGirl.create :user }
+    subject { FactoryGirl.create :product, user: user2 }
+
+    it 'returns nil' do
+      user
+      subject.potential_buyers_count.should == 0
+    end
+
+    context 'with two messages' do
+      let(:user3) { FactoryGirl.create :user }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+
+      it 'returns the senders' do
+        msg
+        msg2
+        subject.potential_buyers_count.should == 2
+      end
+    end
+
+    context 'with one message which has already been respond' do
+      let(:user3) { FactoryGirl.create :user }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
+
+      it 'returns the senders' do
+        msg
+        msg2
+        msg3
+        msg4
+        subject.potential_buyers_count.should == 2
+      end
+    end
+  end
+
+  describe '#pending_messages_count_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
     subject { FactoryGirl.create :product, user: user2 }
 
     it 'returns 0' do
       user
-      subject.seller_pending_messages_count.should == 0
+      subject.pending_messages_count_for_owner.should == 0
     end
 
     context 'with two messages' do
       let(:user3) { FactoryGirl.create :user }
-      let(:conversation) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user }
-      let(:conversation2) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user3 }
-      let(:msg) { FactoryGirl.create :message,  sender_id: user.id, conversation: conversation, content: 'test2' }
-      let(:msg2) { FactoryGirl.create :message,  sender_id: user3.id, conversation: conversation2,  content: 'test1' }
-      let(:msg3) { FactoryGirl.create :message,  sender_id: user3.id, conversation: conversation2,  content: 'test13' }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
 
       it 'returns 2' do
-        subject
         msg
         msg2
-        msg3
-        subject.seller_pending_messages_count.should == 2
+        subject.pending_messages_count_for_owner.should == 2
       end
     end
 
     context 'with one message which has already been respond' do
-      let(:conversation) { FactoryGirl.create :conversation, product_id: subject.id, user_id: user }
-      let(:msg) { FactoryGirl.create :message,  sender_id: user.id, conversation: conversation, content: 'test2' }
-      let(:msg2) { FactoryGirl.create :message,  sender_id: user2.id, conversation: conversation,  content: 'test1' }
+      let(:user3) { FactoryGirl.create :user }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
 
       it 'returns 0' do
-        subject
         msg
         msg2
-        subject.seller_pending_messages_count.should == 0
+        msg3
+        msg4
+        subject.pending_messages_count_for_owner.should == 0
       end
     end
   end
+
+  describe '#last_message_with' do
+    let(:user2) { FactoryGirl.create :user }
+    let(:user) { FactoryGirl.create :user }
+    subject { FactoryGirl.create :product, user: user2 }
+
+    it 'returns nil' do
+      subject.last_message_with(user).should == nil
+    end
+
+    context 'with message' do
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+
+      it 'returns the message' do
+        msg
+        subject.last_message_with(user).should == msg
+      end
+    end
+  end  
 end

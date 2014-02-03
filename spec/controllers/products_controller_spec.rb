@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProductsController  do
+describe ProductsController do
   subject { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
 
@@ -67,10 +67,35 @@ describe ProductsController  do
 
   describe 'GET #show' do
     let(:product) { FactoryGirl.create :product, user_id: subject.id}
-    it 'return 200 with slug' do
+    let(:user2) { FactoryGirl.create :user }
+
+    it 'return 200' do
+      get :show, { id: product.slug }
+      expect(response.code).to eq('200')
+    end
+
+    it 'assign product' do
       get :show, { id: product.slug }
       expect(assigns(:product)).to eq(product)
-      expect(response.code).to eq('200')
+    end
+
+    it 'assign message to nil' do
+      get :show, { id: product.slug }
+      expect(assigns(:message)).to eq(nil)
+    end
+    
+    context 'with already a conversation' do
+
+      context 'when the current user is not the owner' do
+        let(:product) { FactoryGirl.create :product, user_id: user2.id}
+        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, product_id: product.id }
+
+        it 'assign message with the message' do
+          message
+          get :show, { id: product.slug }
+          expect(assigns(:message)).to eq(message)
+        end
+      end
     end
   end
 

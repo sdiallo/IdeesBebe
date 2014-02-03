@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   has_many :products, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :conversations
+
   has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
 
 
   def messages
-    messages_sent + messages_received
+    Message.where('receiver_id = ? OR sender_id = ?', self.id, self.id).order('created_at DESC')
   end
 
   def avatar
@@ -75,6 +75,10 @@ class User < ActiveRecord::Base
 
   def avatar?
     profile.avatar?
+  end
+
+  def is_owner_of? product
+    product.user == self    
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)

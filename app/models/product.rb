@@ -23,8 +23,7 @@ class Product < ActiveRecord::Base
 
   has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :conversations
-  has_many :messages, through: :conversations
+  has_many :messages
 
   accepts_nested_attributes_for :category
 
@@ -61,12 +60,20 @@ class Product < ActiveRecord::Base
   def has_maximum_upload?
     assets.count == MAXIMUM_UPLOAD_PHOTO
   end
-  
-  def seller_pending_messages_count
-    count = 0
-    conversations.includes(:messages).each do |conversation|
-      count += conversation.last_message.from_seller? ? 0 : 1
-    end
-    count
+
+  def potential_buyers_count
+    messages.where('receiver_id = ?', user.id).group(:sender_id).pluck(:sender_id).count
+  end
+
+  def pending_messages_count_for_owner
+    last_messages.keep_if{ |msg| msg.sender_id != user.id }.count
+  end
+
+  def last_messages
+    messages.order('created_at DESC').group(:sender_id, :receiver_id, :id).limit(potential_buyers_count)
+  end
+
+  def last_message_with user
+    messages.with(user).order('created_at DESC').try(:first)
   end
 end

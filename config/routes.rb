@@ -12,8 +12,7 @@ IdeesBebe::Application.routes.draw do
   resources :products, only: [] do
     resources :comments, only: [:create, :destroy], shallow: true
     resources :product_assets, only: [:destroy, :update, :create], shallow: true
-    resources :conversations, only: [:index, :show]
-    resources :messages, only: [:create]
+    resources :messages, only: [:create, :index, :show]
   end
 
 
