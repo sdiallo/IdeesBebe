@@ -1,15 +1,17 @@
 class MessagesController < ApplicationController
 
   authorize_resource :message
-  load_resource :product, find_by: :slug, id_param: :product_id, only: :index
+  load_resource :product, find_by: :slug, id_param: :product_id, only: [:index, :show]
   load_resource :product, only: :create
+  load_resource :user, find_by: :slug, id_param: :id, only: :show
 
   def index
     @messages = @product.last_messages
   end
 
   def show
-    
+    @messages = @product.messages.with(@user)
+    @last_message = @messages.last
   end
 
   def create
@@ -21,7 +23,10 @@ class MessagesController < ApplicationController
     else
       flash[:error] = I18n.t('message.create.error')
     end
-    redirect_to product_path(@product.slug)
+    
+    redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to product_path(@product.slug)
   end
 
   private

@@ -5,10 +5,48 @@ describe MessagesController do
   let(:product) { FactoryGirl.create :product, user: user }
   let(:user) { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
+  let(:user3) { FactoryGirl.create :user }
   subject { FactoryGirl.create :message }
   
   before(:each) do
     sign_in user
+  end
+
+  describe '#index' do
+    let(:message) { FactoryGirl.create :message, product_id: product.id, sender_id: user2.id, receiver_id: user.id }
+    let(:message2) { FactoryGirl.create :message, product_id: product.id, sender_id: user.id, receiver_id: user2.id }
+    let(:message3) { FactoryGirl.create :message, product_id: product.id, sender_id: user3.id, receiver_id: user.id }
+
+    it 'assigns @messages' do
+      message
+      message2
+      message3
+      get :index, product_id: product.slug
+      assigns(:messages).should == [message2, message3]
+    end
+  end
+
+
+  describe '#show' do
+    let(:message) { FactoryGirl.create :message, product_id: product.id, sender_id: user2.id, receiver_id: user.id }
+    let(:message2) { FactoryGirl.create :message, product_id: product.id, sender_id: user.id, receiver_id: user2.id }
+    let(:message3) { FactoryGirl.create :message, product_id: product.id, sender_id: user3.id, receiver_id: user.id }
+
+    it 'assigns @messages' do
+      message
+      message2
+      message3
+      get :show, product_id: product.slug, id: user2.slug
+      assigns(:messages).should == [message, message2]
+    end
+
+    it 'assigns @last_message' do
+      message
+      message2
+      message3
+      get :show, product_id: product.slug, id: user2.slug
+      assigns(:last_message).should == message2
+    end
   end
 
   describe '#create' do
