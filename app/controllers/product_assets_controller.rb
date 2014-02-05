@@ -4,7 +4,7 @@ class ProductAssetsController < ApplicationController
   load_resource :product, only: :create
 
   def create
-    raise CanCan::AccessDenied if @product.user != current_user
+    raise CanCan::AccessDenied if @product.owner != current_user
     asset = @product.assets.build(asset_params)
     if not asset.file? or not asset.valid?
       alert = I18n.t('asset.file.non-valid')

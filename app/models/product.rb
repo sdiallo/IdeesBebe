@@ -18,7 +18,7 @@ class Product < ActiveRecord::Base
 
   MAXIMUM_UPLOAD_PHOTO = 2
 
-  belongs_to :user
+  belongs_to :owner, foreign_key: 'user_id', class_name: 'User', dependent: :destroy
   belongs_to :category
 
   has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy

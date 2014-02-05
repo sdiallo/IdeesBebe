@@ -50,7 +50,7 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    @user = @product.user
+    @user = @product.owner
     if @product.destroy
       flash[:notice] = I18n.t('product.destroy.success')
     else

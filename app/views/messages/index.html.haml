@@ -2,5 +2,5 @@
   = message.sender.username
   %br
   = message.content
-  - user = message.from_seller? ? message.receiver : message.sender 
+  - user = message.from_owner? ? message.receiver : message.sender 
   = link_to 'voir tous les messages', product_message_path(product_id: @product.slug, id: user.slug)

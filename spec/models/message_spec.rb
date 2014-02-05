@@ -36,17 +36,17 @@ describe Message do
         expect {
           subject
           Delayed::Worker.new.work_off
-        }.to change{ deliveries_with_subject(I18n.t('notifier.new_message.from_seller.subject')).count }.by 1
+        }.to change{ deliveries_with_subject(I18n.t('notifier.new_message.from_owner.subject')).count }.by 1
       end
     end
   end
 
-  describe '#from_seller?' do
+  describe '#from_owner?' do
 
     context 'when the sender is not the owner of the product' do
 
       it 'returns false' do
-        subject.from_seller?.should == false
+        subject.from_owner?.should == false
       end
     end
 
@@ -54,7 +54,7 @@ describe Message do
       subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
 
       it 'returns true' do
-        subject.from_seller?.should == true
+        subject.from_owner?.should == true
       end
     end
   end
