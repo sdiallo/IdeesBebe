@@ -1,2 +1,3 @@
-<h1><%= @subject %></h1>
-<%= link_to product_conversation_url(product_id: @conversation.product.slug, id: @conversation.id) %>">Cliquez ici</a>
+<%= @subject %>
+<%= @message.content %>
+<%= link_to product_message_url(product_id: @message.product.slug, id: @user_id) %>">Cliquez ici</a>

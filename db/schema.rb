@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140127220122) do
+ActiveRecord::Schema.define(version: 20140131184407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,16 +31,6 @@ ActiveRecord::Schema.define(version: 20140127220122) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "conversations", force: true do |t|
-    t.integer  "product_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "conversations", ["product_id"], name: "index_conversations_on_product_id", using: :btree
-  add_index "conversations", ["user_id"], name: "index_conversations_on_user_id", using: :btree
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -63,10 +53,11 @@ ActiveRecord::Schema.define(version: 20140127220122) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sender_id"
-    t.integer  "conversation_id"
+    t.integer  "product_id"
+    t.integer  "receiver_id"
   end
 
-  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
+  add_index "messages", ["product_id"], name: "index_messages_on_product_id", using: :btree
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
 
   create_table "product_assets", force: true do |t|

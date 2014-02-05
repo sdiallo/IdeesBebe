@@ -21,7 +21,7 @@
   = render 'products/form_comments'
 
 - if can? :create, Message.new
-  = render @product.user != current_user ? 'products/form_message_buyer' : 'products/form_message_seller'
+  = render current_user.is_owner_of?(@product) ? 'products/form_message_seller' : 'products/form_message_buyer'
 
 
 = render 'products/comments'

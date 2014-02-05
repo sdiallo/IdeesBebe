@@ -1,15 +1,18 @@
-- if @conversation.any?
-  - message = @conversation.first.last_message
-  - if message.from_seller?
-    Dernier message recu :
-    = message.content
-  - else
-    Le vendeur n'a pas encore repondu a votre message
-  = link_to 'Voir la conversation', product_conversation_path(product_id: @product.slug, id: message.conversation.id)
-- else
+- if not @message
   Contacter le vendeur :
-
-- if message.nil? or (message.present? and message.from_seller?)
   = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
     = f.input :content, label: 'Texte', as: :text
+    = f.hidden_field :receiver_id, value: @product.user.id
     = f.button :submit, 'Contacter'
+- else
+  - if @message.from_seller?
+    Dernier message recu :
+    = @message.content
+    = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
+      = f.input :content, label: 'Texte', as: :text
+      = f.hidden_field :receiver_id, value: @product.user.id
+      = f.button :submit, 'Contacter'
+  - else
+    Le vendeur n'a pas encore repondu a votre message
+
+  = link_to 'Voir la conversation', product_message_path(product_id: @product.slug, id: current_user.slug)

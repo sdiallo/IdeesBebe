@@ -12,12 +12,11 @@ class Notifier < ActionMailer::Base
 
   def new_message message
     @message = message
-    @conversation = message.conversation
-    @receiver = message.from_seller? ? @conversation.buyer.email : @conversation.product.user.email
     @subject = message.from_seller? ? I18n.t('notifier.new_message.from_seller.subject') : I18n.t('notifier.new_message.from_buyer.subject')
+    @user_id = message.from_seller? ? message.receiver : message.sender
     mail(
-      from: "Idees Bebe <#{@message.sender.slug}.#{@conversation.id}@user.dev-ideesbebe.com>",
-      to: @receiver,
+      from: "Idees Bebe <#{@message.sender.slug}.#{@message.product.id}@user.dev-ideesbebe.com>",
+      to: @message.receiver.email,
       subject: @subject
     )
   end
