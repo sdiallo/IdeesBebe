@@ -18,7 +18,7 @@ class Product < ActiveRecord::Base
 
   MAXIMUM_UPLOAD_PHOTO = 2
 
-  belongs_to :user
+  belongs_to :owner, foreign_key: 'user_id', class_name: 'User'
   belongs_to :category
 
   has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
@@ -62,7 +62,7 @@ class Product < ActiveRecord::Base
   end
 
   def pending_messages_count_for_owner
-    last_messages.keep_if{ |msg| msg.sender_id != user.id }.count
+    last_messages.keep_if{ |msg| msg.sender_id != owner.id }.count
   end
 
   def last_messages
@@ -84,6 +84,6 @@ class Product < ActiveRecord::Base
   private
 
     def potential_buyers_ids
-      messages.where('receiver_id = ?', user.id).group(:sender_id).order(:sender_id).pluck(:sender_id)
+      messages.where('receiver_id = ?', owner.id).group(:sender_id).order(:sender_id).pluck(:sender_id)
     end
 end

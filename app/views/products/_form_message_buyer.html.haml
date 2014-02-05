@@ -2,15 +2,15 @@
   Contacter le vendeur :
   = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
     = f.input :content, label: 'Texte', as: :text
-    = f.hidden_field :receiver_id, value: @product.user.id
+    = f.hidden_field :receiver_id, value: @product.owner.id
     = f.button :submit, 'Contacter'
 - else
-  - if @message.from_seller?
+  - if @message.from_owner?
     Dernier message recu :
     = @message.content
     = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
       = f.input :content, label: 'Texte', as: :text
-      = f.hidden_field :receiver_id, value: @product.user.id
+      = f.hidden_field :receiver_id, value: @product.owner.id
       = f.button :submit, 'Contacter'
   - else
     Le vendeur n'a pas encore repondu a votre message

@@ -82,8 +82,8 @@ describe User do
       end
 
       context 'concerning an product asset' do
-        let(:product) { FactoryGirl.create :product, user: user }
-        let(:product2) { FactoryGirl.create :product, user: user2 }
+        let(:product) { FactoryGirl.create :product, owner: user }
+        let(:product2) { FactoryGirl.create :product, owner: user2 }
 
         it 'can :destroy asset for his product' do
           ability.should be_able_to(:destroy, ProductAsset.new(product: product))
@@ -116,16 +116,16 @@ describe User do
       context 'concerning a product' do
 
         it 'can :manage his product' do
-          ability.should be_able_to(:manage, Product.new(user: user))
+          ability.should be_able_to(:manage, Product.new(owner: user))
         end
 
         it 'cannot :manage product from another' do
-          ability.should_not be_able_to(:manage, Product.new(user: user2))
+          ability.should_not be_able_to(:manage, Product.new(owner: user2))
         end
       end
 
       context 'concerning a message' do
-        let(:product) { FactoryGirl.create :product, user: user2 }
+        let(:product) { FactoryGirl.create :product, owner: user2 }
 
         it 'can :create message' do
           ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, product: product, content: 'test'))
@@ -152,7 +152,7 @@ describe User do
 
   describe '#is_owner_of?' do
     subject { FactoryGirl.create :user }
-    let(:product) { FactoryGirl.create :product, user: subject }
+    let(:product) { FactoryGirl.create :product, owner: subject }
 
     context 'with one of his products' do
       
@@ -163,7 +163,7 @@ describe User do
 
     context 'with products from other' do
       let(:user2) { FactoryGirl.create :user }
-      let(:product) { FactoryGirl.create :product, user: user2 }
+      let(:product) { FactoryGirl.create :product, owner: user2 }
       
       it 'returns false' do
         subject.is_owner_of?(product).should == false

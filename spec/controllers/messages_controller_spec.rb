@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MessagesController do
 
-  let(:product) { FactoryGirl.create :product, user: user }
+  let(:product) { FactoryGirl.create :product, owner: user }
   let(:user) { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
   let(:user3) { FactoryGirl.create :user }

@@ -50,13 +50,12 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1
   def destroy
-    @user = @product.user
     if @product.destroy
       flash[:notice] = I18n.t('product.destroy.success')
     else
       flash[:alert] = I18n.t('product.destroy.error')
     end
-    redirect_to products_path(@user.slug)
+    redirect_to products_path(@product.owner.slug)
   end
 
   private

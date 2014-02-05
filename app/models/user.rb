@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   end
 
   def is_owner_of? product
-    product.user == self    
+    product.owner == self
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
