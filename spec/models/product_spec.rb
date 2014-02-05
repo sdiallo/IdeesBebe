@@ -124,7 +124,7 @@ describe Product do
 
     it 'returns empty array' do
       user
-      subject.potential_buyers_ids.should == []
+      subject.send(:potential_buyers_ids).should == []
     end
 
     context 'with two messages' do
@@ -135,7 +135,7 @@ describe Product do
       it 'returns the senders' do
         msg
         msg2
-        subject.potential_buyers_ids.should == [user.id, user3.id]
+        subject.send(:potential_buyers_ids).should == [user.id, user3.id]
       end
     end
 
@@ -151,7 +151,7 @@ describe Product do
         msg2
         msg3
         msg4
-        subject.potential_buyers_ids.should == [user.id, user3.id]
+        subject.send(:potential_buyers_ids).should == [user.id, user3.id]
       end
     end
   end

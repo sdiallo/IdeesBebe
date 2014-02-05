@@ -23,7 +23,7 @@ class Category < ActiveRecord::Base
 
   def all_products
     return products unless subcategories.any?
-    products + Product.where('category_id IN (?)', subcategories.map(&:id)).order('created_at DESC')
+    products + Product.where(category_id: subcategories.pluck(:id)).order('created_at DESC')
   end
 
   class << self

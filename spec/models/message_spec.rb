@@ -28,9 +28,6 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      let(:product) { FactoryGirl.create :product, user: user }
-      let(:user) { FactoryGirl.create :user }
-      let(:user2) { FactoryGirl.create :user }
       let(:message) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test'}
       subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
 

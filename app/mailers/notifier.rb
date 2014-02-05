@@ -16,7 +16,7 @@ class Notifier < ActionMailer::Base
     @user_id = message.from_seller? ? message.receiver : message.sender
     mail(
       from: "Idees Bebe <#{@message.sender.slug}.#{@message.product.id}@user.dev-ideesbebe.com>",
-      to: @message.receiver,
+      to: @message.receiver.email,
       subject: @subject
     )
   end

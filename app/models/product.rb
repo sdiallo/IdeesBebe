@@ -61,19 +61,16 @@ class Product < ActiveRecord::Base
     assets.count == MAXIMUM_UPLOAD_PHOTO
   end
 
-  def potential_buyers_ids
-    messages.where('receiver_id = ?', user.id).group(:sender_id).pluck(:sender_id)
-  end
-
   def pending_messages_count_for_owner
     last_messages.keep_if{ |msg| msg.sender_id != user.id }.count
   end
 
   def last_messages
     ids = potential_buyers_ids
-    return [] if ids.empty? 
-
     last_messages = []
+
+    return last_messages if ids.empty? 
+
     ids.each do |id|
       last_messages << messages.where('receiver_id = ? OR sender_id = ?', id, id).order('created_at DESC').first
     end
@@ -83,4 +80,10 @@ class Product < ActiveRecord::Base
   def last_message_with user
     messages.with(user).order('created_at DESC').try(:first)
   end
+
+  private
+
+    def potential_buyers_ids
+      messages.where('receiver_id = ?', user.id).group(:sender_id).order(:sender_id).pluck(:sender_id)
+    end
 end
