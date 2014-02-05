@@ -177,8 +177,8 @@ describe ProductsController do
 
 
   describe 'DELETE #destroy' do
-    let(:product) { FactoryGirl.create :product, user_id: subject.id}
-    let(:product2) { FactoryGirl.create :product, user_id: user2.id}
+    let(:product) { FactoryGirl.create :product, owner: subject}
+    let(:product2) { FactoryGirl.create :product, owner: user2}
 
     context 'with my product' do
       it 'destroy the product' do
@@ -191,12 +191,6 @@ describe ProductsController do
         product
         delete :destroy, { id: product.id }
         expect(response).to redirect_to products_path(subject.slug)
-      end
-
-      it 'assigns user' do
-        product
-        delete :destroy, { id: product.id }
-        expect(assigns(:user)).to eq(subject)
       end
 
       context 'with a failed destroy' do
@@ -212,7 +206,7 @@ describe ProductsController do
   describe '#by_category' do
     let(:category) { FactoryGirl.create :category, main_category_id: main.id }
     let(:main) { FactoryGirl.create :category}
-    let(:product) { FactoryGirl.create :product, name: "lol", user: subject, category_id: category.id }
+    let(:product) { FactoryGirl.create :product, name: "lol", owner: subject, category_id: category.id }
 
     it 'assigns @products' do
       Category.any_instance.stub(:all_products).and_return([product])

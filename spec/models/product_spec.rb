@@ -79,7 +79,7 @@ describe Product do
   describe '#last_messages' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, user: user2 }
+    subject { FactoryGirl.create :product, owner: user2 }
 
     it 'returns empty' do
       user
@@ -120,7 +120,7 @@ describe Product do
   describe '#potential_buyers_ids' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, user: user2 }
+    subject { FactoryGirl.create :product, owner: user2 }
 
     it 'returns empty array' do
       user
@@ -159,7 +159,7 @@ describe Product do
   describe '#pending_messages_count_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, user: user2 }
+    subject { FactoryGirl.create :product, owner: user2 }
 
     it 'returns 0' do
       user
@@ -198,7 +198,7 @@ describe Product do
   describe '#last_message_with' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, user: user2 }
+    subject { FactoryGirl.create :product, owner: user2 }
 
     it 'returns nil' do
       subject.last_message_with(user).should == nil

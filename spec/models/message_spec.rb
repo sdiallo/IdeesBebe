@@ -13,7 +13,7 @@
 require 'spec_helper'
 
 describe Message do
-  let(:product) { FactoryGirl.create :product, user: user }
+  let(:product) { FactoryGirl.create :product, owner: user }
   let(:user) { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
   subject { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test'}
