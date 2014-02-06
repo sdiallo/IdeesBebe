@@ -26,7 +26,7 @@ class Message < ActiveRecord::Base
 
   scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
-  after_create ->(message) { Notifier.delay.new_message(message) }
+  after_create ->(message) { Notifier.new_message(message).deliver }
 
   def from_owner?
     product.owner == sender
