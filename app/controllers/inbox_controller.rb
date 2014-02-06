@@ -12,8 +12,8 @@ class InboxController < ApplicationController
 
     product = Product.find(product_id)
     sender = User.find_by_email(payload['from_email'])
-    receiver_id = User.find(username)
+    receiver = User.find_by_username(username)
 
-    product.messages.create!(content: content, sender_id: sender.id, receiver_id: )
+    product.messages.create!(content: content, sender_id: sender.id, receiver_id: receiver_.d)
   end
 end
