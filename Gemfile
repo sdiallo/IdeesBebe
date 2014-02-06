@@ -6,7 +6,6 @@ gem 'devise'
 gem 'cancan'
 gem 'omniauth-facebook'
 
-
 # Use postgresql as the database for Active Record
 gem 'pg'
 gem 'rails_12factor', group: :production
