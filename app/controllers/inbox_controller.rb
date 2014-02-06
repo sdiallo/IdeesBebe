@@ -13,6 +13,6 @@ class InboxController < ApplicationController
     sender = User.find_by_email(data['from_email'])
     receiver = User.find_by_slug(slug)
 
-    product.messages.create!(content: content, sender_id: sender.id, receiver_id: receiver_.d)
+    product.messages.create!(content: content, sender_id: sender.id, receiver_id: receiver.id)
   end
 end
