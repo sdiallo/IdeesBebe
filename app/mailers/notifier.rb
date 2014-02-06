@@ -13,7 +13,7 @@ class Notifier < ActionMailer::Base
   def new_message message
     @message = message
     @subject = message.from_owner? ? I18n.t('notifier.new_message.from_owner.subject') : I18n.t('notifier.new_message.from_buyer.subject')
-    @user_id = message.from_owner? ? message.receiver : message.sender
+    @user = message.from_owner? ? message.receiver : message.sender
     mail(
       from: "Idees Bebe <#{@message.sender.slug}.#{@message.product.id}@user.dev-ideesbebe.com>",
       to: @message.receiver.email,

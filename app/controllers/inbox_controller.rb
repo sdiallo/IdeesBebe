@@ -6,9 +6,9 @@ class InboxController < ApplicationController
     data = event_payload['msg']
 
     slug, product_id = data['headers']['To'].chomp('@user.dev-ideesbebe.com').split('.')
-
+    slug = "alex"
+    product_id = 9
     content = EmailReplyParser.parse_reply(data['text'])
-
     product = Product.find(product_id)
     sender = User.find_by_email(data['from_email'])
     receiver = User.find_by_slug(slug)
