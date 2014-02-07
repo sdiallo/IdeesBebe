@@ -8,6 +8,8 @@
     %th
     %th
     %th
+    %th
+    %th
 
   - @user.products.each do |product|
     %tr
@@ -17,6 +19,8 @@
         %td= image_tag('default_avatar_thumb.png')
       %td= product.name.capitalize
       %td= product.description
+      %td= "#{product.pending_messages_count_for_owner} messages en attentes"
+      %td= link_to 'Gérer mon produit', product_messages_path(product.slug)
       %td= link_to 'Show', product_path(product.slug)
       - if can? :edit, product
         %td= link_to 'Edit', edit_product_path(product.slug)
