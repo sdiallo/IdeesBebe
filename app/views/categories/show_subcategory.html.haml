@@ -1,7 +1,6 @@
-%br
-- @category.subcategories.each do |category|
-  = link_to category.name, category_subcategory_path(@category.slug, category.slug)
-  
+
+= render partial: 'categories/subcategories', locals: { main_category: @category }
+
 %h1 Listing products
 
 %table
