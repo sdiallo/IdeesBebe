@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     @comment = Comment.new
-    if not current_user.is_owner_of? @product
+    if user_signed_in? and not current_user.is_owner_of? @product
       @message = @product.last_message_with(current_user)
     end
   end

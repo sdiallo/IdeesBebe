@@ -12,6 +12,7 @@
     %th
     %th
     %th
+    %th
 
   - @products.each do |product|
     %tr
@@ -21,6 +22,7 @@
         %td= image_tag('default_avatar_thumb.png')
       %td= product.name.capitalize
       %td= product.description
+      %td= link_to product.category_name, category_subcategory_path(@category.slug, product.category_slug)
       %td= link_to 'Show', product_path(product.slug)
       - if can? :edit, product
         %td= link_to 'Edit', edit_product_path(product.slug)
