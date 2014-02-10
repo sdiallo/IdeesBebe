@@ -1,7 +1,6 @@
-%br
-- @category.subcategories.each do |category|
-  = link_to category.name, category_subcategory_path(@category.slug, category.slug)
-  
+
+= render partial: 'categories/subcategories', locals: { main_category: @category }
+
 %h1 Listing products
 
 %table
@@ -9,6 +8,7 @@
     %th 
     %th Name
     %th Description
+    %th
     %th
     %th
     %th
@@ -21,6 +21,7 @@
         %td= image_tag('default_avatar_thumb.png')
       %td= product.name.capitalize
       %td= product.description
+      %td= link_to product.category_name, category_subcategory_path(@category.slug, product.category_slug)
       %td= link_to 'Show', product_path(product.slug)
       - if can? :edit, product
         %td= link_to 'Edit', edit_product_path(product.slug)

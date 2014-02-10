@@ -2,12 +2,13 @@
 #
 # Table name: messages
 #
-#  id         :integer          not null, primary key
-#  content    :text
-#  user_id    :integer
-#  product_id :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id          :integer          not null, primary key
+#  content     :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  sender_id   :integer
+#  product_id  :integer
+#  receiver_id :integer
 #
 
 require 'spec_helper'
