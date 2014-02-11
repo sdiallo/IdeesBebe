@@ -8,14 +8,13 @@ class Ability
       can :manage, [Profile, Product], user_id: user.id
 
       can [:destroy, :update], ProductAsset do |asset|
-        user.products.map(&:id).include?(asset.product.id)
+        user.is_owner_of? asset.product
       end
       can :destroy, Comment, user_id: user.id
       can :destroy, User, id: user.id
 
       can :create, Comment
       can :create, Message
-
       can :index, Message
     end
 

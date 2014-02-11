@@ -6,10 +6,12 @@ class MessagesController < ApplicationController
   load_resource :user, find_by: :slug, id_param: :id, only: :show
 
   def index
+    raise CanCan::AccessDenied if not current_user.is_owner_of? @product
     @messages = @product.last_messages
   end
 
   def show
+    raise CanCan::AccessDenied unless current_user.is_owner_of? @product or current_user == @user
     @messages = @product.messages.with(@user)
     @last_message = @messages.last
   end
