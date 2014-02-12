@@ -209,6 +209,8 @@ GEM
       multi_json (~> 1.0)
       rubyzip (< 1.0.0)
       websocket (~> 1.0.4)
+    semantic-ui-sass (0.12.4.0)
+      sass (~> 3.2)
     simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
@@ -290,6 +292,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   selenium-webdriver (~> 2.35.1)
+  semantic-ui-sass
   simple_form
   therubyracer
   timecop
