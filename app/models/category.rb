@@ -12,10 +12,10 @@
 
 class Category < ActiveRecord::Base
   has_many :products
-  has_many :subcategories, class_name: "Category",
-                          foreign_key: "main_category_id"
+  has_many :subcategories, class_name: 'Category',
+                          foreign_key: 'main_category_id'
  
-  belongs_to :main_category, class_name: "Category"
+  belongs_to :main_category, class_name: 'Category'
 
   include Slugable
 
@@ -23,7 +23,11 @@ class Category < ActiveRecord::Base
 
   def all_products
     return products unless subcategories.any?
-    products + Product.where(category_id: subcategories.pluck(:id)).order('created_at DESC')
+    Product
+      .select('categories.name as category_name, categories.slug as category_slug, products.*')
+      .where(category_id: subcategories.pluck(:id))
+      .joins(:category)
+      .order('created_at DESC')
   end
 
   class << self
