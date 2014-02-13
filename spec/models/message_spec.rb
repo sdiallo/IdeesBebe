@@ -61,7 +61,6 @@ describe Message do
       it 'does not send an email' do
         subject
         message
-        ActionMailer::Base.deliveries.clear
         Timecop.travel(subject.created_at + 3.days + 10.minutes) do
           Delayed::Worker.new.work_off
           deliveries_with_subject(I18n.t('notifier.reminder_owner.subject')).count.should == 0
