@@ -20,4 +20,14 @@ class Notifier < ActionMailer::Base
       subject: @subject
     )
   end
+
+  def reminder_owner message
+    @message = message
+    @subject = I18n.t('notifier.reminder_owner.subject')
+    @user = message.sender
+    mail(
+      to: @message.receiver.email,
+      subject: @subject
+    )
+  end
 end

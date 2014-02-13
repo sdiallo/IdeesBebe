@@ -42,6 +42,33 @@ describe Message do
     end
   end
 
+  describe 'Reminder mail to owner' do
+
+    context 'when the owner has not respond after 3 days' do
+
+      it 'sends an email' do
+        subject
+        Timecop.travel(subject.created_at + 3.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          deliveries_with_subject(I18n.t('notifier.reminder_owner.subject')).count.should == 1
+        end
+      end
+    end
+
+    context 'when the owner has respond before 3 days' do
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+
+      it 'does not send an email' do
+        subject
+        message
+        Timecop.travel(subject.created_at + 3.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          deliveries_with_subject(I18n.t('notifier.reminder_owner.subject')).count.should == 0
+        end
+      end
+    end
+  end
+
   describe '#from_owner?' do
 
     context 'when the sender is not the owner of the product' do

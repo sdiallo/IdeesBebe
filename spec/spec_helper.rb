@@ -22,8 +22,10 @@ RSpec.configure do |config|
 
   
   config.include FactoryGirl::Syntax::Methods  
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
   config.include MailerMacros
+
+  config.before(:each) { ActionMailer::Base.deliveries.clear }
 
   # ## Mock Framework
   #
