@@ -55,7 +55,7 @@ GEM
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       json (>= 1.7)
-    childprocess (0.4.0)
+    childprocess (0.4.1)
       ffi (~> 1.0, >= 1.0.11)
     cloudinary (1.0.67)
       aws_cf_signer
@@ -94,10 +94,10 @@ GEM
     email_reply_parser (0.5.5)
     erubis (2.7.0)
     execjs (2.0.2)
-    factory_girl (4.3.0)
+    factory_girl (4.4.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.3.0)
-      factory_girl (~> 4.3.0)
+    factory_girl_rails (4.4.0)
+      factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
     ffi (1.9.3)
     haml (4.0.5)
@@ -174,7 +174,7 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rubyzip (0.9.9)
+    rubyzip (1.1.0)
     sass (3.2.14)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -183,10 +183,10 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
-    selenium-webdriver (2.35.1)
+    selenium-webdriver (2.39.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
-      rubyzip (< 1.0.0)
+      rubyzip (~> 1.0)
       websocket (~> 1.0.4)
     simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
@@ -255,7 +255,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   email_reply_parser
-  factory_girl_rails (~> 4.0)
+  factory_girl_rails (>= 4.0)
   haml-rails
   jbuilder (~> 1.2)
   jquery-rails
@@ -267,7 +267,7 @@ DEPENDENCIES
   rspec-rails (~> 2.0)
   sass-rails (~> 4.0.0)
   sdoc
-  selenium-webdriver (~> 2.35.1)
+  selenium-webdriver (>= 2.35.1)
   simple_form
   therubyracer
   timecop
