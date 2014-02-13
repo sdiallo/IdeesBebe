@@ -5,6 +5,13 @@
   %b Description:
   = @product.description
 
+%p
+  %b Temps de réponse moyen
+  - if @product.owner.response_time.zero?
+    Aucun
+  - else
+    = distance_of_time_in_words(@product.owner.response_time)
+
 - unless @product.assets.empty?
   #destroy_asset_link
     - @product.assets.each do |a|

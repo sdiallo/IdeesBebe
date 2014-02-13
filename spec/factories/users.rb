@@ -24,5 +24,6 @@ FactoryGirl.define do
     email
     username
     password 'myamazingpassword'
+    response_time 0
   end
 end
