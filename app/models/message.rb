@@ -29,12 +29,20 @@ class Message < ActiveRecord::Base
   
   after_create ->(message) { Notifier.new_message(message).deliver }
   after_create :reminder_owner, unless: :from_owner?
+  after_create :average_response_time, if: :from_owner?
 
   def from_owner?
     product.owner == sender
   end
 
   private
+
+    def average_response_time
+      last_message = Message.where(product_id: product_id, receiver_id: sender_id, sender_id: receiver_id).maximum(:created_at)
+      diff = sender.response_time + (created_at.to_i - last_message.to_i)
+
+      sender.update_attributes!(response_time: diff/Message.where(sender_id: sender_id).count)
+    end
 
     def still_pending?
       product.last_message_with(sender) == self

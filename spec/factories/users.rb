@@ -17,6 +17,7 @@
 #  updated_at             :datetime
 #  username               :string(255)
 #  slug                   :string(255)
+#  response_time          :integer          default(0)
 #
 
 FactoryGirl.define do
@@ -24,5 +25,6 @@ FactoryGirl.define do
     email
     username
     password 'myamazingpassword'
+    response_time 0
   end
 end

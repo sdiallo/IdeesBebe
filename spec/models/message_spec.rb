@@ -15,8 +15,8 @@ require 'spec_helper'
 
 describe Message do
   let(:product) { FactoryGirl.create :product, owner: user }
-  let(:user) { FactoryGirl.create :user }
-  let(:user2) { FactoryGirl.create :user }
+  let(:user) { FactoryGirl.create :user, response_time: 0 }
+  let(:user2) { FactoryGirl.create :user, response_time: 0 }
   subject { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test'}
 
   describe 'when creates a message' do
@@ -29,15 +29,41 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      let(:message) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test'}
-      subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:message) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test' }
+      subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
 
-      it 'sends a new_message from seller email' do
+      it 'sends a new_message from owner email' do
         message
         expect {
           subject
           Delayed::Worker.new.work_off
         }.to change{ deliveries_with_subject(I18n.t('notifier.new_message.from_owner.subject')).count }.by 1
+      end
+
+      it 'sets the new average response time to the sender' do
+        message
+        subject.update_attributes!(created_at: message.created_at + 1.days)
+        user.reload.response_time.should == 86400
+      end
+
+      context 'with three messages for 2 products' do
+
+        let(:product2) { FactoryGirl.create :product, owner: user, name: 'Test1' }
+        subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
+        let(:message4) { FactoryGirl.create :message, sender_id: user2.id, product: product2, receiver_id: user.id, content: 'test', created_at: message.created_at + 2.days }
+        let(:message5) { FactoryGirl.create :message, sender_id: user.id, product: product2, receiver_id: user2.id, content: 'test', created_at:  message.created_at + 4.days }
+        let(:message2) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test', created_at: message.created_at + 6.days }
+        let(:message3) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 6.days + 45.minutes }
+
+        it 'sets correctly the new average response time to the sender' do
+          message
+          subject
+          message2
+          message3
+          message4
+          message5
+          user.reload.response_time.should == 72450
+        end
       end
     end
   end
@@ -79,10 +105,11 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
 
       it 'returns true' do
-        subject.from_owner?.should == true
+        subject
+        message.from_owner?.should == true
       end
     end
   end
