@@ -54,6 +54,8 @@ class Product < ActiveRecord::Base
 
   validates :category_id, presence: { message: I18n.t('product.category.presence') }
 
+  scope :active, ->() { where(active: true) }
+
   before_save :to_slug, if: :name_changed?
 
   def starred_asset
