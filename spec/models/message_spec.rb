@@ -105,10 +105,11 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
 
       it 'returns true' do
-        subject.from_owner?.should == true
+        subject
+        message.from_owner?.should == true
       end
     end
   end
