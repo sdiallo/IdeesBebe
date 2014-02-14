@@ -10,6 +10,7 @@
 #  updated_at  :datetime
 #  user_id     :integer
 #  category_id :integer
+#  active      :boolean          default(TRUE)
 #
 
 FactoryGirl.define do
@@ -17,5 +18,6 @@ FactoryGirl.define do
     name 'Great product'
     description 'This is a great product'
     association :category
+    active true
   end
 end
