@@ -55,7 +55,13 @@ class Message < ActiveRecord::Base
     handle_asynchronously :reminder_owner_3_days, run_at: ->(message) { message.created_at + 3.days }
 
     def reminder_owner_7_days
-      Notifier.reminder_owner_7_days(self).deliver if still_pending?
+      if still_pending?
+        Notifier.reminder_owner_7_days(self).deliver
+        if product.unresponsive_messages_count_for_owner >= Product::BECOME_INACTIVE_UNTIL and product.active
+          product.update_attributes!(active: false)
+          Notifier.product_become_inactive(product).deliver
+        end
+      end
     end
     handle_asynchronously :reminder_owner_7_days, run_at: ->(message) { message.created_at + 7.days }
 end

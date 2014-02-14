@@ -61,6 +61,8 @@ fr:
       subject: 'Vous avez un message en attente depuis trois jours'
     reminder_owner_7_days:
       subject: 'Vous avez un message en attente depuis sept jours !!'
+    product_become_inactive:
+      subject: 'Votre produit ne sera plus afficher dans les recherches'
 
   user:
     username:

@@ -10,6 +10,7 @@
 #  updated_at  :datetime
 #  user_id     :integer
 #  category_id :integer
+#  active      :boolean          default(TRUE)
 #
 
 require 'spec_helper'
@@ -156,14 +157,14 @@ describe Product do
     end
   end
 
-  describe '#pending_messages_count_for_owner' do
+  describe '#pending_messages_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
     subject { FactoryGirl.create :product, owner: user2 }
 
     it 'returns 0' do
       user
-      subject.pending_messages_count_for_owner.should == 0
+      subject.pending_messages_for_owner.should == []
     end
 
     context 'with two messages' do
@@ -174,7 +175,7 @@ describe Product do
       it 'returns 2' do
         msg
         msg2
-        subject.pending_messages_count_for_owner.should == 2
+        subject.pending_messages_for_owner.should == [msg, msg2]
       end
     end
 
@@ -190,7 +191,7 @@ describe Product do
         msg2
         msg3
         msg4
-        subject.pending_messages_count_for_owner.should == 0
+        subject.pending_messages_for_owner.should == []
       end
     end
   end

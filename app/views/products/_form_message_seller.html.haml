@@ -1,4 +1,4 @@
-- msg_count = @product.pending_messages_count_for_owner
+- msg_count = @product.pending_messages_for_owner.count
 - if msg_count.zero?
   Vous n'avez aucun nouveaux messages
 - else
