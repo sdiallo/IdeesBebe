@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
   scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
   after_create ->(message) { Notifier.new_message(message).deliver }
-  after_create :reminder_owner, unless: :from_owner?
+  after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :average_response_time, if: :from_owner?
 
   def from_owner?
@@ -48,8 +48,8 @@ class Message < ActiveRecord::Base
       product.last_message_with(sender) == self
     end
 
-    def reminder_owner
-      Notifier.reminder_owner(self).deliver if still_pending?
+    def reminder_owner_3_days
+      Notifier.reminder_owner_3_days(self).deliver if still_pending?
     end
-    handle_asynchronously :reminder_owner, run_at: ->(message) { message.created_at + 3.days }
+    handle_asynchronously :reminder_owner_3_days, run_at: ->(message) { message.created_at + 3.days }
 end

@@ -57,8 +57,10 @@ fr:
         subject: 'Le propriètaire à répondu à votre message !'
       from_buyer:
         subject: 'Un acheteur potentiel souhaite vous contacter !'
-    reminder_owner:
+    reminder_owner_3_days:
       subject: 'Vous avez un message en attente depuis trois jours'
+    reminder_owner_7_days:
+      subject: 'Vous avez un message en attente depuis sept jours !!'
 
   user:
     username:
