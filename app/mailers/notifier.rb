@@ -30,4 +30,14 @@ class Notifier < ActionMailer::Base
       subject: @subject
     )
   end
+
+  def reminder_owner_7_days message
+    @message = message
+    @subject = I18n.t('notifier.reminder_owner_7_days.subject')
+    @user = message.sender
+    mail(
+      to: @message.receiver.email,
+      subject: @subject
+    )
+  end
 end
