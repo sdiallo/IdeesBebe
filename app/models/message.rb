@@ -31,12 +31,21 @@ class Message < ActiveRecord::Base
   after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :reminder_owner_7_days, unless: :from_owner?
   after_create :average_response_time, if: :from_owner?
+  after_create :active_product, if: :from_owner?, unless: :product_active?
 
   def from_owner?
     product.owner == sender
   end
 
   private
+
+    def product_active?
+      product.active
+    end
+
+    def active_product
+      product.update_attributes!(active: true)
+    end
 
     def average_response_time
       last_message = Message.where(product_id: product_id, receiver_id: sender_id, sender_id: receiver_id).maximum(:created_at)

@@ -66,6 +66,18 @@ describe Message do
         end
       end
     end
+
+    context 'when the product is inactive and the owner replied to one user' do
+      let(:product) { FactoryGirl.create :product, owner: user, active: false }
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+
+      it 'product becomes active' do
+        product
+        subject
+        message
+        product.reload.active.should == true
+      end
+    end
   end
 
   describe 'Reminder mail to owner' do
