@@ -25,6 +25,7 @@ gem 'mini_magick'
 gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'
 gem 'simple_form'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 # JS
 gem 'uglifier', '>= 1.3.0'

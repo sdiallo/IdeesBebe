@@ -6,20 +6,51 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    %p.notice= notice
-    %p.alert= alert
-    - if current_user
-      %div
-        = link_to 'Mon profil', profile_path(current_user.slug)
-        = link_to 'Mes produits', products_path(current_user.slug)
-        = link_to 'Ajouter un produit', new_profile_product_path(profile_id: current_user.slug)
-        = link_to 'Deconnexion', destroy_user_session_path, method: :delete
-    - else
-      %div
-        = link_to "S'inscrire", new_user_registration_path
-        = link_to 'Se connecter', new_user_session_path
+    .row.equal.height
+      .ui.grid.page.two.column
+        / header-top
+        .ui.column
+          %h2 test
+          test logo
+        .ui.center.aligned.column
+          - if current_user
+            .vertical.menu.menur
+              .item.itemr
+                = link_to profile_path(current_user.slug) do
+                  %i.user.large.icon.circular
+                = link_to products_path(current_user.slug) do 
+                  %i.suitcase.large.icon.circular
+                = link_to destroy_user_session_path, method: :delete do
+                  %i.sign.out.large.icon.circular
+              .item
+                = link_to 'Ajouter un produit', new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
+          - else
+            .vertical.pointing.secondary.menu.menur
+              .item.itemr
+                = link_to "S'inscrire", new_user_registration_path, class: 'small ui purple button'
+              .item.itemr  
+                = link_to 'Se connecter', new_user_session_path, class: 'small ui purple button'
+              .item.ui.facebook.button.small
+                %i.icon.facebook
+                = link_to 'sign in whith facebook', user_omniauth_authorize_path(:facebook)
+                                 
 
-    - Category::main_categories.each do |main|
-      %a{ href: category_path(main.slug) }
-        = main.name
-    = yield
+    .row
+      .ui.secondary.pointing.menu.purple.inverted
+        .ui.grid.page.justified.tiered
+          %a.item{ href: root_path}
+            %i.home.icon
+            Home
+          - Category::main_categories.each do |main|
+            %a.item{ href: category_path(main.slug) }
+              = main.name
+    
+
+    .row.main-contenaire
+      .ui.grid.page
+        = semantic_flash
+        = yield
+    .row
+      .ui.grid.page
+        .footer
+

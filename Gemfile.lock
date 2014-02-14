@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/doabit/semantic-ui-sass.git
+  revision: d876a0c910280290a69206305bcb465b3a74040b
+  specs:
+    semantic-ui-sass (0.12.4.0)
+      sass (~> 3.2)
+
+GIT
   remote: git://github.com/jnicklas/capybara.git
   revision: 77320df5b5d8b64581afe07b5033d2aa6a66d22c
   specs:
@@ -292,7 +299,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   selenium-webdriver (~> 2.35.1)
-  semantic-ui-sass
+  semantic-ui-sass!
   simple_form
   therubyracer
   timecop
