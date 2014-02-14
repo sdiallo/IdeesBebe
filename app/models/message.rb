@@ -38,9 +38,10 @@ class Message < ActiveRecord::Base
   private
 
     def average_response_time
-      last_message = receiver.messages_sent.where(receiver_id: sender.id, product_id: product.id).order('created_at DESC').first
-      diff = sender.response_time + (self.created_at.to_i - last_message.created_at.to_i)
-      sender.update_attributes!(response_time: diff/sender.messages_sent.count)
+      last_message = Message.where(product_id: product_id, receiver_id: sender_id, sender_id: receiver_id).order('created_at DESC').pluck(:created_at).first
+      diff = sender.response_time + (created_at.to_i - last_message.to_i)
+
+      sender.update_attributes!(response_time: diff/Message.where(sender_id: sender_id).count)
     end
 
     def still_pending?
