@@ -3,7 +3,6 @@ IdeesBebe::Application.routes.draw do
   root 'welcome#index'
   get '/forbidden' => 'welcome#forbidden', as: 'forbidden'
   
-  devise_for :user
 
   resources :profiles, except: [:index, :create, :new] do
     resources :products, shallow: true
@@ -22,5 +21,8 @@ IdeesBebe::Application.routes.draw do
   post '/profiles/:profile_id/products' => 'products#create', as: 'products'
 
   resources :inbox, only: [:show, :create]
+
+  devise_for :user, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
 
 end

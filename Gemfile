@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '>=4.0.0'
 gem 'devise'
 gem 'cancan'
+gem 'omniauth-facebook'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -24,6 +25,7 @@ gem 'mini_magick'
 gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'
 gem 'simple_form'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 # JS
 gem 'uglifier', '>= 1.3.0'

@@ -1,4 +1,5 @@
-#subategories
+#subategories.ui.sub.menu
   - main_category.subcategories.each do |category|
+    .item
     = link_to category.name, category_subcategory_path(@category.slug, category.slug)
   
