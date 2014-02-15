@@ -1,3 +1,5 @@
 <%= @subject %>
-<%= @message.content %>
+<%= @product.name %>
+
+Repondez au messages pour sortir de cette inactivité
 <%= link_to 'Cliquez ici', product_message_url(product_id: @message.product.slug, id: @user.slug) %>

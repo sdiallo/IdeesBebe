@@ -12,8 +12,42 @@ fr:
             password_confirmation:
               confirmation: 'La confirmation ne correspond pas'
 
-
-
+  datetime:
+    distance_in_words:
+      half_a_minute: 'half a minute'
+      less_than_x_seconds:
+        one:   'moins de 1 seconde'
+        other: 'moins de %{count} secondes'
+      x_seconds:
+        one:   '1 seconde'
+        other: '%{count} seconds'
+      less_than_x_minutes:
+        one:   'moins de a minute'
+        other: 'moins de %{count} minutes'
+      x_minutes:
+        one:   '1 minute'
+        other: '%{count} minutes'
+      about_x_hours:
+        one:   'environ 1 heure'
+        other: 'environ %{count} heures'
+      x_days:
+        one:   '1 jour'
+        other: '%{count} jours'
+      about_x_months:
+        one:   'environ 1 mois'
+        other: 'environ %{count} mois'
+      x_months:
+        one:   '1 mois'
+        other: '%{count} mois'
+      about_x_years:
+        one:   'environ 1 an'
+        other: 'environ %{count} ans'
+      over_x_years:
+        one:   'plus de 1 an'
+        other: 'plus de %{count} ans'
+      almost_x_years:
+        one:   'presque 1 an'
+        other: 'presque %{count} ans'
 
   notifier:
     welcome:
@@ -23,12 +57,12 @@ fr:
         subject: 'Le propriètaire à répondu à votre message !'
       from_buyer:
         subject: 'Un acheteur potentiel souhaite vous contacter !'
-
-
-
-
-
-
+    reminder_owner_3_days:
+      subject: 'Vous avez un message en attente depuis trois jours'
+    reminder_owner_7_days:
+      subject: 'Vous avez un message en attente depuis sept jours !!'
+    product_become_inactive:
+      subject: 'Votre produit ne sera plus afficher dans les recherches'
 
   user:
     username:

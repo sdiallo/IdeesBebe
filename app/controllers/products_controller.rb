@@ -6,16 +6,11 @@ class ProductsController < ApplicationController
 
   def index
   end
-
-  def by_category
-    @category = Category.find_by_slug(params[:id])
-    return redirect_to '/404.html' if @category.nil?
-    @products = @category.all_products
-  end
+  
   # GET /products/1
   def show
     @comment = Comment.new
-    if not current_user.is_owner_of? @product
+    if user_signed_in? and not current_user.is_owner_of? @product
       @message = @product.last_message_with(current_user)
     end
   end

@@ -1,19 +1,13 @@
 = simple_form_for @product do |f|
-  - if @product.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@product.errors.count, "error")} prohibited this product from being saved:"
-      %ul
-        - @product.errors.full_messages.each do |msg|
-          %li= msg
 
-  .field
-    = f.input :name, label: 'Nom', input_html: { size: 20 }
-  .field
-    = f.input :description, label: 'Description'
-  .field
-    - if @product.category_id.nil?
-      = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', prompt: "Choisissez une catégorie", hint: "Prenez soin de choisir la bonne catégorie"
-    - else
-      = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', default: @product.category_id, hint: "Prenez soin de choisir la bonne catégorie"
-  .actions
-    = f.button :submit, 'Sauvegarder'
+  
+  = f.input :name, label: 'Nom', required: true
+
+  = f.input :description, label: 'Description'
+
+  - if @product.category_id.nil?
+    = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', prompt: "Choisissez une catégorie", hint: "Prenez soin de choisir la bonne catégorie", input_html: {class: "ui selection dropdown"}
+  - else
+    = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', default: @product.category_id, hint: "Prenez soin de choisir la bonne catégorie", input_html: { class: 'ui selection dropdown' }
+
+  = f.button :submit, 'Sauvegarder'

@@ -25,6 +25,7 @@ gem 'mini_magick'
 gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'
 gem 'simple_form'
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 # JS
 gem 'uglifier', '>= 1.3.0'
@@ -32,7 +33,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '>= 1.2'
 
 gem 'coveralls', require: false
 
@@ -49,10 +50,10 @@ group :development, :test do
   gem "better_errors"
   gem 'dotenv-rails'
   gem 'rspec-rails', '~> 2.0'
-  gem "factory_girl_rails", "~> 4.0"
+  gem "factory_girl_rails", ">= 4.0"
   gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   gem 'database_cleaner'
-  gem 'selenium-webdriver', '~> 2.35.1'
+  gem 'selenium-webdriver', '>= 2.35.1'
 end
 
 ruby '2.0.0'

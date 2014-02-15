@@ -17,6 +17,7 @@
 #  updated_at             :datetime
 #  username               :string(255)
 #  slug                   :string(255)
+#  response_time          :integer          default(0)
 #
 
 require 'spec_helper'
