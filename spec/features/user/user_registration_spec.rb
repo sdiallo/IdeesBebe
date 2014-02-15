@@ -31,7 +31,7 @@ describe "User registration" do
       end
       click_button "S'inscrire"
 
-      page.should have_content(I18n.t('user.username.presence'))
+      page.should have_content(I18n.t('user.username.length'))
     end
 
     it "doesn't allow register without email" do
