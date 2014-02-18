@@ -1,0 +1,12 @@
+.ui.segment.index-user.dimmable.dimmed
+  .ui.grid
+    .ui.dimmer.visible.active
+      .content
+        .center
+          %h2.ui.inverted.icon.header
+            %i.icon.circular.inverted.emphasized.red.ban.circle
+  .ui.bottom.attached.label
+    %span
+      = message.sender.username
+    %span.right
+      = link_to 'Reouvrir la discussion', '#'
