@@ -26,7 +26,7 @@ class Product < ActiveRecord::Base
 
   has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :messages
+  has_many :status
 
   accepts_nested_attributes_for :category
 
