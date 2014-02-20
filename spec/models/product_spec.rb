@@ -89,8 +89,10 @@ describe Product do
 
     context 'with two messages' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
 
       it 'returns array of messages' do
         msg
@@ -101,11 +103,14 @@ describe Product do
 
     context 'with two messages which has already been respond' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
-      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
-      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
-      let(:msg5) { FactoryGirl.create :message,  sender_id: user.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', status_id: status2.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', status_id: status.id }
+      let(:msg5) { FactoryGirl.create :message,  sender_id: user.id, receiver_id: user2.id, content: 'test1', status_id: status.id }
 
       it 'returns array of messages' do
         msg
@@ -130,8 +135,10 @@ describe Product do
 
     context 'with two messages' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
 
       it 'returns the senders' do
         msg
@@ -142,10 +149,12 @@ describe Product do
 
     context 'with one message which has already been respond' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
-      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
-      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', status_id: status2.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', status_id: subject.id }
 
       it 'returns the senders' do
         msg
@@ -169,8 +178,10 @@ describe Product do
 
     context 'with two messages' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
 
       it 'returns 2' do
         msg
@@ -181,10 +192,12 @@ describe Product do
 
     context 'with one message which has already been respond' do
       let(:user3) { FactoryGirl.create :user }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', product_id: subject.id }
-      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', product_id: subject.id }
-      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
+      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
+      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', status_id: status2.id }
+      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', status_id: status.id }
 
       it 'returns 0' do
         msg
@@ -206,7 +219,8 @@ describe Product do
     end
 
     context 'with message' do
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', product_id: subject.id }
+      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
+      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
 
       it 'returns the message' do
         msg
