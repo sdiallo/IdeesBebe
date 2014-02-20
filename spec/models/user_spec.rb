@@ -127,9 +127,10 @@ describe User do
 
       context 'concerning a message' do
         let(:product) { FactoryGirl.create :product, owner: user2 }
+        let(:status) { FactoryGirl.create :status, product: product, user_id: user.id }
 
         it 'can :create message' do
-          ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, product: product, content: 'test'))
+          ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, status: status, content: 'test'))
         end
       end
     end

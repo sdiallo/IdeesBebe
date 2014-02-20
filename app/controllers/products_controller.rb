@@ -51,7 +51,7 @@ class ProductsController < ApplicationController
     else
       flash[:alert] = I18n.t('product.destroy.error')
     end
-    redirect_to products_path(@product.owner.slug)
+    redirect_to profile_products_path(@product.owner.slug)
   end
 
   private

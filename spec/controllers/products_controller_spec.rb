@@ -203,7 +203,7 @@ describe ProductsController do
       it 'redirect_to my product' do
         product
         delete :destroy, { id: product.id }
-        expect(response).to redirect_to products_path(subject.slug)
+        expect(response).to redirect_to profile_products_path(subject.slug)
       end
 
       context 'with a failed destroy' do

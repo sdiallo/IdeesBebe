@@ -59,15 +59,6 @@ describe StatusController do
       assigns(:status).should == status2
     end
 
-    it 'assigns @receiver' do
-      connect
-      message
-      message2
-      message3
-      get :show, product_id: product.slug, id: user2.slug
-      assigns(:receiver).should == user
-    end
-
     context 'with product of another or not the concerned buyer' do
       let(:product) { FactoryGirl.create :product, owner: user2 }
 
