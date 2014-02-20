@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MessagesController, :focus do
+describe MessagesController do
 
   let(:product) { FactoryGirl.create :product, owner: user }
   let(:user) { FactoryGirl.create :user }
@@ -33,15 +33,6 @@ describe MessagesController, :focus do
     it 'redirect to the product page' do
       post :create, product_id: product.id, message: { receiver_id: user.id, content: 'test' }
       response.should redirect_to product_path(product.slug)
-    end
-
-    context 'with already a conversation' do
-      subject { FactoryGirl.create :message, sender_id: user2.id  }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user.id  }
-
-      context 'when the seller respond' do
-
-      end
     end
 
     context 'with an incorrect comment' do

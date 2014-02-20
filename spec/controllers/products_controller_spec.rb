@@ -83,17 +83,30 @@ describe ProductsController do
       get :show, { id: product.slug }
       expect(assigns(:message)).to eq(nil)
     end
+
+    it 'assign status_id to nil' do
+      get :show, { id: product.slug }
+      expect(assigns(:status_id)).to eq(nil)
+    end
     
     context 'with already a conversation' do
 
       context 'when the current user is not the owner' do
         let(:product) { FactoryGirl.create :product, user_id: user2.id}
-        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, product_id: product.id }
+        let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: subject.id}
+        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, status_id: status.id }
 
-        it 'assign message with the message' do
+        it 'assign message' do
           message
           get :show, { id: product.slug }
           expect(assigns(:message)).to eq(message)
+        end
+
+
+        it 'assign status_id' do
+          message
+          get :show, { id: product.slug }
+          expect(assigns(:status_id)).to eq(status.id)
         end
       end
     end

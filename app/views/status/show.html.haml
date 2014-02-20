@@ -5,9 +5,6 @@
   = message.content
   %br
 
-= simple_form_for Message.new, url: status_messages_path(status: @status.id) do |f|
-  = f.input :content, label: 'Texte', as: :text
-  = f.button :submit, 'Envoyer'
 
 - if current_user.is_owner_of? @product
   = link_to 'Revenir au discussion', product_status_index_path(product_id: @product.slug)

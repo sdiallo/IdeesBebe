@@ -27,14 +27,14 @@ class Message < ActiveRecord::Base
 
   scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
-  after_create ->(message) { Notifier.new_message(message).deliver }
-  after_create :reminder_owner_3_days, unless: :from_owner?
-  after_create :reminder_owner_7_days, unless: :from_owner?
-  after_create :average_response_time, if: :from_owner?
-  after_create :active_product, if: :from_owner?, unless: :product_active?
+  # after_create ->(message) { Notifier.new_message(message).deliver }
+  # after_create :reminder_owner_3_days, unless: :from_owner?
+  # after_create :reminder_owner_7_days, unless: :from_owner?
+  # after_create :average_response_time, if: :from_owner?
+  # after_create :active_product, if: :from_owner?, unless: :product_active?
 
   def from_owner?
-    product.owner == sender
+    status.product.owner == sender
   end
 
   private

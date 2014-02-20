@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe StatusController, :focus do
+describe StatusController do
 
   let(:product) { FactoryGirl.create :product, owner: user }
   let(:user) { FactoryGirl.create :user }

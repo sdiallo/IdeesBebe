@@ -4,7 +4,8 @@ class MessagesController < ApplicationController
   load_resource :product
 
   def create
-    message = @product.messages.build(message_params.merge(sender_id: current_user.id))
+    status = @product.status.create!(user_id: current_user.id) if message_params[:status_id].nil?
+    message = status.messages.build(message_params.merge(sender_id: current_user.id))
     if message.save
       flash[:notice] = I18n.t('message.create.success')
     elsif message.errors.any?
@@ -21,6 +22,6 @@ class MessagesController < ApplicationController
   private
 
     def message_params
-      params.require(:message).permit(:content, :receiver_id)
+      params.require(:message).permit(:content, :receiver_id, :status_id)
     end
 end
