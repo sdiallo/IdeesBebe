@@ -3,4 +3,4 @@
   Vous n'avez aucun nouveaux messages
 - else
   = "Vous avez #{msg_count} message(s) en attente(s)"
-= link_to 'Gerer mes messages', product_messages_path(product_id: @product.slug)
+= link_to 'Gerer mes messages', product_status_index_path(product_id: @product.slug)

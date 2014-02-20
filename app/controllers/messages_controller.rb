@@ -1,20 +1,7 @@
 class MessagesController < ApplicationController
 
   authorize_resource :message
-  load_resource :product, find_by: :slug, id_param: :product_id, only: [:index, :show]
-  load_resource :product, only: :create
-  load_resource :user, find_by: :slug, id_param: :id, only: :show
-
-  def index
-    raise CanCan::AccessDenied if not current_user.is_owner_of? @product
-    @messages = @product.last_messages
-  end
-
-  def show
-    raise CanCan::AccessDenied unless current_user.is_owner_of? @product or current_user == @user
-    @messages = @product.messages.with(@user)
-    @last_message = @messages.last
-  end
+  load_resource :product
 
   def create
     message = @product.messages.build(message_params.merge(sender_id: current_user.id))

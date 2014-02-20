@@ -27,8 +27,8 @@
 - if can? :create, @comment
   = render 'products/form_comments'
 
-- if can? :create, Message.new
-  = render current_user.is_owner_of?(@product) ? 'products/form_message_seller' : 'products/form_message_buyer'
+/ # - if can? :create, Message.new
+/ #   = render current_user.is_owner_of?(@product) ? 'products/form_message_seller' : 'products/form_message_buyer'
 
 
 = render 'products/comments'
