@@ -12,6 +12,13 @@ fr:
             password_confirmation:
               confirmation: 'La confirmation ne correspond pas'
 
+  tooltip:
+    messages:
+      index:
+        close: 'Intérompre la conversation avec %{username}'
+        chat: 'Discuter avec %{username}'
+        done: "Conclure l'affaire avec %{username}"
+
   datetime:
     distance_in_words:
       half_a_minute: 'half a minute'

@@ -1,0 +1,4 @@
+$ ->
+  $('.starpop').popup(
+    on: 'hover'
+    )
