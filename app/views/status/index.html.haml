@@ -1,0 +1,15 @@
+#conversations
+  %h2
+    = "Personne(s) intéressée(s) par #{@product.name}"
+  - if @status.empty?
+    = 'Aucun message pour ce produit'
+  - else
+    .ui.grid.two.column.stackable
+      - @status.each do |status|
+        .column
+          - if status.closed
+            = render 'closed_status_card', status: status
+          - elsif status.done
+            / = render 'status_card', status: status, product: @product
+          - else
+            = render 'status_card', status: status, product: @product

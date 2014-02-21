@@ -16,8 +16,8 @@
 FactoryGirl.define do
   factory :message do
     content "MyText"
+    status nil
     sender nil
-    product nil
     receiver nil
   end
 end

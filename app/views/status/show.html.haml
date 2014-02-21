@@ -1,5 +1,8 @@
 #conversation
   = link_to 'Revenir au produit', product_path(id: @product.slug)
+  - if current_user.is_owner_of? @product
+    = link_to 'Revenir au discussion', product_messages_path(product_id: @product.slug)
+  = link_to 'Revenir au produit', product_path(id: @product.slug)
   .ui.grid
     .eleven.wide.column
       - @messages.each do |message|
@@ -8,15 +11,12 @@
         = message.content
         %br
 
-      - if @last_message.sender != current_user
-        - receiver = current_user.is_owner_of?(@product) ? @user.id : @product.owner.id
+      - if @product.last_message_with(@user).sender != current_user
         = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
           = f.input :content, label: 'Texte', as: :text
-          = f.hidden_field :receiver_id, value: receiver
-          = f.button :submit, 'Envoyer'
-
-      - if current_user.is_owner_of? @product
-        = link_to 'Revenir au discussion', product_messages_path(product_id: @product.slug)
+          = f.hidden_field :receiver_id, value: @receiver
+          = f.hidden_field :status_id, value: @status.id
+          = f.button :submit, 'Répondre'
 
     .seven.column
       .ui.vertical.menu.secondary.pointing

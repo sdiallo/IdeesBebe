@@ -20,7 +20,7 @@
       %td= product.name.capitalize
       %td= product.description
       %td= "#{product.pending_messages_for_owner.count} messages en attentes"
-      %td= link_to 'Gérer mon produit', product_messages_path(product.slug)
+      %td= link_to 'Gérer mon produit', product_status_index_path(product.slug)
       %td= link_to 'Show', product_path(product.slug)
       - if can? :edit, product
         %td= link_to 'Edit', edit_product_path(product.slug)

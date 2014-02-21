@@ -15,7 +15,10 @@ class Ability
 
       can :create, Comment
       can :create, Message
-      can :index, Message
+      can :index, Status, product: { owner_id: user.id }
+      can :show, Status do |status|
+        user.is_owner_of?(status.product) or status.user.id == user.id
+      end
     end
 
     can :show, :all

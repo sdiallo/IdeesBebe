@@ -1,3 +1,4 @@
+- message = product.last_message_with(status.user)
 .ui.segment.index-user
   .ui.grid
     .fourteen.wide.column
@@ -11,7 +12,7 @@
         .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close', username: user.username), 'data-variation' => 'inverted' }
           %i.icon.ban.circle
         .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat', username: user.username), 'data-variation' => 'inverted' }
-          = link_to product_message_path(product_id: @product.slug, id: user.slug) do
+          = link_to product_status_path(product_id: @product.slug, id: user.slug) do
             %i.icon.chat
         .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done', username: user.username), 'data-variation' => 'inverted' }
           %i.icon.checkmark

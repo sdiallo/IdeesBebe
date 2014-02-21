@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
     @comment = Comment.new
     if user_signed_in? and not current_user.is_owner_of? @product
       @message = @product.last_message_with(current_user)
+      @status_id = @message.status.id if @message
     end
   end
 
@@ -50,7 +51,7 @@ class ProductsController < ApplicationController
     else
       flash[:alert] = I18n.t('product.destroy.error')
     end
-    redirect_to products_path(@product.owner.slug)
+    redirect_to profile_products_path(@product.owner.slug)
   end
 
   private

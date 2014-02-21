@@ -17,7 +17,8 @@ describe Message do
   let(:product) { FactoryGirl.create :product, owner: user }
   let(:user) { FactoryGirl.create :user, response_time: 0 }
   let(:user2) { FactoryGirl.create :user, response_time: 0 }
-  subject { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test'}
+  let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+  subject { FactoryGirl.create :message, sender_id: user2.id, status: status, receiver_id: user.id, content: 'test'}
 
   describe 'when creates a message' do
 
@@ -29,8 +30,8 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      let(:message) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test' }
-      subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
+      let(:message) { FactoryGirl.create :message, sender_id: user2.id, status: status, receiver_id: user.id, content: 'test' }
+      subject { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
 
       it 'sends a new_message from owner email' do
         message
@@ -49,9 +50,10 @@ describe Message do
       context 'with three messages for 2 products' do
 
         let(:product2) { FactoryGirl.create :product, owner: user, name: 'Test1' }
-        subject { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
-        let(:message4) { FactoryGirl.create :message, sender_id: user2.id, product: product2, receiver_id: user.id, content: 'test', created_at: message.created_at + 2.days }
-        let(:message5) { FactoryGirl.create :message, sender_id: user.id, product: product2, receiver_id: user2.id, content: 'test', created_at:  message.created_at + 4.days }
+        let(:status2) { FactoryGirl.create :status, user_id: user2.id, product: product2 }
+        subject { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
+        let(:message4) { FactoryGirl.create :message, sender_id: user2.id, status: status2, receiver_id: user.id, content: 'test', created_at: message.created_at + 2.days }
+        let(:message5) { FactoryGirl.create :message, sender_id: user.id, status: status2, receiver_id: user2.id, content: 'test', created_at:  message.created_at + 4.days }
         let(:message2) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test', created_at: message.created_at + 6.days }
         let(:message3) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 6.days + 45.minutes }
 
@@ -69,7 +71,8 @@ describe Message do
 
     context 'when the product is inactive and the owner replied to one user' do
       let(:product) { FactoryGirl.create :product, owner: user, active: false }
-      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
 
       it 'product becomes active' do
         product
@@ -94,7 +97,8 @@ describe Message do
     end
 
     context 'when the owner has respond before 3 days' do
-      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
 
       it 'does not send an email' do
         subject
@@ -122,10 +126,14 @@ describe Message do
       let(:user4) { FactoryGirl.create :user, response_time: 0 }
       let(:user5) { FactoryGirl.create :user, response_time: 0 }
       let(:user6) { FactoryGirl.create :user, response_time: 0 }
-      let(:message2) { FactoryGirl.create :message, sender_id: user3.id, product: product, receiver_id: user.id, content: 'test', created_at: subject.created_at + 15.hours }
-      let(:message3) { FactoryGirl.create :message, sender_id: user4.id, product: product, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days }
-      let(:message4) { FactoryGirl.create :message, sender_id: user5.id, product: product, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 12.minutes }
-      let(:message5) { FactoryGirl.create :message, sender_id: user6.id, product: product, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 56.minutes }
+      let(:status2) { FactoryGirl.create :status, user_id: user3.id, product: product }
+      let(:status3) { FactoryGirl.create :status, user_id: user4.id, product: product }
+      let(:status4) { FactoryGirl.create :status, user_id: user5.id, product: product }
+      let(:status5) { FactoryGirl.create :status, user_id: user6.id, product: product }
+      let(:message2) { FactoryGirl.create :message, sender_id: user3.id, status_id: status2, receiver_id: user.id, content: 'test', created_at: subject.created_at + 15.hours }
+      let(:message3) { FactoryGirl.create :message, sender_id: user4.id, status_id: status3, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days }
+      let(:message4) { FactoryGirl.create :message, sender_id: user5.id, status_id: status4, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 12.minutes }
+      let(:message5) { FactoryGirl.create :message, sender_id: user6.id, status_id: status5, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 56.minutes }
 
       it 'sets the product has inactive' do
         subject
@@ -153,7 +161,8 @@ describe Message do
     end
 
     context 'when the owner has respond before 7 days' do
-      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
 
       it 'does not send an email' do
         subject
@@ -176,7 +185,8 @@ describe Message do
     end
 
     context 'when the sender is the owner of the product' do
-      let(:message) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test'}
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
 
       it 'returns true' do
         subject
