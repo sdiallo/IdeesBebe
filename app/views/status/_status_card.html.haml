@@ -1,25 +1,32 @@
-.ui.segment.index-user
-  .ui.grid
-    .fourteen.wide.column
-      - name = message.from_owner? ? 'vous-même' : message.sender .username
-      = "Dernier message, envoyé par #{name} :"
-      %p
-        = message.content
-    .two.wide.column
-      - user = message.from_owner? ? message.receiver : message.sender 
-      .ui.vertical.buttons
-        .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close', username: user.username), 'data-variation' => 'inverted' }
-          %i.icon.ban.circle
-        .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat', username: user.username), 'data-variation' => 'inverted' }
-          = link_to product_status_path(product_id: @product.slug, id: user.slug) do
-            %i.icon.chat
-        .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done', username: user.username), 'data-variation' => 'inverted' }
-          %i.icon.checkmark
-  .ui.bottom.attached.label
-    %span
-      = user.username
-    %span.right
-      - if message.from_owner?
-        0 message en attente
-      - else
-        1 message en attente
+#status-card
+  .ui.segment.index-user
+    .ui.grid
+      .fourteen.wide.column
+        - name = message.from_owner? ? 'vous-même' : message.sender .username
+        = "Dernier message, envoyé par #{name} :"
+        %p
+          = message.content
+      .two.wide.column
+        - user = message.from_owner? ? message.receiver : message.sender 
+        .ui.vertical.buttons.actions
+          .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close', username: user.username), 'data-variation' => 'inverted' }
+            = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
+              = f.hidden_field :closed, value: true
+              = f.button :button do
+                %i.icon.ban.circle
+          .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat', username: user.username), 'data-variation' => 'inverted' }
+            = link_to product_status_path(product_id: @product.slug, id: user.slug) do
+              %i.icon.chat
+          .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done', username: user.username), 'data-variation' => 'inverted' }
+            = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
+              = f.hidden_field :done, value: true
+              = f.button :button do
+                %i.icon.checkmark
+    .ui.bottom.attached.label
+      %span
+        = user.username
+      %span.right
+        - if message.from_owner?
+          0 message en attente
+        - else
+          1 message en attente

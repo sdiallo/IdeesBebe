@@ -4,6 +4,8 @@
     = f.input :content, label: 'Texte', as: :text
     = f.hidden_field :receiver_id, value: @product.owner.id
     = f.button :submit, 'Contacter'
+- elsif @message.status.closed
+  Le vendeur à décider de ne plus poursuivre la discussion avec vous
 - else
   - if @message.from_owner?
     Dernier message recu :

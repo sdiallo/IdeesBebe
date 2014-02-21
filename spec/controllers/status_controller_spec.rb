@@ -14,6 +14,50 @@ describe StatusController do
   
   let(:connect) { sign_in user }
 
+
+  describe '#update' do
+    let(:message3) { FactoryGirl.create :message, status: status3, sender_id: user3.id, receiver_id: user.id }
+
+    context 'when closing a status' do
+
+      it 'closes the status' do
+        connect
+        message
+        put :update, product_id: product.slug, id: user2.slug, status: { closed: true }
+        status2.reload.closed.should == true
+      end
+
+    end
+
+    context 'when reopening a status' do
+
+      it 'opens the status' do
+        connect
+        message
+        put :update, product_id: product.slug, id: user2.slug, status: { closed: false }
+        status2.reload.closed.should == false
+      end
+
+    end
+
+    it 'redirects to index' do
+      connect
+      message
+      put :update, product_id: product.slug, id: user2.slug, status: { closed: true }
+      response.should redirect_to action: :index
+    end
+
+    context 'with product of another' do
+
+      it 'redirects to forbidden' do
+        sign_in user2
+        message
+        put :update, product_id: product.slug, id: user2.slug, status: { closed: true }
+        response.should redirect_to forbidden_path
+      end
+    end
+  end
+
   describe '#index' do
     let(:message3) { FactoryGirl.create :message, status: status3, sender_id: user3.id, receiver_id: user.id }
 
