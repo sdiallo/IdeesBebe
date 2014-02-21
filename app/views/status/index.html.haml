@@ -12,4 +12,4 @@
           - elsif status.done
             / = render 'status_card', status: status, product: @product
           - else
-            = render 'status_card', status: status, product: @product
+            = render 'status_card', status: status, message: @product.last_message_with(status.user)
