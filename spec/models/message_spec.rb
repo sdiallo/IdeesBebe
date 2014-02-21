@@ -85,18 +85,23 @@ describe Message do
 
   describe 'Reminder mail to owner' do
 
-    context 'when the owner has not respond after 3 days' do
-
-      it 'sends an email' do
-        subject
-        Timecop.travel(subject.created_at + 3.days + 10.minutes) do
-          Delayed::Worker.new.work_off
-          deliveries_with_subject(I18n.t('notifier.reminder_owner_3_days.subject')).count.should == 1
-        end
+    it 'sends an email after 3 days' do
+      subject
+      Timecop.travel(subject.created_at + 3.days + 10.minutes) do
+        Delayed::Worker.new.work_off
+        deliveries_with_subject(I18n.t('notifier.reminder_owner_3_days.subject')).count.should == 1
       end
     end
 
-    context 'when the owner has respond before 3 days' do
+    it 'sends an email after 7 days' do
+      subject
+      Timecop.travel(subject.created_at + 7.days + 10.minutes) do
+        Delayed::Worker.new.work_off
+        deliveries_with_subject(I18n.t('notifier.reminder_owner_7_days.subject')).count.should == 1
+      end
+    end
+
+    context 'when the owner has respond before 3 days'  do
       let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
       let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
 
@@ -106,56 +111,6 @@ describe Message do
         Timecop.travel(subject.created_at + 3.days + 10.minutes) do
           Delayed::Worker.new.work_off
           deliveries_with_subject(I18n.t('notifier.reminder_owner_3_days.subject')).count.should == 0
-        end
-      end
-    end
-
-    context 'when the owner has not respond after 7 days' do
-
-      it 'sends an email' do
-        subject
-        Timecop.travel(subject.created_at + 7.days + 10.minutes) do
-          Delayed::Worker.new.work_off
-          deliveries_with_subject(I18n.t('notifier.reminder_owner_7_days.subject')).count.should == 1
-        end
-      end
-    end
-
-    context 'when the owner has not respond after 7 days to 5 users' do
-      let(:user3) { FactoryGirl.create :user, response_time: 0 }
-      let(:user4) { FactoryGirl.create :user, response_time: 0 }
-      let(:user5) { FactoryGirl.create :user, response_time: 0 }
-      let(:user6) { FactoryGirl.create :user, response_time: 0 }
-      let(:status2) { FactoryGirl.create :status, user_id: user3.id, product: product }
-      let(:status3) { FactoryGirl.create :status, user_id: user4.id, product: product }
-      let(:status4) { FactoryGirl.create :status, user_id: user5.id, product: product }
-      let(:status5) { FactoryGirl.create :status, user_id: user6.id, product: product }
-      let(:message2) { FactoryGirl.create :message, sender_id: user3.id, status_id: status2, receiver_id: user.id, content: 'test', created_at: subject.created_at + 15.hours }
-      let(:message3) { FactoryGirl.create :message, sender_id: user4.id, status_id: status3, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days }
-      let(:message4) { FactoryGirl.create :message, sender_id: user5.id, status_id: status4, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 12.minutes }
-      let(:message5) { FactoryGirl.create :message, sender_id: user6.id, status_id: status5, receiver_id: user.id, content: 'test', created_at: message2.created_at + 1.days + 56.minutes }
-
-      it 'sets the product has inactive' do
-        subject
-        message2
-        message3
-        message4
-        message5
-        Timecop.travel(subject.created_at + 10.days + 10.minutes) do
-          Delayed::Worker.new.work_off
-          product.reload.active.should == false
-        end
-      end
-
-      it 'sends an email to the owner' do
-        subject
-        message2
-        message3
-        message4
-        message5
-        Timecop.travel(subject.created_at + 10.days + 10.minutes) do
-          Delayed::Worker.new.work_off
-          deliveries_with_subject(I18n.t('notifier.product_become_inactive.subject')).count.should == 1
         end
       end
     end
@@ -170,6 +125,25 @@ describe Message do
         Timecop.travel(subject.created_at + 7.days + 10.minutes) do
           Delayed::Worker.new.work_off
           deliveries_with_subject(I18n.t('notifier.reminder_owner_7_days.subject')).count.should == 0
+        end
+      end
+    end
+
+    context 'when the owner has not respond after 10 days' do
+
+      it 'sets the product has inactive' do
+        subject
+        Timecop.travel(subject.created_at + 10.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          product.reload.active.should == false
+        end
+      end
+
+      it 'sends an email to the owner' do
+        subject
+        Timecop.travel(subject.created_at + 10.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          deliveries_with_subject(I18n.t('notifier.product_become_inactive.subject')).count.should == 1
         end
       end
     end

@@ -30,22 +30,14 @@ class Message < ActiveRecord::Base
   after_create ->(message) { Notifier.delay.new_message(message) }
   after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :reminder_owner_7_days, unless: :from_owner?
+  after_create :unactive_product, unless: :from_owner?
   after_create :response_time, if: :from_owner?
-  # after_create :active_product, if: :from_owner?, unless: :product_active?
 
   def from_owner?
     status.product.owner == sender
   end
 
   private
-
-    def product_active?
-      product.active
-    end
-
-    def active_product
-      product.update_attributes!(active: true)
-    end
 
     def response_time
       messages = status.messages.order('created_at DESC')
@@ -71,11 +63,15 @@ class Message < ActiveRecord::Base
     def reminder_owner_7_days
       if still_pending?
         Notifier.reminder_owner_7_days(self).deliver
-        if product.unresponsive_messages_count_for_owner >= Product::BECOME_INACTIVE_UNTIL and product.active
-          product.update_attributes!(active: false)
-          Notifier.product_become_inactive(product).deliver
-        end
       end
     end
     handle_asynchronously :reminder_owner_7_days, run_at: ->(message) { message.created_at + 7.days }
+
+    def unactive_product
+      if still_pending?
+        status.product.update_attributes!(active: false)
+        Notifier.product_become_inactive(status.product).deliver
+      end
+    end
+    handle_asynchronously :unactive_product, run_at: ->(message) { message.created_at + Product::BECOME_INACTIVE_UNTIL }
 end
