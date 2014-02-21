@@ -29,7 +29,7 @@ fr:
         one:   '1 seconde'
         other: '%{count} seconds'
       less_than_x_minutes:
-        one:   'moins de a minute'
+        one:   'moins de 1 minute'
         other: 'moins de %{count} minutes'
       x_minutes:
         one:   '1 minute'
