@@ -123,49 +123,6 @@ describe Product do
     end
   end
 
-  describe '#potential_buyers_ids' do
-    let(:user2) { FactoryGirl.create :user }
-    let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, owner: user2 }
-
-    it 'returns empty array' do
-      user
-      subject.send(:potential_buyers_ids).should == []
-    end
-
-    context 'with two messages' do
-      let(:user3) { FactoryGirl.create :user }
-      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
-      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
-
-      it 'returns the senders' do
-        msg
-        msg2
-        subject.send(:potential_buyers_ids).should == [user.id, user3.id]
-      end
-    end
-
-    context 'with one message which has already been respond' do
-      let(:user3) { FactoryGirl.create :user }
-      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
-      let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
-      let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
-      let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', status_id: status2.id }
-      let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', status_id: subject.id }
-
-      it 'returns the senders' do
-        msg
-        msg2
-        msg3
-        msg4
-        subject.send(:potential_buyers_ids).should == [user.id, user3.id]
-      end
-    end
-  end
-
   describe '#pending_messages_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }

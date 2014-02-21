@@ -80,24 +80,17 @@ class Product < ActiveRecord::Base
   end
 
   def last_messages
-    ids = potential_buyers_ids
-    last_messages = []
+    lasts = []
 
-    return last_messages if ids.empty? 
+    return lasts if status.empty?
 
-    ids.each do |id|
-      last_messages << messages.where('receiver_id = ? OR sender_id = ?', id, id).order('created_at DESC').first
+    status.each do |status|
+      lasts << status.messages.order('created_at DESC').first
     end
-    last_messages
+    lasts
   end
 
   def last_message_with user
     messages.with(user).order('created_at DESC').try(:first)
   end
-
-  private
-
-    def potential_buyers_ids
-      messages.where('receiver_id = ?', owner.id).group(:sender_id).order(:sender_id).pluck(:sender_id)
-    end
 end
