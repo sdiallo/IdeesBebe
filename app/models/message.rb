@@ -30,7 +30,7 @@ class Message < ActiveRecord::Base
   # after_create ->(message) { Notifier.new_message(message).deliver }
   # after_create :reminder_owner_3_days, unless: :from_owner?
   # after_create :reminder_owner_7_days, unless: :from_owner?
-  # after_create :average_response_time, if: :from_owner?
+  after_create :response_time, if: :from_owner?
   # after_create :active_product, if: :from_owner?, unless: :product_active?
 
   def from_owner?
@@ -47,11 +47,16 @@ class Message < ActiveRecord::Base
       product.update_attributes!(active: true)
     end
 
-    def average_response_time
-      last_message = Message.where(product_id: product_id, receiver_id: sender_id, sender_id: receiver_id).maximum(:created_at)
-      diff = sender.response_time + (created_at.to_i - last_message.to_i)
+    def response_time
+      messages = status.messages.order('created_at DESC')
+      index = 0
+      messages.each_with_index do |msg, i|
+        next if i == 0
 
-      sender.update_attributes!(response_time: diff/Message.where(sender_id: sender_id).count)
+        index = i if msg.receiver_id != sender_id and index == 0
+      end
+      time = sender.response_time + (created_at.to_i - messages[index - 1].created_at.to_i)
+      sender.update_attributes!(response_time: time)
     end
 
     def still_pending?

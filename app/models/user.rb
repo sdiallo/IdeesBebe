@@ -80,6 +80,11 @@ class User < ActiveRecord::Base
     profile.avatar?
   end
 
+
+  def average_response_time
+    response_time/Message.where(sender_id: self.id).count
+  end
+
   def is_owner_of? product
     product.owner == self
   end

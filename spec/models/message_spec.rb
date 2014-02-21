@@ -52,10 +52,10 @@ describe Message do
         let(:product2) { FactoryGirl.create :product, owner: user, name: 'Test1' }
         let(:status2) { FactoryGirl.create :status, user_id: user2.id, product: product2 }
         subject { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
-        let(:message4) { FactoryGirl.create :message, sender_id: user2.id, status: status2, receiver_id: user.id, content: 'test', created_at: message.created_at + 2.days }
-        let(:message5) { FactoryGirl.create :message, sender_id: user.id, status: status2, receiver_id: user2.id, content: 'test', created_at:  message.created_at + 4.days }
-        let(:message2) { FactoryGirl.create :message, sender_id: user2.id, product: product, receiver_id: user.id, content: 'test', created_at: message.created_at + 6.days }
-        let(:message3) { FactoryGirl.create :message, sender_id: user.id, product: product, receiver_id: user2.id, content: 'test', created_at: message.created_at + 6.days + 45.minutes }
+        let(:message2) { FactoryGirl.create :message, sender_id: user2.id, status: status2, receiver_id: user.id, content: 'test', created_at: message.created_at + 2.days }
+        let(:message3) { FactoryGirl.create :message, sender_id: user.id, status: status2, receiver_id: user2.id, content: 'test', created_at:  message.created_at + 4.days }
+        let(:message4) { FactoryGirl.create :message, sender_id: user2.id, status: status2, receiver_id: user.id, content: 'test', created_at: message.created_at + 6.days }
+        let(:message5) { FactoryGirl.create :message, sender_id: user.id, status: status2, receiver_id: user2.id, content: 'test', created_at: message.created_at + 6.days + 45.minutes }
 
         it 'sets correctly the new average response time to the sender' do
           message
@@ -64,7 +64,7 @@ describe Message do
           message3
           message4
           message5
-          user.reload.response_time.should == 72450
+          user.reload.response_time.should == 261900
         end
       end
     end
