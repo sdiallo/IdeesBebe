@@ -1,0 +1,7 @@
+#conversations
+  %h2
+    = "Personne(s) intéressée(s) par #{@product.name}"
+  .ui.grid.two.column.stackable
+    - @messages.each do |message|
+      .column
+        = render 'messages/closed_status_card', message: message

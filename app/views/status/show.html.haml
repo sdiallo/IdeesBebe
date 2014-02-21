@@ -1,18 +1,34 @@
-%br
-- @messages.each do |message|
-  = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
-  %br
-  = message.content
-  %br
+#conversation
+  = link_to 'Revenir au produit', product_path(id: @product.slug)
+  - if current_user.is_owner_of? @product
+    = link_to 'Revenir au discussion', product_messages_path(product_id: @product.slug)
+  = link_to 'Revenir au produit', product_path(id: @product.slug)
+  .ui.grid
+    .eleven.wide.column
+      - @messages.each do |message|
+        = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
+        %br
+        = message.content
+        %br
 
+      - if @product.last_message_with(@user).sender != current_user
+        = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
+          = f.input :content, label: 'Texte', as: :text
+          = f.hidden_field :receiver_id, value: @receiver
+          = f.hidden_field :status_id, value: @status.id
+          = f.button :submit, 'Répondre'
 
-- if @product.last_message_with(@user).sender != current_user
-  = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
-    = f.input :content, label: 'Texte', as: :text
-    = f.hidden_field :receiver_id, value: @receiver
-    = f.hidden_field :status_id, value: @status.id
-    = f.button :submit, 'Répondre'
-
-- if current_user.is_owner_of? @product
-  = link_to 'Revenir au discussion', product_status_index_path(product_id: @product.slug)
-= link_to 'Revenir au produit', product_path(id: @product.slug)
+    .seven.column
+      .ui.vertical.menu.secondary.pointing
+        %a.item
+          Alex
+        %a.active.item
+          Al
+          .ui.label
+            %i.mail.icon
+            1
+        %a.item
+          EF
+          .ui.label
+            %i.mail.icon
+            1
