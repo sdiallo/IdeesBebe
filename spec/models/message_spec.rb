@@ -115,6 +115,33 @@ describe Message do
       end
     end
 
+    context 'when the owner has closed the status before 3 days'  do
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+
+      it 'does not send an email' do
+        subject
+        status.update_attributes!(closed: true)
+        Timecop.travel(subject.created_at + 3.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          deliveries_with_subject(I18n.t('notifier.reminder_owner_3_days.subject')).count.should == 0
+        end
+      end
+    end
+
+
+    context 'when the owner has closed the status before 7 days' do
+      let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
+
+      it 'does not send an email' do
+        subject
+        status.update_attributes!(closed: true, updated_at: subject.created_at + 5.days)
+        Timecop.travel(subject.created_at + 7.days + 10.minutes) do
+          Delayed::Worker.new.work_off
+          deliveries_with_subject(I18n.t('notifier.reminder_owner_7_days.subject')).count.should == 0
+        end
+      end
+    end
+
     context 'when the owner has respond before 7 days' do
       let(:status) { FactoryGirl.create :status, user_id: user2.id, product: product }
       let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test'}
@@ -144,6 +171,27 @@ describe Message do
         Timecop.travel(subject.created_at + 10.days + 10.minutes) do
           Delayed::Worker.new.work_off
           deliveries_with_subject(I18n.t('notifier.product_become_inactive.subject')).count.should == 1
+        end
+      end
+
+      context 'when the owner has closed the status before 10 days' do
+      
+      it 'does not set the product has inactive' do
+          subject
+          status.update_attributes!(closed: true, updated_at: subject.created_at + 8.days)
+          Timecop.travel(subject.created_at + 10.days + 10.minutes) do
+            Delayed::Worker.new.work_off
+            product.reload.active.should == true
+          end
+        end
+
+        it 'does not send an email to the owner' do
+          subject
+          status.update_attributes!(closed: true, updated_at: subject.created_at + 8.days)
+          Timecop.travel(subject.created_at + 10.days + 10.minutes) do
+            Delayed::Worker.new.work_off
+            deliveries_with_subject(I18n.t('notifier.product_become_inactive.subject')).count.should == 0
+          end
         end
       end
     end

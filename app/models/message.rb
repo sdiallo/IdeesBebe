@@ -56,19 +56,19 @@ class Message < ActiveRecord::Base
     end
 
     def reminder_owner_3_days
-      Notifier.reminder_owner_3_days(self).deliver if still_pending?
+      Notifier.reminder_owner_3_days(self).deliver if still_pending? and not status.closed
     end
     handle_asynchronously :reminder_owner_3_days, run_at: ->(message) { message.created_at + 3.days }
 
     def reminder_owner_7_days
-      if still_pending?
+      if still_pending? and not status.closed
         Notifier.reminder_owner_7_days(self).deliver
       end
     end
     handle_asynchronously :reminder_owner_7_days, run_at: ->(message) { message.created_at + 7.days }
 
     def unactive_product
-      if still_pending?
+      if still_pending? and not status.closed
         status.product.update_attributes!(active: false)
         Notifier.product_become_inactive(status.product).deliver
       end
