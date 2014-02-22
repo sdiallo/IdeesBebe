@@ -31,6 +31,7 @@ class Message < ActiveRecord::Base
   after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :reminder_owner_7_days, unless: :from_owner?
   after_create :unactive_product, unless: :from_owner?
+  after_create :reactive_product, unless: :product_is_inactive?
   after_create :response_time, if: :from_owner?
 
   def from_owner?
@@ -38,6 +39,14 @@ class Message < ActiveRecord::Base
   end
 
   private
+
+    def product_is_inactive?
+      status.product.active
+    end
+
+    def reactive_product
+      status.product.update_attributes!(active: true)
+    end
 
     def response_time
       messages = status.messages.order('created_at DESC')

@@ -29,6 +29,17 @@ describe Message do
       }.to change{ deliveries_with_subject(I18n.t('notifier.new_message.from_buyer.subject')).count }.by 1
     end
 
+    context 'when the product is inactive' do
+      let(:product) { FactoryGirl.create :product, owner: user, active: false }
+      let(:message) { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test' }
+
+      it 'reactivate the product' do
+          subject
+          message
+          product.reload.active.should == true
+      end
+    end
+
     context 'when the sender is the owner of the product' do
       let(:message) { FactoryGirl.create :message, sender_id: user2.id, status: status, receiver_id: user.id, content: 'test' }
       subject { FactoryGirl.create :message, sender_id: user.id, status: status, receiver_id: user2.id, content: 'test', created_at: message.created_at + 1.days }
