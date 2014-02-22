@@ -18,8 +18,7 @@ class Product < ActiveRecord::Base
   include Slugable
 
   MAXIMUM_UPLOAD_PHOTO = 2
-  LIMIT_TIME_TO_BECOME_INACTIVE = 7.days.to_i
-  BECOME_INACTIVE_UNTIL = 5
+  BECOME_INACTIVE_UNTIL = 10.days
 
   belongs_to :owner, foreign_key: 'user_id', class_name: 'User'
   belongs_to :category
@@ -65,14 +64,6 @@ class Product < ActiveRecord::Base
 
   def has_maximum_upload?
     assets.count == MAXIMUM_UPLOAD_PHOTO
-  end
-
-  def unresponsive_messages_count_for_owner
-    count = 0
-    pending_messages_for_owner.each do |msg|
-      count += (Time.now.to_i - msg.created_at.to_i) < LIMIT_TIME_TO_BECOME_INACTIVE ? 0 : 1
-    end
-    count
   end
 
   def pending_messages_for_owner
