@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
 
 
   def average_response_time
-    response_time/Message.where(sender_id: self.id).count
+    messages_sent.count > 0 ? response_time/messages_sent.count : response_time
   end
 
   def is_owner_of? product
