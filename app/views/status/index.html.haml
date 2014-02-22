@@ -7,9 +7,4 @@
     .ui.grid.two.column.stackable
       - @status.each do |status|
         .column
-          - if status.closed
-            = render 'closed_status_card', status: status
-          - elsif status.done
-            / = render 'status_card', status: status, product: @product
-          - else
-            = render 'status_card', status: status, message: @product.last_message_with(status.user)
+          = render 'status_card', status: status, message: @product.last_message_with(status.user)

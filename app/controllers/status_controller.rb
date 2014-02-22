@@ -18,9 +18,14 @@ class StatusController < ApplicationController
 
   def update
     raise CanCan::AccessDenied unless current_user.is_owner_of? @product
-    status = Status.find_by(user_id: @user.id, product_id: @product.id)
-    status.update(status_params)
-    redirect_to action: :index
+    @status = Status.find_by(user_id: @user.id, product_id: @product.id)
+    @status.update(status_params)
+
+    @updated = @status.done_changed? ? 'done' : 'closed'
+    respond_to do |format|
+      format.html { redirect_to action: :index }
+      format.js { @message = @status.product.last_message_with(@status.user) }
+    end
   end
 
   private

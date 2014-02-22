@@ -3,6 +3,8 @@
     min-height: 220px
   .right
     float: right
+  .left
+    float: left
   .index-user
     .ban
       &:hover
@@ -18,18 +20,11 @@
       &:hover
         i
           color: green
-    .ui.bottom.attached.label
-      z-index: 1000
-
-#status-card
-  .actions
-    form
-      button
-        background-color: transparent !important
-        padding: 0 !important
-
-#status-closed-card
-  .open
+  .ui.bottom.attached.label
+    z-index: 1001
+    height: 37px
+    span:first
+      text-align: left
     button
       height: 10px
       border: none
@@ -41,3 +36,24 @@
       font-size: 0.8125rem
       &:hover
         text-decoration: underline
+
+#status-card
+  .actions
+    button
+      background-color: transparent !important
+      width: 0  
+      padding: 0 !important
+      i
+        margin-left: 2px
+        color: #666
+  .dimmer
+    h2
+      margin-top: 18px
+      margin-bottom: 0
+    span
+      color: white
+      font-size: 20px
+      font-weight: bold
+  .closed
+    button
+      padding: 0 !important
