@@ -11,7 +11,7 @@
         = message.content
         %br
 
-      - if @product.last_message_with(@user).sender != current_user
+      - if @product.last_message_with(@user).sender != current_user and not @status.closed
         = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
           = f.input :content, label: 'Texte', as: :text
           = f.hidden_field :receiver_id, value: @receiver
