@@ -10,7 +10,7 @@
               %br
               = message.content
 
-        - if @product.last_message_with(@user).sender != current_user
+        - if current_user.can_send_message_for?(@status)
           = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
             = f.input :content, label: '', as: :text
             = f.hidden_field :receiver_id, value: @receiver.id
@@ -18,12 +18,17 @@
             = f.button :button, class: 'ui fluid blue labeled submit icon button' do
               %i.icon.edit
               = 'Répondre'
+        - else
+          - name = current_user.is_owner_of?(@product) ? @user.username : @product.owner.username
+          .cant-respond
+            = "#{name} n'a pas encore répondu"
         .ui.attached.label.top
           A propros de
           = link_to @product.name, product_path(@product.slug), class: 'underline'
           %span.right
             - if current_user.is_owner_of? @product
               = link_to 'Gérer mon produit', product_status_index_path(product_id: @product.slug), class: 'underline'
+
     - if current_user.is_owner_of?(@product)
       .five.column.computer.only
         .ui.vertical.menu
