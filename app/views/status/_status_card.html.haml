@@ -15,7 +15,7 @@
               = f.button :button do
                 %i.icon.ban.circle
           .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
-            = link_to product_status_path(product_id: @product.slug, id: user.slug) do
+            = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
               %i.icon.chat
           .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done'), 'data-variation' => 'inverted' }
             = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|

@@ -1,14 +1,19 @@
 #conversation
   .ui.grid
-    .eleven.wide.column
+    .ten.wide.column
       .ui.segment.piled.feed
         .messages
           - @messages.each do |message|
-            - align = message.sender == current_user ? 'right' : 'left'
-            .message{ style: ("text-align: #{align}") }
-              = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
-              %br
-              = message.content
+            - if message == @messages.last
+              #last-message
+            .row
+              - align = message.sender == current_user ? 'left' : 'right'
+              .message{ style: "text-align: #{align}; float: #{align}" }
+                %p
+                  = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
+                %p
+                  = message.content
+              %div{ style: 'clear: both' }
 
         - if current_user.can_send_message_for?(@status)
           = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
@@ -30,15 +35,18 @@
               = link_to 'Gérer mon produit', product_status_index_path(product_id: @product.slug), class: 'underline'
 
     - if current_user.is_owner_of?(@product)
-      .five.column.computer.only
-        .ui.vertical.menu
-          - @avalaible_status.each do |status|
-            - active = status.user == @receiver ? 'active' : ''
-            = link_to product_status_path(product_id: @product.slug, id: status.user.slug), class: "item teal #{active}" do
-              = status.user.username
-              - count = status.pending_messages_count
-              - if count > 0
-                .ui.label.teal
-                  %i.mail.icon
-                  = count
+      .six.column.wide.computer.only.status-list
+        .ui.segment
+          .ui.attached.label.top
+            Personne(s) intéressée(s)
+          .ui.vertical.menu
+            - @avalaible_status.each do |status|
+              - active = status.user == @receiver ? 'active' : ''
+              = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
+                = status.user.username
+                - count = status.pending_messages_count
+                - if count > 0
+                  .ui.label.teal
+                    %i.mail.icon
+                    = count
 

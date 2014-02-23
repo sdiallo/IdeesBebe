@@ -16,7 +16,7 @@ fr:
     messages:
       index:
         close: 'Fermer la discussion'
-        chat: 'Discussion'
+        chat: 'Voir la discussion'
         done: "Conclure l'affaire"
 
   datetime:
