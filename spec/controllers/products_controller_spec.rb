@@ -84,9 +84,9 @@ describe ProductsController do
       expect(assigns(:message)).to eq(nil)
     end
 
-    it 'assign status_id to nil' do
+    it 'assign status to nil' do
       get :show, { id: product.slug }
-      expect(assigns(:status_id)).to eq(nil)
+      expect(assigns(:status)).to eq(nil)
     end
     
     context 'with already a conversation' do
@@ -103,10 +103,10 @@ describe ProductsController do
         end
 
 
-        it 'assign status_id' do
+        it 'assign status' do
           message
           get :show, { id: product.slug }
-          expect(assigns(:status_id)).to eq(status.id)
+          expect(assigns(:status)).to eq(status)
         end
       end
     end
