@@ -15,9 +15,9 @@ fr:
   tooltip:
     messages:
       index:
-        close: 'Intérompre la conversation avec %{username}'
-        chat: 'Discuter avec %{username}'
-        done: "Conclure l'affaire avec %{username}"
+        close: 'Fermer la discussion'
+        chat: 'Discussion'
+        done: "Conclure l'affaire"
 
   datetime:
     distance_in_words:

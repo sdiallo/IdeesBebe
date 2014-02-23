@@ -9,15 +9,15 @@
       .four.wide.column
         - user = message.from_owner? ? message.receiver : message.sender 
         .ui.vertical.buttons.actions.right
-          .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close', username: user.username), 'data-variation' => 'inverted' }
+          .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' }
             = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, remote: true do |f|
               = f.hidden_field :closed, value: true
               = f.button :button do
                 %i.icon.ban.circle
-          .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat', username: user.username), 'data-variation' => 'inverted' }
+          .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
             = link_to product_status_path(product_id: @product.slug, id: user.slug) do
               %i.icon.chat
-          .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done', username: user.username), 'data-variation' => 'inverted' }
+          .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done'), 'data-variation' => 'inverted' }
             = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
               = f.hidden_field :done, value: true
               = f.button :button do
@@ -25,21 +25,22 @@
     .ui.bottom.attached.label.base-attached-label
       %span.left
         = user.username
-      %span.right.avalaible{ style: ('display: none' if status.closed) }
+      %span.right.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
         - if message.from_owner?
           0 message en attente
         - else
           = "#{status.pending_messages_count} message(s) en attente"
-      %span.right.closed{ style: ('display: none' if not status.closed) }
+      %span.right.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
         = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
           = f.hidden_field :closed, value: false
           = f.button :button, 'Réouvrir la discussion', class: 'no-box-shadow'
 
     - cl = status.closed ? 'visible active' : '' 
     .ui.dimmer{ class: "status_#{status.id} #{cl}" }  
-      .content
-        %h2.ui.inverted.icon.header
-          %i.icon.circular.inverted.emphasized.red.ban.circle
-        %br
-        %span
-          = 'Discussion fermée'
+      .wrap-no-click
+        .content
+          %h2.ui.inverted.icon.header
+            %i.icon.circular.inverted.emphasized.red.ban.circle
+          %br
+          %span
+            = 'Discussion fermée'
