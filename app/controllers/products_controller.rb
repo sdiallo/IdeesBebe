@@ -10,9 +10,10 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     @comment = Comment.new
+
     if user_signed_in? and not current_user.is_owner_of? @product
       @message = @product.last_message_with(current_user)
-      @status_id = @message.status.id if @message
+      @status = @message.status if @message
     end
   end
 

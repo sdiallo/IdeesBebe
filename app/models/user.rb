@@ -89,6 +89,11 @@ class User < ActiveRecord::Base
     product.owner == self
   end
 
+  def can_send_message_for? status
+    return status.messages.order('created_at DESC').limit(1).first.from_owner? ? false : true if self.id == status.product.user_id
+    status.product.active and not status.closed and (status.messages.order('created_at DESC').limit(Message::LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != self.id }.count < Message::LIMIT_STRAIGHT)
+  end
+
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)

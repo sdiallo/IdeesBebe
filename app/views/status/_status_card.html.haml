@@ -29,7 +29,7 @@
         - if message.from_owner?
           0 message en attente
         - else
-          1 message en attente
+          = "#{status.pending_messages_count} message(s) en attente"
       %span.right.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
         = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
           = f.hidden_field :closed, value: false

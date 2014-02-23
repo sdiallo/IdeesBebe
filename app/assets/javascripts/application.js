@@ -14,4 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require semantic-ui
+//= require semantic-ui/dimmer
+//= require semantic-ui/popup
+//= require semantic-ui/transition
+//= require semantic-ui/behavior/api
+//= require semantic-ui/behavior/colorize
+//= require semantic-ui/behavior/form
+//= require semantic-ui/behavior/state

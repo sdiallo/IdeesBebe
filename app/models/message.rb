@@ -16,6 +16,8 @@ class Message < ActiveRecord::Base
   belongs_to :sender, class_name: 'User', foreign_key: :sender_id
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :status
+
+  LIMIT_STRAIGHT = 2
   
   validates :content,
     length: {
@@ -31,7 +33,7 @@ class Message < ActiveRecord::Base
   after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :reminder_owner_7_days, unless: :from_owner?
   after_create :unactive_product, unless: :from_owner?
-  after_create :reactive_product, unless: :product_is_inactive?
+  after_create :reactive_product, unless: :product_is_active?
   after_create :response_time, if: :from_owner?
 
   def from_owner?
@@ -40,7 +42,7 @@ class Message < ActiveRecord::Base
 
   private
 
-    def product_is_inactive?
+    def product_is_active?
       status.product.active
     end
 
