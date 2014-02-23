@@ -30,8 +30,9 @@ class Message < ActiveRecord::Base
   after_create ->(message) { Notifier.delay.new_message(message) }
   after_create :reminder_owner_3_days, unless: :from_owner?
   after_create :reminder_owner_7_days, unless: :from_owner?
+  after_create :unactive_product, unless: :from_owner?
+  after_create :reactive_product, unless: :product_is_inactive?
   after_create :response_time, if: :from_owner?
-  # after_create :active_product, if: :from_owner?, unless: :product_active?
 
   def from_owner?
     status.product.owner == sender
@@ -39,12 +40,12 @@ class Message < ActiveRecord::Base
 
   private
 
-    def product_active?
-      product.active
+    def product_is_inactive?
+      status.product.active
     end
 
-    def active_product
-      product.update_attributes!(active: true)
+    def reactive_product
+      status.product.update_attributes!(active: true)
     end
 
     def response_time
@@ -64,18 +65,22 @@ class Message < ActiveRecord::Base
     end
 
     def reminder_owner_3_days
-      Notifier.reminder_owner_3_days(self).deliver if still_pending?
+      Notifier.reminder_owner_3_days(self).deliver if still_pending? and not status.closed
     end
     handle_asynchronously :reminder_owner_3_days, run_at: ->(message) { message.created_at + 3.days }
 
     def reminder_owner_7_days
-      if still_pending?
+      if still_pending? and not status.closed
         Notifier.reminder_owner_7_days(self).deliver
-        if product.unresponsive_messages_count_for_owner >= Product::BECOME_INACTIVE_UNTIL and product.active
-          product.update_attributes!(active: false)
-          Notifier.product_become_inactive(product).deliver
-        end
       end
     end
     handle_asynchronously :reminder_owner_7_days, run_at: ->(message) { message.created_at + 7.days }
+
+    def unactive_product
+      if still_pending? and not status.closed
+        status.product.update_attributes!(active: false)
+        Notifier.product_become_inactive(status.product).deliver
+      end
+    end
+    handle_asynchronously :unactive_product, run_at: ->(message) { message.created_at + Product::BECOME_INACTIVE_UNTIL }
 end

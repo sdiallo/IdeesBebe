@@ -19,6 +19,9 @@ class Ability
       can :show, Status do |status|
         user.is_owner_of?(status.product) or status.user.id == user.id
       end
+      can :update, Status do |status|
+        user.is_owner_of?(status.product)
+      end
     end
 
     can :show, :all
