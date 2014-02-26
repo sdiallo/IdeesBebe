@@ -23,7 +23,7 @@
               = f.button :button do
                 %i.icon.checkmark
     .ui.bottom.attached.label.base-attached-label
-      %span.left
+      %span.left.user-name
         = user.username
       %span.right.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
         - if message.from_owner?

@@ -16,5 +16,6 @@ FactoryGirl.define do
   factory :category do
     name 'CatégorieExAmple'
     slug "si-si"
+    main_category_id nil
   end
 end

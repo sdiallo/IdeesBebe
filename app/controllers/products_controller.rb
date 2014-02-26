@@ -5,6 +5,13 @@ class ProductsController < ApplicationController
   load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
 
   def index
+    if params[:category].present?
+      @main_category = Category.find_by_slug(params[:category])
+      @products = current_user.products.order('created_at DESC').where(category_id: @main_category.subcategories.pluck(:id))
+    else
+      @products = current_user.products.order('created_at DESC')
+    end
+    @products_done = current_user.products.joins(:status).where('statuses.done = ?', true)
   end
   
   # GET /products/1

@@ -1,10 +1,20 @@
 #conversations
-  %h2
-    = "Personne(s) intéressée(s) par #{@product.name}"
-  - if @status.empty?
-    = 'Aucun message pour ce produit'
-  - else
-    .ui.grid.two.column.stackable
-      - @status.each do |status|
-        .column
-          = render 'status_card', status: status, message: @product.last_message_with(status.user)
+  .ui.segment.product-header
+    %h2.left= @product.name
+    .main-actions.right
+      = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
+        %i.icon.wrench
+        %span.computer.only
+          Editer
+      = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small negative' do
+        %i.icon.remove
+        %span.computer.only
+          Supprimer
+  .row
+    - if @status.empty?
+      = 'Aucun message pour ce produit'
+    - else
+      .ui.grid.two.column.stackable
+        - @status.each do |status|
+          .column
+            = render 'status_card', status: status, message: @product.last_message_with(status.user)

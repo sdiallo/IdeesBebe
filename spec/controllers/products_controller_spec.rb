@@ -6,7 +6,38 @@ describe ProductsController do
 
   before(:each) { sign_in subject }
 
-  describe 'GET #index' do
+  describe 'GET #index', :focus do
+    let(:product) { FactoryGirl.create :product, user_id: subject.id }
+    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol' }
+    let(:status) { FactoryGirl.create :status, product_id: product2.id, user_id: user2.id, done: true }
+
+    it 'assigns products' do
+      product
+      status
+      get :index, profile_id: subject.slug
+      assigns(:products).should == [product2, product]
+    end
+
+    it 'assigns products_done' do
+      product
+      status
+      get :index, profile_id: subject.slug
+      assigns(:products_done).should == [product2]
+    end
+
+    context 'with a specific category' do
+    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol', category_id: subcategory.id }
+    let(:category) { FactoryGirl.create :category }
+    let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
+      
+      it 'assigns products' do
+        subcategory
+        product
+        status
+        get :index, profile_id: subject.slug, category: category.slug
+        assigns(:products).should == [product2]
+      end
+    end
 
     context "with my profile" do
       it "render_template index" do
