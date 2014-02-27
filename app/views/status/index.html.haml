@@ -4,12 +4,31 @@
     .main-actions.right
       = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
         %i.icon.wrench
-        %span.computer.only
+        %span
           Editer
-      = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small negative' do
+      = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small purple' do
         %i.icon.remove
-        %span.computer.only
+        %span
           Supprimer
+
+  - if @product.status.where('done = ?', true).any?
+    - classe = 'done'
+  - elsif not @product.active
+    - classe = 'error'
+
+  - if classe.present?
+    .ui.message.product-state{ class: classe }
+      - if classe == 'error'
+        .title
+          Produit Inactif
+        .info
+          Repondez aux messages en attentes ou fermez les discussions!
+      - elsif classe == 'done'
+        .title
+          Produit Vendu !
+        .info
+          pour 45€ à machin
+  
   .row
     - if @status.empty?
       = 'Aucun message pour ce produit'

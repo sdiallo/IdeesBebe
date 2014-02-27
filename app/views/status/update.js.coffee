@@ -1,3 +1,6 @@
+$msg = $('.product-state.error')
+if $msg.length > 0
+  $msg.slideToggle('200')
 
 <% if @updated == 'done' %>
   <% if @status.closed %> 

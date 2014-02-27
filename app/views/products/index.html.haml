@@ -2,7 +2,7 @@
   .ui.grid
     .eleven.wide.column
       .ui.grid.three.column.stackable.index-products
-        - @products.each do |product|
+        - @products.includes(:status).includes(:owner).each do |product|
           .column
             .ui.segment.index-product
               = link_to product_path(product.slug) do
@@ -12,11 +12,12 @@
                   = image_tag('default_avatar.png')
               .row.product-name
                 = link_to product.name.capitalize, product_path(product.slug), class: 'underline'
-              .row.product-category
-                = product.category.name
+              .row.product-messages
+                %i.icon.mail
+                = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
               .row.product-actions
-                = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button purple'
-    .five.wide.column
+                = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button'
+    .five.wide.column.computer.only
       .ui.segment
         .ui.vertical.menu.user-products-categories
           = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
