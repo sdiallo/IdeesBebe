@@ -91,7 +91,7 @@ describe StatusController do
       message2
       message3
       get :show, product_id: product.slug, id: user2.slug
-      assigns(:messages).should == [message2, message]
+      assigns(:messages).should == [message, message2]
     end
 
     it 'assigns @status' do

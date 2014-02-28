@@ -79,6 +79,10 @@
 
 #conversation
   margin-top: 20px
+  .status-list
+    .ui.vertical.menu
+      margin-top: 40px
+      width: 100%
   .ui.vertical.menu
     .label
       background-color: #564F8A !important
@@ -86,10 +90,50 @@
       border-color: #564F8A !important
       color: #564F8A !important
   .messages
-    margin: 30px 0
+    margin: 22px 0
     border-bottom: solid 1px #E8E8E8
+    height: 550px !important
+    overflow: hidden
+    &:hover
+      overflow: auto
   .message
-    margin: 10px 0
+    margin: 10px 10px
+    position: relative
+    width: 400px
+    vertical-align: top
+    padding: 3px 10px
+    background: #eee
+    margin-bottom: 15px
+    margin-left: 0
+    border-radius: 3px
+  .message.left-chat:after
+    content: ""
+    position: absolute
+    top: 10px
+    left: -12px
+    border-style: solid
+    border-width: 9px 15px 9px 0
+    border-color: transparent #eee
+    display: block
+    width: 0
+    z-index: 1
+  .message.right-chat:after
+    content: ""
+    position: absolute
+    top: 10px
+    right: -12px
+    border-style: solid
+    border-width: 9px 0 9px 15px
+    border-color: transparent #eeeeee
+    display: block
+    width: 0
+    z-index: 1
+  .underline
+    &:hover
+      text-decoration: underline
+    color: #564F8A
+    font-weight: bold
+    font-size: 16px
   .cant-respond
     text-align: center
     font-size: 26px
