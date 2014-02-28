@@ -7,7 +7,7 @@ class StatusController < ApplicationController
 
   def index
     raise CanCan::AccessDenied if not current_user.is_owner_of? @product
-    @status = @product.status
+    @status = @product.status.order('closed ASC')
   end
 
   def show

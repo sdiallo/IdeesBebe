@@ -1,30 +1,38 @@
-%h1 Listing products
-
-%table
-  %tr
-    %th 
-    %th Name
-    %th Description
-    %th
-    %th
-    %th
-    %th
-    %th
-
-  - @user.products.each do |product|
-    %tr
-      - if product.starred_asset
-        %td= image_tag(product.starred_asset.thumb.url, alt: product.name, title: product.name)
-      - else
-        %td= image_tag('default_avatar_thumb.png')
-      %td= product.name.capitalize
-      %td= product.description
-      %td= "#{product.pending_messages_for_owner.count} messages en attentes"
-      %td= link_to 'Gérer mon produit', product_status_index_path(product.slug)
-      %td= link_to 'Show', product_path(product.slug)
-      - if can? :edit, product
-        %td= link_to 'Edit', edit_product_path(product.slug)
-      - if can? :destroy, product
-        %td= link_to 'Destroy', product, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
+#user-products
+  .ui.grid
+    .eleven.wide.column
+      .ui.grid.three.column.stackable.index-products
+        - @products.includes(:status).includes(:owner).each do |product|
+          .column
+            .ui.segment.index-product
+              = link_to product_path(product.slug) do
+                - if product.starred_asset
+                  = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
+                - else
+                  = image_tag('default_avatar.png')
+              .row.product-name
+                = link_to product.name.capitalize, product_path(product.slug), class: 'underline'
+              .row.product-messages
+                %i.icon.mail
+                = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
+              .row.product-actions
+                = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button'
+    .five.wide.column.computer.only
+      .ui.segment
+        .ui.vertical.menu.user-products-categories
+          = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
+            = 'Toutes catégories'
+            .ui.label.teal
+              = current_user.products.count
+          - Category::main_categories.each do |main|
+            = link_to profile_products_path(current_user.slug, category: main.slug), class: "item teal #{'active' if @main_category.present? and main.name == @main_category.name}" do
+              = main.name
+              .ui.label.teal
+                = Product.where(user_id: current_user.id, category_id: main.subcategories.pluck(:id)).count
+        .ui.attached.label.top
+          Catégories
+      .ui.segment  
+        - @products_done.each do |product|
+          = product.name
+        .ui.attached.label.top
+          Produits vendus
