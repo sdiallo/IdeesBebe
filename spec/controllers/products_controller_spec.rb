@@ -6,7 +6,7 @@ describe ProductsController do
 
   before(:each) { sign_in subject }
 
-  describe 'GET #index', :focus do
+  describe 'GET #index' do
     let(:product) { FactoryGirl.create :product, user_id: subject.id }
     let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol' }
     let(:status) { FactoryGirl.create :status, product_id: product2.id, user_id: user2.id, done: true }
