@@ -3,6 +3,8 @@
   
   = f.input :name, label: 'Nom', required: true
 
+  = f.input :price, label: 'Prix', required: true
+
   = f.input :description, label: 'Description'
 
   - if @product.category_id.nil?

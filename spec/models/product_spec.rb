@@ -23,16 +23,21 @@ describe Product do
   subject { FactoryGirl.create :product }
 
   context 'when create' do
+    let(:category) { FactoryGirl.create :category }
     it 'fails without name' do
-      FactoryGirl.build(:product, name: "").should_not be_valid
+      FactoryGirl.build(:product, name: "", category_id: category.id).should_not be_valid
     end
 
-    it 'fails if the name is already taken' do
-      FactoryGirl.build(:product, name: subject.name).should_not be_valid
+    it 'fails without price' do
+      FactoryGirl.build(:product, name: "", price: '', category_id: category.id).should_not be_valid
+    end
+
+    it 'fails with free product' do
+      FactoryGirl.build(:product, name: "", price: 0, category_id: category.id).should_not be_valid
     end
 
     it 'fails if the description is too long' do
-      FactoryGirl.build(:product, description: "1000"*1000).should_not be_valid
+      FactoryGirl.build(:product, description: "1000"*1000, category_id: category.id).should_not be_valid
     end
   end
 

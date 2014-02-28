@@ -45,6 +45,13 @@ class Product < ActiveRecord::Base
       message: I18n.t('product.name.format')
     }
 
+  validates :price,
+    numericality: {
+      only_integer: true,
+      greater_than: 0,
+      message: I18n.t('product.price.numericality')
+    }
+
   validates :description,
     length: {
       maximum: 140,

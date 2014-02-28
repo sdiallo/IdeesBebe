@@ -8,7 +8,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   before :store, :remember_cache_id
   after :store, :delete_tmp_dir
 
-  process :resize_to_fill => [160,160]
+  process :resize_to_fill => [200,200]
   
   version :thumb do
     process :resize_to_fill => [100,100]
