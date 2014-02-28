@@ -11,6 +11,7 @@
 #  user_id     :integer
 #  category_id :integer
 #  active      :boolean          default(TRUE)
+#  price       :integer          default(0)
 #
 
 class Product < ActiveRecord::Base
@@ -36,10 +37,6 @@ class Product < ActiveRecord::Base
       maximum: 60,
       message: I18n.t('product.name.length')
     },
-    uniqueness: {
-      case_sensitive: false,
-      message: I18n.t('product.name.uniqueness')
-    },
     format: {
       with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u,
       message: I18n.t('product.name.format')
@@ -64,6 +61,10 @@ class Product < ActiveRecord::Base
   scope :active, ->() { where(active: true) }
 
   before_save :to_slug, if: :name_changed?
+
+  def slug
+    "#{id}-#{super}"
+  end
 
   def starred_asset
     assets.where(starred: true).first.try(:file)

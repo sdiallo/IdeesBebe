@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: statuses
+#
+#  id         :integer          not null, primary key
+#  product_id :integer
+#  user_id    :integer
+#  closed     :boolean
+#  done       :boolean
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require 'spec_helper'
 
 describe Status do

@@ -11,6 +11,7 @@
 #  user_id     :integer
 #  category_id :integer
 #  active      :boolean          default(TRUE)
+#  price       :integer          default(0)
 #
 
 require 'spec_helper'

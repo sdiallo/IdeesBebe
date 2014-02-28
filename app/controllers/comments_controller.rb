@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 
-  load_and_authorize_resource :product, find_by: :slug, id_param: :product_id, only: :create
+  load_and_authorize_resource :product, only: :create
   load_and_authorize_resource :comment, only: :destroy
 
   def create
