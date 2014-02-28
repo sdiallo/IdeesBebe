@@ -1,4 +1,9 @@
-= simple_form_for @product, url: profile_products_path(profile_id: current_user.slug) do |f|
+- if @product.new_record?
+  - url = profile_products_path(profile_id: current_user.slug)
+- else
+  - url = product_path(@product.id)
+
+= simple_form_for @product, url: url do |f|
 
   
   = f.input :name, label: 'Nom', required: true
