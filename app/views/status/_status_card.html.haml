@@ -1,27 +1,33 @@
+- user = message.from_owner? ? message.receiver : message.sender 
+- name = message.from_owner? ? 'vous-même' : message.sender .username
 #status-card
   .ui.segment.index-user
     .ui.grid
       .twelve.wide.column
-        - name = message.from_owner? ? 'vous-même' : message.sender .username
         = "Dernier message, envoyé par #{name} :"
         %p
           = message.content
       .four.wide.column
-        - user = message.from_owner? ? message.receiver : message.sender 
-        .ui.vertical.buttons.actions.right
-          .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' }
-            = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, remote: true do |f|
-              = f.hidden_field :closed, value: true
-              = f.button :button do
-                %i.icon.ban.circle
-          .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
+        - if @product.avalaible?
+          .ui.vertical.buttons.actions.right
+            .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' }
+              = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, remote: true do |f|
+                = f.hidden_field :closed, value: true
+                = f.button :button do
+                  %i.icon.ban.circle
+            .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
+              = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
+                %i.icon.chat
+            .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done'), 'data-variation' => 'inverted' }
+              = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
+                = f.hidden_field :done, value: true
+                = f.button :button do
+                  %i.icon.checkmark
+        - else
+          .ui.icon.button.messages.starpop.button-selled{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
             = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
               %i.icon.chat
-          .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done'), 'data-variation' => 'inverted' }
-            = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
-              = f.hidden_field :done, value: true
-              = f.button :button do
-                %i.icon.checkmark
+
     .ui.bottom.attached.label.base-attached-label
       %span.left.user-name
         = user.username
@@ -35,8 +41,7 @@
           = f.hidden_field :closed, value: false
           = f.button :button, 'Réouvrir la discussion', class: 'no-box-shadow'
 
-    - cl = status.closed ? 'visible active' : '' 
-    .ui.dimmer{ class: "status_#{status.id} #{cl}" }  
+    .ui.dimmer{ class: "status_#{status.id} #{('visible active' if status.closed)}" }  
       .wrap-no-click
         .content
           %h2.ui.inverted.icon.header
