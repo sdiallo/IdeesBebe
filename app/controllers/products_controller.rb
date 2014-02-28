@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index, :new]
 
-  load_and_authorize_resource :product, shallow: true, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource :product, shallow: true, only: [:show, :new, :edit, :update, :destroy]
 
   def index
     if params[:category].present?
