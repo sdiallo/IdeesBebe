@@ -70,12 +70,12 @@ describe ProductsController do
       context "with correct params" do
 
         it "create a product" do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
           expect(response).to redirect_to product_path(Product.last.slug)
         end
 
         it 'assigns product' do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
           expect(assigns(:product)).to eq(Product.last)
         end
       end
