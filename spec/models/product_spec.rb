@@ -27,10 +27,6 @@ describe Product do
       FactoryGirl.build(:product, name: "").should_not be_valid
     end
 
-    it 'fails if the name is already taken' do
-      FactoryGirl.build(:product, name: subject.name).should_not be_valid
-    end
-
     it 'fails if the description is too long' do
       FactoryGirl.build(:product, description: "1000"*1000).should_not be_valid
     end

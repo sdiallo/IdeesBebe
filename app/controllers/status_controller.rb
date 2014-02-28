@@ -2,7 +2,7 @@ class StatusController < ApplicationController
 
   authorize_resource :status
   
-  load_resource :product, find_by: :slug, id_param: :product_id
+  load_resource :product
   load_resource :user, find_by: :slug, id_param: :id, except: :index
 
   def index
