@@ -31,7 +31,7 @@ module IdeesBebe
       domain: 'dev-ideesbebe.herokuapp.com',
       authentication: :plain
     }
-    I18n.default_locale = :en
+    I18n.default_locale = :fr
 
   end
 end
