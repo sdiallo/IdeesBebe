@@ -7,8 +7,8 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  sender_id   :integer
-#  product_id  :integer
 #  receiver_id :integer
+#  status_id   :integer
 #
 
 class Message < ActiveRecord::Base
@@ -51,14 +51,15 @@ class Message < ActiveRecord::Base
     end
 
     def response_time
-      messages = status.messages.order('created_at DESC')
-      index = 0
-      messages.each_with_index do |msg, i|
-        next if i == 0
+      owner_msg = status.messages.where(sender_id: sender_id).where('messages.id != ?', id).maximum(:created_at)
+      query = Message.joins(:status)
+        .where('messages.status_id = ?', status_id)
+        .where('messages.receiver_id = ?', sender_id)
+      query = query.where('messages.created_at > ?', owner_msg) if not owner_msg.nil?
 
-        index = i if msg.receiver_id != sender_id and index == 0
-      end
-      time = sender.response_time + (created_at.to_i - messages[index - 1].created_at.to_i)
+      query = query.minimum(:created_at)
+
+      time = sender.response_time + (created_at.to_i - query.to_i)
       sender.update_attributes!(response_time: time)
     end
 
