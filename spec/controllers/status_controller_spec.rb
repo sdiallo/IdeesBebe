@@ -29,6 +29,17 @@ describe StatusController do
 
     end
 
+    context 'when done a status' do
+
+      it 'done the status' do
+        connect
+        message
+        put :update, product_id: product.slug, id: user2.slug, status: { done: true }
+        status2.reload.done.should == true
+      end
+
+    end
+
     context 'when reopening a status' do
 
       it 'opens the status' do

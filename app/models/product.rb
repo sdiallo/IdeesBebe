@@ -66,6 +66,14 @@ class Product < ActiveRecord::Base
     "#{id}-#{super}"
   end
 
+  def avalaible?
+    status.where(done: true).count.zero?
+  end
+
+  def selled_to
+    status.where(done: true).first.user
+  end
+
   def starred_asset
     assets.where(starred: true).first.try(:file)
   end

@@ -1,39 +1,34 @@
 #conversations
   .ui.segment.product-header
-    %h2.left= @product.name
-    .main-actions.right
-      = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
-        %i.icon.wrench
-        %span
-          Editer
-      = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small purple' do
-        %i.icon.remove
-        %span
-          Supprimer
+    %h2.left
+      =link_to @product.name, product_path(@product.slug)
+    - if @product.avalaible?
+      .main-actions.right
+        = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
+          %i.icon.wrench
+          %span
+            Editer
+        = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small purple' do
+          %i.icon.remove
+          %span
+            Supprimer
 
-  - if @product.status.where('done = ?', true).any?
-    - classe = 'done'
-  - elsif not @product.active
-    - classe = 'error'
+  - if @product.avalaible? and not @product.active 
+    .ui.message.product-state.error
+      .title
+        Produit Inactif
+      .info
+        Repondez aux messages en attentes ou fermez les discussions!
 
-  - if classe.present?
-    .ui.message.product-state{ class: classe }
-      - if classe == 'error'
-        .title
-          Produit Inactif
-        .info
-          Repondez aux messages en attentes ou fermez les discussions!
-      - elsif classe == 'done'
-        .title
-          Produit Vendu !
-        .info
-          pour 45€ à machin
-  
+  - if not @product.avalaible?
+    .row
+      = render 'dimmer_done', user: @product.selled_to
   .row
     - if @status.empty?
       = 'Aucun message pour ce produit'
     - else
       .ui.grid.two.column.stackable
+        - @status.reject!{|stat| stat.user_id == @product.selled_to.id } if not @product.avalaible?
         - @status.each do |status|
           .column
             = render 'status_card', status: status, message: @product.last_message_with(status.user)

@@ -21,14 +21,17 @@
   = image_tag("default_avatar.png")
 
 
-- if can? :edit, @product
-  = link_to 'Editer', edit_product_path(@product.slug)
 
-- if can? :create, @comment
-  = render 'products/form_comments'
+- if not @product.avalaible?
+  Produit vendu!
+- else
 
-- if can? :create, Message.new
-  = render current_user.is_owner_of?(@product) ? 'products/form_message_seller' : 'products/form_message_buyer'
+  - if can? :edit, @product
+    = link_to 'Editer', edit_product_path(@product.slug)
 
+  - if can? :create, @comment and @product.avalaible?
+    = render 'form_comments'
 
-= render 'products/comments'
+  = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
+
+= render 'comments'
