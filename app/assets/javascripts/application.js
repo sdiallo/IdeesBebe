@@ -17,6 +17,7 @@
 //= require semantic-ui/dimmer
 //= require semantic-ui/popup
 //= require semantic-ui/transition
+//= require semantic-ui/rating
 //= require semantic-ui/behavior/api
 //= require semantic-ui/behavior/colorize
 //= require semantic-ui/behavior/form
