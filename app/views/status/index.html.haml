@@ -28,6 +28,7 @@
       = 'Aucun message pour ce produit'
     - else
       .ui.grid.two.column.stackable
-        - @status.reject{|stat| stat.user_id == @product.selled_to.id }.each do |status|
+        - @status.reject!{|stat| stat.user_id == @product.selled_to.id } if not @product.avalaible?
+        - @status.each do |status|
           .column
             = render 'status_card', status: status, message: @product.last_message_with(status.user)
