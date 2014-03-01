@@ -63,7 +63,7 @@ class Message < ActiveRecord::Base
     end
 
     def need_to_remember?
-      status.product.last_message_with(sender) == self and @product.avalaible? and not status.closed
+      (status.product.last_message_with(sender)) == self and status.product.avalaible? and not status.closed
     end
 
     def reminder_owner_3_days
