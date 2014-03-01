@@ -24,6 +24,6 @@
               = "Vendu pour #{@product.price}"
               %i.icon.euro
           %span.right
-            = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug)
+            = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
 

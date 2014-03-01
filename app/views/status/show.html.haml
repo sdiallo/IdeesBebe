@@ -3,7 +3,7 @@
     .ten.wide.column
       .ui.segment.piled.feed
         .messages
-          - @messages.each do |message|
+          - @messages.includes(:sender).each do |message|
             - if message == @messages.last
               #last-message
             .row
