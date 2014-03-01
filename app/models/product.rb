@@ -11,6 +11,7 @@
 #  user_id     :integer
 #  category_id :integer
 #  active      :boolean          default(TRUE)
+#  price       :integer          default(0)
 #
 
 class Product < ActiveRecord::Base
@@ -39,6 +40,13 @@ class Product < ActiveRecord::Base
     format: {
       with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u,
       message: I18n.t('product.name.format')
+    }
+
+  validates :price,
+    numericality: {
+      only_integer: true,
+      greater_than: 0,
+      message: I18n.t('product.price.numericality')
     }
 
   validates :description,

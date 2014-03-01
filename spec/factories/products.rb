@@ -11,6 +11,7 @@
 #  user_id     :integer
 #  category_id :integer
 #  active      :boolean          default(TRUE)
+#  price       :integer          default(0)
 #
 
 FactoryGirl.define do
@@ -18,6 +19,7 @@ FactoryGirl.define do
     name 'Great product'
     description 'This is a great product'
     association :category
+    price 1
     active true
   end
 end

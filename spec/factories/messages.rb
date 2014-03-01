@@ -7,8 +7,8 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  sender_id   :integer
-#  product_id  :integer
 #  receiver_id :integer
+#  status_id   :integer
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

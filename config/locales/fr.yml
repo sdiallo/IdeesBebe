@@ -84,6 +84,8 @@ fr:
       uniqueness: 'Ce nom de produit est déjà utilisé'
       length: 'Le nom doit contenir entre 2 et 60 caractères'
       format: 'Les caractères spéciaux sont intédits'
+    price:
+      numericality: 'Un prix est nécessaire'
     description:
       length: 'La description ne peut excéder 140 caractères'
     category:
