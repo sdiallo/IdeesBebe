@@ -47,6 +47,11 @@ class Product < ActiveRecord::Base
       only_integer: true,
       greater_than: 0,
       message: I18n.t('product.price.numericality')
+    },
+    length: {
+      minimum: 1,
+      maximum: 9,
+      message: I18n.t('product.price.length')
     }
 
   validates :description,

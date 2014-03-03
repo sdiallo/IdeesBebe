@@ -1,7 +1,7 @@
 - if @product.new_record?
   - url = profile_products_path(profile_id: current_user.slug)
 - else
-  - url = product_path(@product.id)
+  - url = product_path(@product.slug)
 
 = simple_form_for @product, url: url do |f|
 
