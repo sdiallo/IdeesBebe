@@ -79,11 +79,6 @@ class User < ActiveRecord::Base
     profile.avatar
   end
 
-  def avatar?
-    profile.avatar?
-  end
-
-
   def average_response_time
     messages_sent.count > 0 ? response_time/messages_sent.count : response_time
   end
