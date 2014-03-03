@@ -42,6 +42,8 @@ class Message < ActiveRecord::Base
 
   private
 
+    # Reactive product for owner
+
     def product_is_active?
       status.product.active
     end
@@ -49,6 +51,8 @@ class Message < ActiveRecord::Base
     def reactive_product
       status.product.update_attributes!(active: true)
     end
+
+    # Response time for owner
 
     def response_time
       owner_msg = status.messages.where(sender_id: sender_id).where('messages.id != ?', id).maximum(:created_at)
@@ -62,6 +66,9 @@ class Message < ActiveRecord::Base
       time = sender.response_time + (created_at.to_i - query.to_i)
       sender.update_attributes!(response_time: time)
     end
+
+
+    # Reminder for owner
 
     def need_to_remember?
       (status.product.last_message_with(sender)) == self and status.product.avalaible? and not status.closed
