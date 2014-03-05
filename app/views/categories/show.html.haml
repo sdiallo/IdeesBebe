@@ -18,7 +18,7 @@
       - if product.starred_asset
         %td= image_tag(product.starred_asset.thumb.url, alt: product.name, title: product.name)
       - else
-        %td= image_tag('default_avatar_thumb.png')
+        %td= image_tag('product_thumb_default.png')
       %td= product.name.capitalize
       %td= product.description
       %td= link_to product.category_name, category_subcategory_path(@category.slug, product.category_slug)
