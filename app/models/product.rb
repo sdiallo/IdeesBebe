@@ -54,13 +54,6 @@ class Product < ActiveRecord::Base
       message: I18n.t('product.price.length')
     }
 
-  validates :description,
-    length: {
-      maximum: 140,
-      message: I18n.t('product.description.length')
-    },
-    allow_blank: true
-
   validates :category_id, presence: { message: I18n.t('product.category.presence') }
 
   scope :active, ->() { where(active: true) }

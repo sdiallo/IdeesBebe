@@ -36,10 +36,6 @@ describe Product do
     it 'fails with free product' do
       FactoryGirl.build(:product, name: "", price: 0, category_id: category.id).should_not be_valid
     end
-
-    it 'fails if the description is too long' do
-      FactoryGirl.build(:product, description: "1000"*1000, category_id: category.id).should_not be_valid
-    end
   end
 
 
