@@ -32,6 +32,7 @@
   - if can? :create, @comment and @product.avalaible?
     = render 'form_comments'
 
-  = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
+  - if user_signed_in?
+    = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
 
 = render 'comments'
