@@ -9,6 +9,6 @@ class CategoriesController < ApplicationController
 
   def show_subcategory
     @subcategory = @category.subcategories.find_by_slug(params[:id])
-    @products = @category.all_products.active.reject{ |product| not product.avalaible? }
+    @products = @subcategory.all_products.active.reject{ |product| not product.avalaible? }
   end
 end
