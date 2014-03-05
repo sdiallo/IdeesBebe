@@ -1,38 +1,37 @@
 #user-products
   .ui.grid
-    .eleven.wide.column
-      .ui.grid.three.column.stackable.index-products
-        - @products.includes(:status).includes(:owner).each do |product|
-          .column
-            .ui.segment.index-product
-              = link_to product_path(product.slug) do
-                - if product.starred_asset
-                  = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
-                - else
-                  = image_tag('default_avatar.png')
-              .row.product-name
-                = link_to product.name.capitalize, product_path(product.slug), class: 'underline'
-              .row.product-messages
-                %i.icon.mail
-                = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
-              .row.product-actions
-                = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button'
-    .five.wide.column.computer.only
-      .ui.segment
-        .ui.vertical.menu.user-products-categories
-          = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
-            = 'Toutes catégories'
-            .ui.label.teal
-              = current_user.products.count
-          - Category::main_categories.each do |main|
-            = link_to profile_products_path(current_user.slug, category: main.slug), class: "item teal #{'active' if @main_category.present? and main.name == @main_category.name}" do
-              = main.name
+    .row
+      .sixteen.wide.column
+        .ui.segment.no-box-shadow
+          %h2
+            Mes produits
+    .row
+      .five.wide.column.computer.only
+        .ui.segment.no-box-shadow.block-categories
+          .ui.vertical.menu.user-products-categories
+            = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
+              = 'Toutes catégories'
               .ui.label.teal
-                = Product.where(user_id: current_user.id, category_id: main.subcategories.pluck(:id)).count
-        .ui.attached.label.top
-          Catégories
-      .ui.segment  
-        - @products_done.each do |product|
-          = product.name
-        .ui.attached.label.top
-          Produits vendus
+                = current_user.products.count
+            - Category::main_categories.each do |main|
+              = link_to profile_products_path(current_user.slug, category: main.slug), class: "item teal #{'active' if @main_category.present? and main.name == @main_category.name}" do
+                = main.name
+                .ui.label.teal
+                  = Product.where(user_id: current_user.id, category_id: main.subcategories.pluck(:id)).count
+      .eleven.wide.column
+        .ui.grid.three.column.stackable.index-products
+          - @products.includes(:status).includes(:owner).each do |product|
+            .column
+              .ui.segment.index-product
+                = link_to product_path(product.slug) do
+                  - if product.starred_asset
+                    = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
+                  - else
+                    = image_tag('product_default.png')
+                .row.product-name
+                  = product.name.capitalize
+                .row.product-messages
+                  %i.icon.mail
+                  = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
+                .row.product-actions
+                  = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button'
