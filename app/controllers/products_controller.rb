@@ -10,7 +10,6 @@ class ProductsController < ApplicationController
     else
       @products = current_user.products.order('created_at DESC')
     end
-    @products_done = current_user.products.joins(:status).where('statuses.done = ?', true)
   end
   
   # GET /products/1

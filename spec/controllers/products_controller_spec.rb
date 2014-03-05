@@ -18,17 +18,10 @@ describe ProductsController do
       assigns(:products).should == [product2, product]
     end
 
-    it 'assigns products_done' do
-      product
-      status
-      get :index, profile_id: subject.slug
-      assigns(:products_done).should == [product2]
-    end
-
     context 'with a specific category' do
-    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol', category_id: subcategory.id }
-    let(:category) { FactoryGirl.create :category }
-    let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
+      let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol', category_id: subcategory.id }
+      let(:category) { FactoryGirl.create :category }
+      let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
       
       it 'assigns products' do
         subcategory
