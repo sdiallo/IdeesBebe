@@ -20,9 +20,6 @@
         .ui.bottom.attached.label.base-attached-label
           .left
             %span.user-name= user.username
-            %span.price
-              = "Vendu pour #{@product.price}"
-              %i.icon.euro
           %span.right
             = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
