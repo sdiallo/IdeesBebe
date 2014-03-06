@@ -37,4 +37,5 @@
                   - else
                     Vendu !
                 .row.product-actions
-                  = link_to 'Gerer', product_status_index_path(product.slug), class: 'ui button purple'
+                  - link_name = product.avalaible? ? 'Gérer' : 'Revoir  '
+                  = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'
