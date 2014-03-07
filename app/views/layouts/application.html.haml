@@ -20,6 +20,8 @@
                   %i.user.large.icon.circular
                 = link_to profile_products_path(current_user.slug) do 
                   %i.suitcase.large.icon.circular
+                = link_to profile_messages_path(current_user.slug) do 
+                  %i.mail.large.icon.circular
                 = link_to destroy_user_session_path, method: :delete do
                   %i.sign.out.large.icon.circular
               .item

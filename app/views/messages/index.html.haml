@@ -1,0 +1,28 @@
+#user-messages
+  .ui.grid
+    .row
+      .sixteen.wide.column
+        .ui.segment.no-box-shadow
+          %h2
+            Mes messages
+    .row
+      .four.wide.column
+        .ui.segment.no-box-shadow.block-categories
+          .ui.vertical.menu.user-products-categories
+            = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
+              = 'Messages récents'
+            = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
+              = 'Messages en attentes'
+            = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
+              = 'Messages archivés'
+      .twelve.wide.column
+        .ui.grid.one.column.doubling.index-messages
+          - @messages.each do |message|
+            - other_name = message.sender_id == @user.id ? message.receiver_name : message.sender_name
+            .column
+              - slug = @user.id == message.product_owner_id ? message.product_buyer_slug : @user.slug
+              = link_to product_status_path(product_id: message.product_id, id: slug) do
+                .ui.segment.index-message
+                  %h4= "#{message.sender_name} à dit :"
+                  %p= message.content
+                  %p= "#{other_name} à propos de #{message.product_name}"

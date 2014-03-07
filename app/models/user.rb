@@ -71,8 +71,15 @@ class User < ActiveRecord::Base
   before_save :to_slug, if: :username_changed?
 
 
-  def messages
-    Message.where('receiver_id = ? OR sender_id = ?', self.id, self.id).order('created_at DESC')
+  def messages_recent
+    Message.joins(:status)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN users AS sender ON sender.id = messages.sender_id')
+      .joins('LEFT OUTER JOIN users AS receiver ON receiver.id = messages.receiver_id')
+      .joins('LEFT OUTER JOIN users AS buyer ON buyer.id = statuses.user_id')
+      .where('receiver_id = ? OR sender_id = ?', self.id, self.id)
+      .group('statuses.id, messages.id, products.id, receiver_name, sender_name, product_buyer_slug')
+      .select('messages.*, buyer.slug as product_buyer_slug, receiver.username as receiver_name, sender.username as sender_name, products.id as product_id, products.user_id as product_owner_id, products.name as product_name, statuses.id as status_id')
   end
 
   def avatar

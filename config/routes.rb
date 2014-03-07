@@ -6,6 +6,7 @@ IdeesBebe::Application.routes.draw do
 
   resources :profiles, except: [:index, :create, :new] do
     resources :products, shallow: true
+    resources :messages, only: :index
   end
 
   resources :products, only: [] do
