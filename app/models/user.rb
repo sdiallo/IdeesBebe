@@ -84,43 +84,31 @@ class User < ActiveRecord::Base
   end
 
   def is_owner_of? product
-    product.owner == self
+    product.user_id == self.id
   end
 
-  def can_send_message_for? status
-    return status.messages.order('created_at DESC').limit(1).first.from_owner? ? false : true if self.id == status.product.user_id
-    status.product.active and not status.closed and (status.messages.order('created_at DESC').limit(Message::LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != self.id }.count < Message::LIMIT_STRAIGHT)
-  end
+  class << self
 
-  def self.find_first_by_auth_conditions(warden_conditions)
-    conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
-    else
-      where(conditions).first
-    end
-  end
-
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :fb_id => auth.uid).first
-    if user
-      return user
-    else
-      registered_user = User.where(:email => auth.info.email).first
-      if registered_user
-        return registered_user
+    def find_first_by_auth_conditions warden_conditions
+      conditions = warden_conditions.dup
+      if login = conditions.delete(:login)
+        where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
       else
-
-        @user = User.create!(username:auth.info.name.strip, 
-                            provider:auth.provider,
-                            fb_id:auth.uid,
-                            email:auth.info.email,
-                            fb_tk:auth.credentials.token,
-                            password:Devise.friendly_token[0,20]
-                          )
-          
+        where(conditions).first
       end
     end
-  end
 
+    def find_for_facebook_oauth(auth, signed_in_resource = nil)
+      user = User.where('email = ? OR (provider = ? AND fb_id = ?)', auth.info.email, auth.provider, auth.uid).first
+      return user if user.present?
+
+      @user = User.create!(username:auth.info.name.strip,
+                          provider:auth.provider,
+                          fb_id:auth.uid,
+                          email:auth.info.email,
+                          fb_tk:auth.credentials.token,
+                          password:Devise.friendly_token[0,20]
+                        )
+    end
+  end
 end
