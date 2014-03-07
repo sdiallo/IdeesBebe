@@ -1,5 +1,5 @@
 #user-messages
-  .ui.grid
+  .ui.grid.stackable
     .row
       .sixteen.wide.column
         .ui.segment.no-box-shadow
@@ -8,21 +8,30 @@
     .row
       .four.wide.column
         .ui.segment.no-box-shadow.block-categories
-          .ui.vertical.menu.user-products-categories
+          .ui.vertical.menu.user-messages-categories
             = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
-              = 'Messages récents'
+              = 'Tous mes messages'
             = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
               = 'Messages en attentes'
             = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
               = 'Messages archivés'
       .twelve.wide.column
         .ui.grid.one.column.doubling.index-messages
-          - @messages.each do |message|
-            - other_name = message.sender_id == @user.id ? message.receiver_name : message.sender_name
+          - if @status.empty?
             .column
-              - slug = @user.id == message.product_owner_id ? message.product_buyer_slug : @user.slug
-              = link_to product_status_path(product_id: message.product_id, id: slug) do
-                .ui.segment.index-message
-                  %h4= "#{message.sender_name} à dit :"
-                  %p= message.content
-                  %p= "#{other_name} à propos de #{message.product_name}"
+              .ui.message
+                .header
+                Aucun messages
+          - else
+            - @status.includes(:product).each do |status|
+              - message = status.last_message
+              .column
+                = link_to product_status_path(product_id: status.product_id, id: status.user.slug) do
+                  %h4.ui.top.attached.header
+                    %span.user= status.user.username
+                    %span.intro à propos de
+                    %span.product= status.product.name
+                  .ui.attached.segment.index-message
+                    - intro = message.sender_id == @user.id ? 'Vous avez' : "#{message.sender.username} à"
+                    %p= "#{intro} dit :"
+                    %p= message.content

@@ -72,14 +72,30 @@ class User < ActiveRecord::Base
 
 
   def messages_recent
-    Message.joins(:status)
+    Status.includes(:user)
       .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-      .joins('LEFT OUTER JOIN users AS sender ON sender.id = messages.sender_id')
-      .joins('LEFT OUTER JOIN users AS receiver ON receiver.id = messages.receiver_id')
-      .joins('LEFT OUTER JOIN users AS buyer ON buyer.id = statuses.user_id')
-      .where('receiver_id = ? OR sender_id = ?', self.id, self.id)
-      .group('statuses.id, messages.id, products.id, receiver_name, sender_name, product_buyer_slug')
-      .select('messages.*, buyer.slug as product_buyer_slug, receiver.username as receiver_name, sender.username as sender_name, products.id as product_id, products.user_id as product_owner_id, products.name as product_name, statuses.id as status_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .group('statuses.id')
+  end
+
+  def messages_waiting_me
+    Status.includes(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .where('statuses.done != ? AND statuses.closed != ?', true, true)
+      .group('statuses.id')
+      .reject{ |status| status.last_message.sender_id == id }    
+  end
+
+  def messages_archived
+    Status.includes(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .where('statuses.done = ? OR statuses.closed = ?', true, true)
+      .group('statuses.id')
   end
 
   def avatar

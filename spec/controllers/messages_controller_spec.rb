@@ -13,7 +13,7 @@ describe MessagesController do
     sign_in user
   end
 
-  describe '#index', :focus do
+  describe '#index' do
     let(:product2) { FactoryGirl.create :product, owner: user }
     let(:message) { FactoryGirl.create :message, status: status, sender_id: user2.id, receiver_id: user.id }
     let(:message2) { FactoryGirl.create :message, status: status, sender_id: user.id, receiver_id: user2.id }
@@ -21,33 +21,32 @@ describe MessagesController do
     let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: user2.id }
     let(:status2) { FactoryGirl.create :status, product_id: product2.id, user_id: user3.id, done: true }
 
-    it 'assigns messages' do
+    it 'assigns status' do
       message
       message2
       message3
       get :index, profile_id: user.slug
-      assigns(:messages).should == [message3, message2, message]
+      assigns(:status).should == [status2, status]
     end
 
     context 'with parameters pending messages' do
 
-      it 'assigns messages' do
+      it 'assigns status' do
         message
-        message2
         message3
         get :index, profile_id: user.slug, state: 'pending'
-        assigns(:messages).should == [message3]
+        assigns(:status).should == [status]
       end
     end
 
     context 'with parameters archived messages' do
 
-      it 'assigns messages' do
+      it 'assigns status' do
         message
         message2
         message3
         get :index, profile_id: user.slug, state: 'archived'
-        assigns(:messages).should == [message2, message]
+        assigns(:status).should == [status2]
       end
     end
 

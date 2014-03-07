@@ -1,18 +1,18 @@
 class MessagesController < ApplicationController
 
   authorize_resource :message
-  load_resource :product, only: :show
+  load_resource :product, only: :create
   load_resource :user, find_by: :slug, id_param: :profile_id, only: :index
 
   def index
     raise CanCan::AccessDenied if @user != current_user
     @state = params[:state] if params[:state].present?
     if @state == 'pending'
-      @messages = @user.messages_waiting_me
+      @status = @user.messages_waiting_me
     elsif @state == 'archived'
-      @messages = @user.messages_archived
+      @status = @user.messages_archived
     else
-      @messages = @user.messages_recent
+      @status = @user.messages_recent
     end
   end
 
