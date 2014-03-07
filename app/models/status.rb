@@ -26,6 +26,11 @@ class Status < ActiveRecord::Base
       .count
   end
 
+  def can_send_message? user
+    return messages.order('created_at DESC').limit(1).first.from_owner? ? false : true if user.id == product.user_id
+    product.active and not closed and (messages.order('created_at DESC').limit(Message::LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != user.id }.count < Message::LIMIT_STRAIGHT)
+  end
+
   private
 
     def reactive_product

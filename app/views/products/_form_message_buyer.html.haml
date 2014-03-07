@@ -7,7 +7,7 @@
 - elsif @status.closed
   Le vendeur à décider de ne plus poursuivre la discussion avec vous
 - else
-  - if current_user.can_send_message_for?(@status)
+  - if @status.can_send_message? current_user
     Dernier message recu :
     = @message.content
     = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
