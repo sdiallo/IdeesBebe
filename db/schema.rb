@@ -95,6 +95,18 @@ ActiveRecord::Schema.define(version: 20140214184737) do
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
 
+  create_table "statuses", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "user_id"
+    t.boolean  "closed",     default: false
+    t.boolean  "done",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "statuses", ["product_id"], name: "index_statuses_on_product_id", using: :btree
+  add_index "statuses", ["user_id"], name: "index_statuses_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -110,10 +122,11 @@ ActiveRecord::Schema.define(version: 20140214184737) do
     t.datetime "updated_at"
     t.string   "username"
     t.string   "slug"
-    t.integer  "response_time",          default: 0
     t.string   "provider"
     t.string   "fb_id"
     t.string   "fb_tk"
+    t.integer  "response_time",          default: 0
+    t.boolean  "guest"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
