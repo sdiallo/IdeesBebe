@@ -68,5 +68,4 @@ IdeesBebe::Application.routes.draw do
   #   end
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
->>>>>>> Stashed changes
 end
