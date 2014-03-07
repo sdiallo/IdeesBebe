@@ -18,6 +18,9 @@
 #  username               :string(255)
 #  slug                   :string(255)
 #  response_time          :integer          default(0)
+#  provider               :string(255)
+#  fb_id                  :string(255)
+#  fb_tk                  :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -54,6 +57,8 @@ class User < ActiveRecord::Base
   has_many :products, dependent: :destroy
   has_many :comments, dependent: :destroy
 
+  has_many :status
+
   has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
@@ -74,43 +79,36 @@ class User < ActiveRecord::Base
     profile.avatar
   end
 
-  def avatar?
-    profile.avatar?
+  def average_response_time
+    messages_sent.count > 0 ? response_time/messages_sent.count : response_time
   end
 
   def is_owner_of? product
-    product.owner == self
+    product.user_id == self.id
   end
 
-  def self.find_first_by_auth_conditions(warden_conditions)
-    conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
-    else
-      where(conditions).first
-    end
-  end
+  class << self
 
-  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :fb_id => auth.uid).first
-    if user
-      return user
-    else
-      registered_user = User.where(:email => auth.info.email).first
-      if registered_user
-        return registered_user
+    def find_first_by_auth_conditions warden_conditions
+      conditions = warden_conditions.dup
+      if login = conditions.delete(:login)
+        where(conditions).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
       else
-
-        @user = User.create!(username:auth.info.name.strip, 
-                            provider:auth.provider,
-                            fb_id:auth.uid,
-                            email:auth.info.email,
-                            fb_tk:auth.credentials.token,
-                            password:Devise.friendly_token[0,20]
-                          )
-          
+        where(conditions).first
       end
     end
-  end
 
+    def find_for_facebook_oauth(auth, signed_in_resource = nil)
+      user = User.where('email = ? OR (provider = ? AND fb_id = ?)', auth.info.email, auth.provider, auth.uid).first
+      return user if user.present?
+
+      @user = User.create!(username:auth.info.name.strip,
+                          provider:auth.provider,
+                          fb_id:auth.uid,
+                          email:auth.info.email,
+                          fb_tk:auth.credentials.token,
+                          password:Devise.friendly_token[0,20]
+                        )
+    end
+  end
 end

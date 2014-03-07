@@ -4,11 +4,15 @@ class PhotoUploader < CarrierWave::Uploader::Base
 
   include Cloudinary::CarrierWave
   include CarrierWave::MiniMagick
+
+  def default_url
+    ActionController::Base.helpers.asset_path(["#{model.class.name.downcase}", version_name, "default.png"].compact.join('_'))
+  end
  
   before :store, :remember_cache_id
   after :store, :delete_tmp_dir
 
-  process :resize_to_fill => [160,160]
+  process :resize_to_fill => [200,200]
   
   version :thumb do
     process :resize_to_fill => [100,100]

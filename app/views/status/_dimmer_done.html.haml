@@ -1,0 +1,26 @@
+.ui.grid
+  .column
+    #status-card
+      .ui.segment.index-user.selled
+        .ui.dimmer.visible.active
+          .wrap-no-click
+            .content
+              %h2.ui.inverted.icon.header
+                %i.icon.circular.inverted.emphasized.green.checkmark
+              .texte.marked
+                = 'Produit vendu !'
+              .texte.unmark
+                Notez l'acheteur :
+                .ui.large.star.rating
+                  %i.icon
+                  %i.icon
+                  %i.icon
+                  %i.icon
+                  %i.icon
+        .ui.bottom.attached.label.base-attached-label
+          .left
+            %span.user-name= user.username
+          %span.right
+            = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
+
+

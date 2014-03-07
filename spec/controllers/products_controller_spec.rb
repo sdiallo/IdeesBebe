@@ -7,6 +7,30 @@ describe ProductsController do
   before(:each) { sign_in subject }
 
   describe 'GET #index' do
+    let(:product) { FactoryGirl.create :product, user_id: subject.id }
+    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol' }
+    let(:status) { FactoryGirl.create :status, product_id: product2.id, user_id: user2.id, done: true }
+
+    it 'assigns products' do
+      product
+      status
+      get :index, profile_id: subject.slug
+      assigns(:products).should == [product2, product]
+    end
+
+    context 'with a specific category' do
+      let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol', category_id: subcategory.id }
+      let(:category) { FactoryGirl.create :category }
+      let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
+      
+      it 'assigns products' do
+        subcategory
+        product
+        status
+        get :index, profile_id: subject.slug, category: category.slug
+        assigns(:products).should == [product2]
+      end
+    end
 
     context "with my profile" do
       it "render_template index" do
@@ -39,12 +63,12 @@ describe ProductsController do
       context "with correct params" do
 
         it "create a product" do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
           expect(response).to redirect_to product_path(Product.last.slug)
         end
 
         it 'assigns product' do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "category_id" => category.id }
+          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
           expect(assigns(:product)).to eq(Product.last)
         end
       end
@@ -83,17 +107,30 @@ describe ProductsController do
       get :show, { id: product.slug }
       expect(assigns(:message)).to eq(nil)
     end
+
+    it 'assign status to nil' do
+      get :show, { id: product.slug }
+      expect(assigns(:status)).to eq(nil)
+    end
     
     context 'with already a conversation' do
 
       context 'when the current user is not the owner' do
         let(:product) { FactoryGirl.create :product, user_id: user2.id}
-        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, product_id: product.id }
+        let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: subject.id}
+        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, status_id: status.id }
 
-        it 'assign message with the message' do
+        it 'assign message' do
           message
           get :show, { id: product.slug }
           expect(assigns(:message)).to eq(message)
+        end
+
+
+        it 'assign status' do
+          message
+          get :show, { id: product.slug }
+          expect(assigns(:status)).to eq(status)
         end
       end
     end
@@ -139,7 +176,7 @@ describe ProductsController do
           put :update, { id: product.id, product: {name: "Great thing", description: "SO Great!"} }
           product.reload
           product.name.should == "Great thing"
-          product.slug.should == "great-thing"
+          product.slug.should == "#{product.id}-great-thing"
         end
 
         it 'assign product' do
@@ -190,7 +227,7 @@ describe ProductsController do
       it 'redirect_to my product' do
         product
         delete :destroy, { id: product.id }
-        expect(response).to redirect_to products_path(subject.slug)
+        expect(response).to redirect_to profile_products_path(subject.slug)
       end
 
       context 'with a failed destroy' do

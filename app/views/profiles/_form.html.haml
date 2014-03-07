@@ -1,14 +1,5 @@
 .ui.form
   = simple_form_for @profile, url: profile_path(@user.slug), method: :put, html: { multipart: true } do |f|
-    - if @profile.errors.any?
-      #error_explanation
-        %h2
-          = pluralize(@profile.errors.count, "error")
-          prohibited this profile from being saved:
-        %ul
-          raise @profile.errors.full_messages.inspect
-          - @profile.errors.full_messages.each do |msg|
-            %li= msg
     .field
       = f.input :first_name, label: 'Prénom', input_html: { size: 20 }
     .field

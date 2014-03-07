@@ -5,10 +5,7 @@
   %strong Nom:
   = @profile.last_name
 
-- if @profile.avatar?
-  = image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
-- else
-  = image_tag("default_avatar.png")
+= image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
 
 - if can? :edit, @profile
   = link_to 'Editer', edit_profile_path(@user.slug)

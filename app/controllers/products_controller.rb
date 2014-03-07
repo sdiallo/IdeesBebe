@@ -1,17 +1,24 @@
 class ProductsController < ApplicationController
   load_resource :user, find_by: :slug, id_param: :profile_id, only: [:index, :new]
-  load_and_authorize_resource :product, find_by: :slug, shallow: true, except: [:index, :by_category, :update, :create, :destroy]
 
-  load_and_authorize_resource :product, find_by: :id, shallow: true, only: [:update, :destroy]
+  load_and_authorize_resource :product, shallow: true, only: [:show, :new, :edit, :update, :destroy]
 
   def index
+    if params[:category].present?
+      @main_category = Category.find_by_slug(params[:category])
+      @products = current_user.products.order('created_at DESC').where(category_id: @main_category.subcategories.pluck(:id))
+    else
+      @products = current_user.products.order('created_at DESC')
+    end
   end
   
   # GET /products/1
   def show
     @comment = Comment.new
+
     if user_signed_in? and not current_user.is_owner_of? @product
       @message = @product.last_message_with(current_user)
+      @status = @message.status if @message
     end
   end
 
@@ -50,12 +57,12 @@ class ProductsController < ApplicationController
     else
       flash[:alert] = I18n.t('product.destroy.error')
     end
-    redirect_to products_path(@product.owner.slug)
+    redirect_to profile_products_path(@product.owner.slug)
   end
 
   private
 
     def product_params
-      params.require(:product).permit(:name, :description, :category_id)
+      params.require(:product).permit(:name, :price, :description, :category_id)
     end
 end

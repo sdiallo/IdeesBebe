@@ -11,14 +11,13 @@ IdeesBebe::Application.routes.draw do
   resources :products, only: [] do
     resources :comments, only: [:create, :destroy], shallow: true
     resources :product_assets, only: [:destroy, :update, :create], shallow: true
-    resources :messages, only: [:create, :index, :show]
+    resources :status, only: [:index, :show, :update]
+    resources :messages, only: :create
   end
 
   resources :categories, only: [:show] do
     get '/:id', action: :show_subcategory, as: 'subcategory'
   end
-
-  post '/profiles/:profile_id/products' => 'products#create', as: 'products'
 
   resources :inbox, only: [:show, :create]
   

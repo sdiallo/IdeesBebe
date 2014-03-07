@@ -32,6 +32,15 @@ class Category < ActiveRecord::Base
 
   class << self
 
+    def products_count_per_category_for user
+
+      Category.joins('LEFT OUTER JOIN "categories" "main_categories_categories" ON "main_categories_categories"."id" = "categories"."main_category_id"')
+        .joins(:products)
+        .where('products.user_id = ?', user.id)
+        .group('main_categories_categories.name, main_categories_categories.id')
+        .select('main_categories_categories.name, main_categories_categories.slug, COUNT(products.id) AS total')
+    end
+
     def main_categories
       Category.where(main_category_id: nil)
     end
