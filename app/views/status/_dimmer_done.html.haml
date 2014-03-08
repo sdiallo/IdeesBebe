@@ -1,7 +1,7 @@
 .ui.grid
   .column
     #status-card
-      .ui.segment.index-user.selled
+      .ui.segment.attached.index-user.selled
         .ui.dimmer.visible.active
           .wrap-no-click
             .content
@@ -17,10 +17,9 @@
                   %i.icon
                   %i.icon
                   %i.icon
-        .ui.bottom.attached.label.base-attached-label
-          .left
-            %span.user-name= user.username
-          %span.right
-            = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
+      .ui.bottom.attached.header.base-attached-label
+        %span.user-name= user.username
+        %span.right
+          = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
 
