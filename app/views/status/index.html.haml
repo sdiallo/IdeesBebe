@@ -25,7 +25,8 @@
       = render 'dimmer_done', user: @product.selled_to
   .row
     - if @status.empty?
-      = 'Aucun message pour ce produit'
+      .ui.message
+        = 'Aucun intéressé pour ce produit'
     - else
       .ui.grid.two.column.stackable
         - @status.reject!{|stat| stat.user_id == @product.selled_to.id } if not @product.avalaible?

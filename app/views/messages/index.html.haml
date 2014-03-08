@@ -4,34 +4,39 @@
       .sixteen.wide.column
         .ui.segment.no-box-shadow
           %h2
-            Mes messages
+            Mes conversations 
     .row
-      .four.wide.column
-        .ui.segment.no-box-shadow.block-categories
+      .five.wide.column
+        .ui.segment.no-box-shadow.states-messages
           .ui.vertical.menu.user-messages-categories
             = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
-              = 'Tous mes messages'
+              = 'Toutes mes conversations'
             = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
-              = 'Messages en attentes'
+              = 'En attentes de ma réponse'
+              - if not @user.messages_waiting_me.count.zero?
+                .ui.teal.label
+                  = @user.messages_waiting_me.count
             = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
-              = 'Messages archivés'
-      .twelve.wide.column
+              = 'Archivés'
+      .eleven.wide.column
         .ui.grid.one.column.doubling.index-messages
           - if @status.empty?
             .column
               .ui.message
-                .header
                 Aucun messages
           - else
-            - @status.includes(:product).each do |status|
+            - @status.each do |status|
               - message = status.last_message
+              - other = @user.id == status.product.user_id ? status.user : status.product.owner
               .column
                 = link_to product_status_path(product_id: status.product_id, id: status.user.slug) do
+                  - relation = @user.id == status.product.user_id ? 'votre produit' : 'son produit'
                   %h4.ui.top.attached.header
-                    %span.user= status.user.username
-                    %span.intro à propos de
+                    %span.user= other.username
+                    %span.intro= "à propos de #{relation}"
                     %span.product= status.product.name
                   .ui.attached.segment.index-message
                     - intro = message.sender_id == @user.id ? 'Vous avez' : "#{message.sender.username} à"
-                    %p= "#{intro} dit :"
+                    %p.speaker= "#{intro} dit :"
+                    %p.time-since= "Il y à #{distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i)}"
                     %p= message.content

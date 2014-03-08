@@ -77,6 +77,7 @@ class User < ActiveRecord::Base
       .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
       .where('products.user_id = ? OR statuses.user_id = ?', id, id)
       .group('statuses.id')
+      .reverse
   end
 
   def messages_waiting_me
@@ -84,9 +85,9 @@ class User < ActiveRecord::Base
       .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
       .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
       .where('products.user_id = ? OR statuses.user_id = ?', id, id)
-      .where('statuses.done != ? AND statuses.closed != ?', true, true)
       .group('statuses.id')
-      .reject{ |status| status.last_message.sender_id == id }    
+      .reject{ |status| status.last_message.sender_id == id or status.closed or status.done }
+      .reverse
   end
 
   def messages_archived
@@ -96,6 +97,7 @@ class User < ActiveRecord::Base
       .where('products.user_id = ? OR statuses.user_id = ?', id, id)
       .where('statuses.done = ? OR statuses.closed = ?', true, true)
       .group('statuses.id')
+      .reverse
   end
 
   def avatar
