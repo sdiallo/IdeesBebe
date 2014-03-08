@@ -71,8 +71,33 @@ class User < ActiveRecord::Base
   before_save :to_slug, if: :username_changed?
 
 
-  def messages
-    Message.where('receiver_id = ? OR sender_id = ?', self.id, self.id).order('created_at DESC')
+  def messages_recent
+    Status.includes(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .group('statuses.id')
+      .reverse
+  end
+
+  def messages_waiting_me
+    Status.includes(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .group('statuses.id')
+      .reject{ |status| status.last_message.sender_id == id or status.closed or status.done }
+      .reverse
+  end
+
+  def messages_archived
+    Status.includes(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+      .where('statuses.done = ? OR statuses.closed = ?', true, true)
+      .group('statuses.id')
+      .reverse
   end
 
   def avatar

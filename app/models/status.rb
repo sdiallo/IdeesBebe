@@ -31,6 +31,10 @@ class Status < ActiveRecord::Base
     product.active and not closed and (messages.order('created_at DESC').limit(Message::LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != user.id }.count < Message::LIMIT_STRAIGHT)
   end
 
+  def last_message
+    messages.order('messages.created_at DESC').first
+  end
+
   private
 
     def reactive_product

@@ -1,13 +1,13 @@
 #user-products
-  .ui.grid
+  .ui.grid.stackable
     .row
       .sixteen.wide.column
         .ui.segment.no-box-shadow
           %h2
             Mes produits
     .row
-      .five.wide.column.computer.only
-        .ui.segment.no-box-shadow.block-categories
+      .five.wide.column
+        .ui.segment.no-box-shadow.block-categories.full-width.no-left-right-padding
           .ui.vertical.menu.user-products-categories
             = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
               = 'Toutes catégories'
@@ -19,23 +19,30 @@
                 .ui.label.teal
                   = main.total
       .eleven.wide.column
-        .ui.grid.three.column.stackable.index-products
-          - @products.includes(:status).includes(:owner).each do |product|
-            .column
-              .ui.segment.index-product
-                = link_to product_path(product.slug) do
-                  - if product.starred_asset
-                    = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
-                  - else
-                    = image_tag('product_default.png')
-                .row.product-name
-                  = product.name.capitalize
-                .row.product-messages
-                  - if product.avalaible?
-                    %i.icon.mail
-                    = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
-                  - else
-                    Vendu !
-                .row.product-actions
-                  - link_name = product.avalaible? ? 'Gérer' : 'Revoir  '
-                  = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'
+        - if @products.count.zero?
+          .column
+            .ui.message
+              Aucun produits
+        - else
+          .ui.grid.three.column.stackable.index-products
+            - @products.includes(:status).includes(:owner).each do |product|
+              .column
+                .ui.segment.index-product
+                  = link_to product_path(product.slug) do
+                    - if product.starred_asset
+                      = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
+                    - else
+                      = image_tag('product_default.png')
+                  .row.product-name
+                    = product.name.capitalize
+                  .row.product-messages
+                    - if product.avalaible?
+                      %i.icon.mail
+                      = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
+                    - else
+                      .ui.inverted.icon
+                        %i.icon.circular.inverted.emphasized.green.checkmark
+                        Produit vendu !
+                  .row.product-actions
+                    - link_name = product.avalaible? ? 'Gérer' : 'Revoir  '
+                    = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'

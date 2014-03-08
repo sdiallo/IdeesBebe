@@ -17,6 +17,8 @@ class Message < ActiveRecord::Base
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
   belongs_to :status
 
+  delegate :product, to: :status
+
   LIMIT_STRAIGHT = 2
   
   validates :content,
