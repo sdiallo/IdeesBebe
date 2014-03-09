@@ -37,12 +37,17 @@ class Message < ActiveRecord::Base
   after_create :unactive_product, unless: :from_owner?
   after_create :reactive_product, unless: :product_is_active?
   after_create :response_time, if: :from_owner?
+  after_create :touch_status
 
   def from_owner?
     status.product.owner == sender
   end
 
   private
+
+    def touch_status
+      status.touch
+    end
 
     # Reactive product for owner
 

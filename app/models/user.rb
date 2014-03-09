@@ -70,34 +70,10 @@ class User < ActiveRecord::Base
 
   before_save :to_slug, if: :username_changed?
 
-
-  def messages_recent
-    Status.includes(:user)
-      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
-      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
-      .group('statuses.id')
-      .reverse
-  end
-
-  def messages_waiting_me
-    Status.includes(:user)
-      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
-      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
-      .group('statuses.id')
-      .reject{ |status| status.last_message.sender_id == id or status.closed or status.done or not status.product.avalaible? }
-      .reverse
-  end
-
-  def messages_archived
-    Status.includes(:user)
-      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
-      .where('products.user_id = ? OR statuses.user_id = ?', id, id)
-      .where('statuses.done = ? OR statuses.closed = ?', true, true)
-      .group('statuses.id')
-      .reverse
+  def type_of_status state
+    return conversations_waiting_me if state == 'pending'
+    return conversations_archived if state == 'archived'
+    conversations
   end
 
   def avatar
@@ -126,14 +102,26 @@ class User < ActiveRecord::Base
     def find_for_facebook_oauth(auth, signed_in_resource = nil)
       user = User.where('email = ? OR (provider = ? AND fb_id = ?)', auth.info.email, auth.provider, auth.uid).first
       return user if user.present?
-
-      @user = User.create!(username:auth.info.name.strip,
-                          provider:auth.provider,
-                          fb_id:auth.uid,
-                          email:auth.info.email,
-                          fb_tk:auth.credentials.token,
-                          password:Devise.friendly_token[0,20]
-                        )
+      @user = User.create!(username:auth.info.name.strip, provider:auth.provider, fb_id:auth.uid, email:auth.info.email, fb_tk:auth.credentials.token, password:Devise.friendly_token[0,20])
     end
   end
+
+  private
+
+    def conversations
+      Status.includes(:user)
+        .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+        .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+        .where('products.user_id = ? OR statuses.user_id = ?', id, id)
+        .group('statuses.id')
+        .order('statuses.updated_at')
+    end
+
+    def conversations_archived
+      conversations.where('products.selled = ? OR statuses.closed = ?', true, true)
+    end
+
+    def conversations_waiting_me
+      conversations.where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == id or status.closed }
+    end
 end

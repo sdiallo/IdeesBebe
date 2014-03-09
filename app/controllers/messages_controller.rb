@@ -7,13 +7,7 @@ class MessagesController < ApplicationController
   def index
     raise CanCan::AccessDenied if @user != current_user
     @state = params[:state] if params[:state].present?
-    if @state == 'pending'
-      @status = @user.messages_waiting_me
-    elsif @state == 'archived'
-      @status = @user.messages_archived
-    else
-      @status = @user.messages_recent
-    end
+    @status = @user.type_of_status(@state)
   end
 
   def create
