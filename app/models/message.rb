@@ -37,12 +37,17 @@ class Message < ActiveRecord::Base
   after_create :unactive_product, unless: :from_owner?
   after_create :reactive_product, unless: :product_is_active?
   after_create :response_time, if: :from_owner?
+  after_create :touch_status
 
   def from_owner?
     status.product.owner == sender
   end
 
   private
+
+    def touch_status
+      status.touch
+    end
 
     # Reactive product for owner
 
@@ -73,7 +78,7 @@ class Message < ActiveRecord::Base
     # Reminder for owner
 
     def need_to_remember?
-      (status.product.last_message_with(sender)) == self and status.product.avalaible? and not status.closed
+      status.last_message == self and not product.selled and not status.closed
     end
 
     def reminder_owner_3_days

@@ -12,6 +12,7 @@
 #  category_id :integer
 #  active      :boolean          default(TRUE)
 #  price       :integer          default(0)
+#  selled      :boolean          default(FALSE)
 #
 
 class Product < ActiveRecord::Base
@@ -30,6 +31,9 @@ class Product < ActiveRecord::Base
   has_many :messages, through: :status
 
   accepts_nested_attributes_for :category
+
+  scope :active, ->() { where(active: true) }
+  scope :avalaible, ->() { where(active: true, selled: false) }
 
   validates :name,
     length: {
@@ -56,16 +60,11 @@ class Product < ActiveRecord::Base
 
   validates :category_id, presence: { message: I18n.t('product.category.presence') }
 
-  scope :active, ->() { where(active: true) }
 
   before_save :to_slug, if: :name_changed?
 
   def slug
     "#{id}-#{super}"
-  end
-
-  def avalaible?
-    status.where(done: true).count.zero?
   end
 
   def selled_to
@@ -93,9 +92,5 @@ class Product < ActiveRecord::Base
       lasts << status.messages.order('created_at DESC').first
     end
     lasts
-  end
-
-  def last_message_with user
-    messages.with(user).order('created_at DESC').try(:first)
   end
 end

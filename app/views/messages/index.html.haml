@@ -13,9 +13,9 @@
               = 'Toutes mes conversations'
             = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
               = 'En attentes de ma réponse'
-              - if not @user.messages_waiting_me.count.zero?
+              - if not @user.type_of_status('pending').count.zero?
                 .ui.teal.label
-                  = @user.messages_waiting_me.count
+                  = @user.type_of_status('pending').count
             = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
               = 'Archivés'
       .eleven.wide.column
@@ -35,7 +35,7 @@
                   %span.intro= "à propos de #{relation}"
                   %span.product= link_to status.product.name, product_path(status.product.slug), class: 'underline'
                   %span.state
-                    - if not status.product.avalaible?
+                    - if status.product.selled
                       .ui.inverted.icon.starpop{ 'data-content' => 'Ce produit est vendu', 'data-variation' => 'inverted' }
                         %i.icon.circular.inverted.emphasized.green.checkmark
                     - elsif status.closed

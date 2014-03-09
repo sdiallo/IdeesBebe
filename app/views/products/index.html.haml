@@ -36,7 +36,7 @@
                   .row.product-name
                     = product.name.capitalize
                   .row.product-messages
-                    - if product.avalaible?
+                    - if not product.selled
                       %i.icon.mail
                       = "#{product.pending_messages_for_owner.count} message(s) en attente(s)"
                     - else
@@ -44,5 +44,5 @@
                         %i.icon.circular.inverted.emphasized.green.checkmark
                         Produit vendu !
                   .row.product-actions
-                    - link_name = product.avalaible? ? 'Gérer' : 'Revoir  '
+                    - link_name = product.selled ? 'Revoir' : 'Gérer'
                     = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'

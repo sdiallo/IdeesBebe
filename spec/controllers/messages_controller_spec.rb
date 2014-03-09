@@ -14,7 +14,7 @@ describe MessagesController do
   end
 
   describe '#index' do
-    let(:product2) { FactoryGirl.create :product, owner: user }
+    let(:product2) { FactoryGirl.create :product, owner: user, selled: true }
     let(:message) { FactoryGirl.create :message, status: status, sender_id: user2.id, receiver_id: user.id }
     let(:message2) { FactoryGirl.create :message, status: status, sender_id: user.id, receiver_id: user2.id }
     let(:message3) { FactoryGirl.create :message, status: status2, sender_id: user3.id, receiver_id: user.id }
