@@ -32,6 +32,7 @@ class Product < ActiveRecord::Base
 
   accepts_nested_attributes_for :category
 
+  scope :active, ->() { where(active: true) }
   scope :avalaible, ->() { where(active: true, selled: false) }
 
   validates :name,
@@ -59,7 +60,6 @@ class Product < ActiveRecord::Base
 
   validates :category_id, presence: { message: I18n.t('product.category.presence') }
 
-  scope :active, ->() { where(active: true) }
 
   before_save :to_slug, if: :name_changed?
 
