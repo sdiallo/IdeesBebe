@@ -16,19 +16,26 @@
   .index-messages
     .column:first-child
       margin-top: 0
-    a
+    .last-message-content
       &:hover
         text-decoration: none
         color: black
     h4
       .intro
-        font-size: 16px
-        color: black
+        font-size: 14px
+        color: grey
+      .state
+        font-size: 10px
+        margin-left: 8px
+        .ban
+          color: white !important
       .user
         color: #564F8A
       .product
         color: #564F8A
     .index-message
+      &:hover
+        background: hsla(0, 0%, 66%, 0.1)
       border-radius: 0 0 0.3125em 0.3125em !important
       .speaker
         margin-bottom: 0

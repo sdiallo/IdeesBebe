@@ -27,16 +27,24 @@
           - else
             - @status.each do |status|
               - message = status.last_message
-              - other = @user.id == status.product.user_id ? status.user : status.product.owner
+              - other = @user.id == status.user_id ? status.product.owner : status.user
+              - relation = @user.id == status.user_id ? 'son produit' : 'votre produit'
               .column
-                = link_to product_status_path(product_id: status.product_id, id: status.user.slug) do
-                  - relation = @user.id == status.product.user_id ? 'votre produit' : 'son produit'
-                  %h4.ui.top.attached.header
-                    %span.user= other.username
-                    %span.intro= "à propos de #{relation}"
-                    %span.product= status.product.name
+                %h4.ui.top.attached.header
+                  %span.user= link_to other.username, profile_path(other.slug), class: 'underline'
+                  %span.intro= "à propos de #{relation}"
+                  %span.product= link_to status.product.name, product_path(status.product.slug), class: 'underline'
+                  %span.state
+                    - if not status.product.avalaible?
+                      .ui.inverted.icon.starpop{ 'data-content' => 'Ce produit est vendu', 'data-variation' => 'inverted' }
+                        %i.icon.circular.inverted.emphasized.green.checkmark
+                    - elsif status.closed
+                      .ui.inverted.icon.starpop{ 'data-content' => 'Cette conversation est fermé', 'data-variation' => 'inverted' }
+                        %i.icon.circular.inverted.emphasized.red.ban.circle
+                = link_to product_status_path(product_id: status.product_id, id: status.user.slug, anchor: 'last-message'), class: 'last-message-content' do
                   .ui.attached.segment.index-message
                     - intro = message.sender_id == @user.id ? 'Vous avez' : "#{message.sender.username} à"
-                    %p.speaker= "#{intro} dit :"
-                    %p.time-since= "Il y à #{distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i)}"
+                    %p.speaker
+                      = "#{intro} dit :"
+                      %span.time-since= "Il y à #{distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i)}"
                     %p= message.content
