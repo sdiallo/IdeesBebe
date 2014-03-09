@@ -26,7 +26,7 @@ class StatusController < ApplicationController
     @updated = @status.done_changed? ? 'done' : 'closed'
     respond_to do |format|
       format.html { redirect_to action: :index }
-      format.js { @message = @status.product.last_message_with(@status.user) }
+      format.js { @message = @status.last_message }
     end
   end
 

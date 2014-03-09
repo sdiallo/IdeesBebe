@@ -93,8 +93,4 @@ class Product < ActiveRecord::Base
     end
     lasts
   end
-
-  def last_message_with user
-    messages.with(user).order('created_at DESC').try(:first)
-  end
 end

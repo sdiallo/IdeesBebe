@@ -168,24 +168,4 @@ describe Product do
       end
     end
   end
-
-  describe '#last_message_with' do
-    let(:user2) { FactoryGirl.create :user }
-    let(:user) { FactoryGirl.create :user }
-    subject { FactoryGirl.create :product, owner: user2 }
-
-    it 'returns nil' do
-      subject.last_message_with(user).should == nil
-    end
-
-    context 'with message' do
-      let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
-      let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
-
-      it 'returns the message' do
-        msg
-        subject.last_message_with(user).should == msg
-      end
-    end
-  end  
 end

@@ -9,7 +9,7 @@
 - else
   - if @status.can_send_message? current_user
     Dernier message recu :
-    = @message.content
+    = @status.last_message.content
     = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
       = f.input :content, label: 'Texte', as: :text
       = f.hidden_field :receiver_id, value: @product.owner.id
