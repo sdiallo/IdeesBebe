@@ -18,11 +18,9 @@
                 - active = status.user == @receiver ? 'active' : ''
                 = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
                   = status.user.username
-                  - count = status.pending_messages_count
-                  - if count > 0
+                  - if status.pending_messages_count > 0 and not status.closed and not @product.selled
                     .ui.label.teal
                       %i.mail.icon
-                      = count
       .eleven.wide.column
         .ui.segment.piled.feed
           .messages
