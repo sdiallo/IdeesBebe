@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
       .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
       .where('products.user_id = ? OR statuses.user_id = ?', id, id)
       .group('statuses.id')
-      .reject{ |status| status.last_message.sender_id == id or status.closed or status.done }
+      .reject{ |status| status.last_message.sender_id == id or status.closed or status.done or not status.product.avalaible? }
       .reverse
   end
 

@@ -12,6 +12,7 @@
 #  category_id :integer
 #  active      :boolean          default(TRUE)
 #  price       :integer          default(0)
+#  selled      :boolean          default(FALSE)
 #
 
 require 'spec_helper'

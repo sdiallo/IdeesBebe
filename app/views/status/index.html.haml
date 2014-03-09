@@ -2,7 +2,7 @@
   .ui.segment.product-header
     %h2.left
       =link_to @product.name, product_path(@product.slug)
-    - if @product.avalaible?
+    - if not @product.selled
       .main-actions.right
         = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
           %i.icon.wrench
@@ -13,7 +13,7 @@
           %span
             Supprimer
 
-  - if @product.avalaible? and not @product.active 
+  - if not @product.selled and not @product.active 
     .ui.message.product-state.error
       .title
         Produit Inactif
@@ -21,7 +21,7 @@
         Repondez aux messages en attentes ou fermez les discussions!
   %h2= "Personnes intéressés"
 
-  - if not @product.avalaible?
+  - if @product.selled
     .row
       = render 'dimmer_done', user: @product.selled_to
   .row
@@ -30,7 +30,7 @@
         = 'Aucun intéressé pour ce produit'
     - else
       .ui.grid.two.column.stackable
-        - @status.reject!{|stat| stat.user_id == @product.selled_to.id } if not @product.avalaible?
+        - @status.reject!{|stat| stat.user_id == @product.selled_to.id } if @product.selled
         - @status.each do |status|
           .column
-            = render 'status_card', status: status, message: @product.last_message_with(status.user)
+            = render 'status_card', status: status, message: status.last_message

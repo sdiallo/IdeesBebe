@@ -1,5 +1,4 @@
 - user = message.from_owner? ? message.receiver : message.sender 
-- name = message.from_owner? ? 'vous-même' : message.sender .username
 #status-card
   .ui.segment.attached.index-user
     .ui.grid.stackable
@@ -9,7 +8,7 @@
         %p= user.username
         %p note
       .six.wide.column.user-actions
-        - if @product.avalaible?
+        - if not @product.selled
           .ui.buttons.actions
             .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' }
               = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, remote: true do |f|
@@ -35,7 +34,7 @@
             %i.icon.circular.inverted.emphasized.red.ban.circle
 
   %h4.ui.bottom.attached.header.base-attached-label
-    - if @product.avalaible?
+    - if not @product.selled
       %span.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
         %i.icon.mail
         = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do

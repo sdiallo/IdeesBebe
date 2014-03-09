@@ -22,14 +22,14 @@
 
 
 
-- if not @product.avalaible?
+- if @product.selled
   Produit vendu!
 - else
 
   - if can? :edit, @product
     = link_to 'Editer', edit_product_path(@product.slug)
 
-  - if can? :create, @comment and @product.avalaible?
+  - if can? :create, @comment and not @product.selled
     = render 'form_comments'
 
   - if user_signed_in?

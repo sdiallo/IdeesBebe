@@ -17,6 +17,11 @@ class Status < ActiveRecord::Base
   has_many :messages
 
   after_update :reactive_product, if: [:closed_changed?]
+  after_update :mark_product_as_selled, if: [:done_changed?, :done]
+
+  def mark_product_as_selled
+    product.update_attributes!(selled: true)
+  end
 
   def pending_messages_count
     date = messages.where(sender_id: product.user_id).maximum(:created_at) || DateTime.new

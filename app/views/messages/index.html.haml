@@ -35,7 +35,7 @@
                   %span.intro= "à propos de #{relation}"
                   %span.product= link_to status.product.name, product_path(status.product.slug), class: 'underline'
                   %span.state
-                    - if not status.product.avalaible?
+                    - if status.product.selled
                       .ui.inverted.icon.starpop{ 'data-content' => 'Ce produit est vendu', 'data-variation' => 'inverted' }
                         %i.icon.circular.inverted.emphasized.green.checkmark
                     - elsif status.closed

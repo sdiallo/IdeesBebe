@@ -12,6 +12,7 @@
 #  category_id :integer
 #  active      :boolean          default(TRUE)
 #  price       :integer          default(0)
+#  selled      :boolean          default(FALSE)
 #
 
 class Product < ActiveRecord::Base
@@ -30,6 +31,8 @@ class Product < ActiveRecord::Base
   has_many :messages, through: :status
 
   accepts_nested_attributes_for :category
+
+  scope :avalaible, ->() { where(active: true, selled: false) }
 
   validates :name,
     length: {
@@ -62,10 +65,6 @@ class Product < ActiveRecord::Base
 
   def slug
     "#{id}-#{super}"
-  end
-
-  def avalaible?
-    status.where(done: true).count.zero?
   end
 
   def selled_to
