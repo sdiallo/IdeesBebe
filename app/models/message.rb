@@ -46,7 +46,7 @@ class Message < ActiveRecord::Base
   end
 
   def need_to_remember?
-    (status.product.last_message_with(sender)) == self and status.product.avalaible? and not status.closed
+    status.last_message == self and not product.selled and not status.closed
   end
 
   private
