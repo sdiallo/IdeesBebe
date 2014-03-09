@@ -39,12 +39,6 @@ describe Status do
         subject.update_attributes!(done: true)
         subject.product.reload.selled.should == true
       end
-
-      it 'the product is now unavalaible' do
-        message
-        subject.update_attributes!(done: true)
-        subject.product.reload.avalaible?.should == false
-      end
     end
   end
 end
