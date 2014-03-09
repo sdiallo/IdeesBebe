@@ -1,4 +1,4 @@
-- name = current_user.is_owner_of?(@product) ? @user.username : @product.owner.username
+- name = current_user.is_owner_of?(@product) ? @user.username : current_user.username
 - link = current_user.username == name ? product_path(@product.slug) : product_status_index_path(@product.slug)
 #conversation
   .ui.grid.stackable
