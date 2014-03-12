@@ -1,29 +1,29 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize user
 
     unless user.nil?
-          
       can :manage, [Profile, Product], user_id: user.id
 
-      can [:destroy, :update], ProductAsset do |asset|
-        user.is_owner_of? asset.product
-      end
+      can [:destroy, :update], ProductAsset, product: { user_id: user.id }
       can :destroy, Comment, user_id: user.id
       can :destroy, User, id: user.id
 
       can :create, Comment
       can :create, Message
       can :read, Message
+      
+      can :create, Report
+      cannot :create, Report do |report|
+        user.reports.where(product_id: report.product_id).count > 0
+      end
 
       can :index, Status, product: { owner_id: user.id }
       can :show, Status do |status|
         user.is_owner_of?(status.product) or status.user.id == user.id
       end
-      can :update, Status do |status|
-        user.is_owner_of?(status.product)
-      end
+      can :update, Status, product: { user_id: user.id }
     end
 
     can :show, :all

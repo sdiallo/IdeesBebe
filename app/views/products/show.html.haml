@@ -4,6 +4,9 @@
 %p
   %b Description:
   = @product.description
+%p
+  %b Disponible depuis : 
+  = distance_of_time_in_words(DateTime.now.to_i - @product.created_at.to_i)
 
 %p
   %b Temps de réponse moyen
@@ -21,15 +24,21 @@
   = image_tag("default_avatar.png")
 
 
-
 - if @product.selled
   Produit vendu!
 - else
+  - if can? :create, @product.reports.build
+    - unless current_user.is_owner_of? @product
+      = simple_form_for @product.reports.build, url: product_reports_path(@product.slug) do |f|
+        = f.button :submit, 'Signaler'
+  - else
+    %i.icon.checkmark
+    Signalé
 
   - if can? :edit, @product
     = link_to 'Editer', edit_product_path(@product.slug)
 
-  - if can? :create, @comment and not @product.selled
+  - if can? :create, @comment
     = render 'form_comments'
 
   - if user_signed_in?

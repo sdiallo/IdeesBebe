@@ -29,6 +29,7 @@ class Product < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :status
   has_many :messages, through: :status
+  has_many :reports, dependent: :destroy
 
   accepts_nested_attributes_for :category
 

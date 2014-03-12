@@ -62,6 +62,8 @@ class User < ActiveRecord::Base
   has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
+  has_many :reports, dependent: :destroy
+
   attr_accessor :login
 
 
