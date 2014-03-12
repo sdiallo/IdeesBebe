@@ -95,7 +95,7 @@ fr:
       success: 'Votre produit à été enregistré'
     update:
       success: 'Votre produit à été mise à jour'
-      too_many_assets: 'Vous avez déjà atteints le nombre maximum de photo'
+      too_many_photos: 'Vous avez déjà atteints le nombre maximum de photo'
     destroy:
       success: 'Votre produit à bien été supprimé'
       error: "Une erreur s'est produite"

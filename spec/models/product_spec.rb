@@ -42,8 +42,8 @@ describe Product do
 
   describe '#starred_asset' do
 
-    context 'with assets' do
-      let(:asset) { FactoryGirl.create :product_asset, product: subject, starred: true }
+    context 'with photos' do
+      let(:asset) { FactoryGirl.create :photo, product: subject, starred: true }
 
       it 'return the starred asset' do
         asset
@@ -51,7 +51,7 @@ describe Product do
       end
     end
 
-    context 'with no assets' do
+    context 'with no photos' do
 
       it 'return nil' do
         subject.starred_asset.should == nil
@@ -61,9 +61,9 @@ describe Product do
 
   describe '#has_maximum_upload?' do
 
-    context 'with already too many assets' do
-      let(:asset) { FactoryGirl.create :product_asset, product: subject }
-      let(:asset2) { FactoryGirl.create :product_asset, product: subject }
+    context 'with already too many photos' do
+      let(:asset) { FactoryGirl.create :photo, product: subject }
+      let(:asset2) { FactoryGirl.create :photo, product: subject }
 
       it 'return true' do
         asset
@@ -72,7 +72,7 @@ describe Product do
       end
     end
 
-    context 'without too many assets' do
+    context 'without too many photos' do
 
       it 'return false' do
         subject.has_maximum_upload?.should == false

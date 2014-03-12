@@ -15,9 +15,9 @@
   - else
     = distance_of_time_in_words(@product.owner.average_response_time)
 
-- unless @product.assets.empty?
+- unless @product.photos.empty?
   #destroy_asset_link
-    - @product.assets.each do |a|
+    - @product.photos.each do |a|
       %div
         = image_tag(a.file)
 - else

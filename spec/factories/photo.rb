@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: assets
+# Table name: photos
 #
 #  id              :integer          not null, primary key
 #  file            :string(255)
@@ -15,7 +15,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :product_asset do
+  factory :photo do
     file "MyString"
     starred false
 

@@ -96,19 +96,19 @@ describe User do
         let(:product2) { FactoryGirl.create :product, owner: user2 }
 
         it 'can :destroy asset for his product' do
-          ability.should be_able_to(:destroy, ProductAsset.new(product: product))
+          ability.should be_able_to(:destroy, Photo.new(product: product))
         end
 
         it 'cannot :destroy asset from product of another' do
-          ability.should_not be_able_to(:destroy, ProductAsset.new(product: product2))
+          ability.should_not be_able_to(:destroy, Photo.new(product: product2))
         end
 
-        it "can stars (:update) one of his product's assets" do
-          ability.should be_able_to(:update, ProductAsset.new(product: product))
+        it "can stars (:update) one of his product's photos" do
+          ability.should be_able_to(:update, Photo.new(product: product))
         end
 
         it "cannot stars (:update) asset from product of another" do
-          ability.should_not be_able_to(:update, ProductAsset.new(product: product2))
+          ability.should_not be_able_to(:update, Photo.new(product: product2))
         end
       end
 
