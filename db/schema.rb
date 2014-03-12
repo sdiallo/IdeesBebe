@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140311191008) do
+ActiveRecord::Schema.define(version: 20140312191949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20140311191008) do
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
   add_index "messages", ["status_id"], name: "index_messages_on_status_id", using: :btree
 
-  create_table "product_assets", force: true do |t|
+  create_table "photos", force: true do |t|
     t.integer  "product_id"
     t.string   "file"
     t.boolean  "starred"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20140311191008) do
     t.datetime "updated_at"
   end
 
-  add_index "product_assets", ["product_id"], name: "index_product_assets_on_product_id", using: :btree
+  add_index "photos", ["product_id"], name: "index_photos_on_product_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"

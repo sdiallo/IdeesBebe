@@ -191,7 +191,7 @@ describe ProductsController do
         end
 
 
-        it "flash an error if assets' limit is reached" do
+        it "flash an error if photos' limit is reached" do
           Product.any_instance.stub(:has_maximum_upload?).and_return(true)
           put :update, { id: product.id, product: {name: "Great thing", description: "1000" } }
           product.reload.description.should == product.description          
@@ -231,7 +231,7 @@ describe ProductsController do
   describe '#authorized_upload' do
 
     it 'raise an error with an unvalid asset' do
-      ProductAsset.any_instance.stub(:new).and_return(nil)
+      Photo.any_instance.stub(:new).and_return(nil)
       controller.authorized_upload 'test'
     end
   end

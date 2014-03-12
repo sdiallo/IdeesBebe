@@ -25,7 +25,7 @@ class Product < ActiveRecord::Base
   belongs_to :owner, foreign_key: 'user_id', class_name: 'User'
   belongs_to :category
 
-  has_many :assets, foreign_key: 'product_id', class_name: 'ProductAsset', dependent: :destroy
+  has_many :photos, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :status
   has_many :messages, through: :status
@@ -73,11 +73,11 @@ class Product < ActiveRecord::Base
   end
 
   def starred_asset
-    assets.where(starred: true).first.try(:file)
+    photos.where(starred: true).first.try(:file)
   end
 
   def has_maximum_upload?
-    assets.count == MAXIMUM_UPLOAD_PHOTO
+    photos.count == MAXIMUM_UPLOAD_PHOTO
   end
 
   def pending_messages_for_owner

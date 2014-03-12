@@ -9,7 +9,7 @@
   .six.wide.column
     .ui.segment
       - unless @product.has_maximum_upload?
-        = simple_form_for ProductAsset.new, url: product_product_assets_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
+        = simple_form_for Photo.new, url: product_photos_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
           = f.hidden_field :starred, value: false
           = f.input :file, label: 'Photos', as: :file, allow_blank: true, input_html: {class: "ui button"}
           = f.button :submit, 'Ajouter'
@@ -18,7 +18,7 @@
           Vous avez atteint le maximum de photo. Supprimez-en une pour en ajouter de nouvelles
 
       .ui.three.items
-        - @product.assets.each do |a|
+        - @product.photos.each do |a|
           .item.photos
             .image
               = image_tag(a.file, alt: @product.description, title: @product.description)
@@ -27,13 +27,13 @@
                   %i.icon.star.colorstar
               - else
                 .star.ui.corner.label.starpop{"data-content" => "mettre la photo en avant", "data-variation" => "inverted"}
-                  = simple_form_for a, url: product_asset_path(id: a.id), html: { multipart: true }, method: :put do |f|
+                  = simple_form_for a, url: photo_path(id: a.id), html: { multipart: true }, method: :put do |f|
                     = f.hidden_field :starred, value: true
                     = button_tag(type: 'submit', class: 'transparent-button') do 
                       %i.icon.link.star               
             .content
             .ui.red.small.button.bottom.attached
-              = link_to 'Supprimer', product_asset_path(id: a.id), method: :delete
+              = link_to 'Supprimer', photo_path(id: a.id), method: :delete
 .row.downlink
   .ui.blue.small.button                
     = link_to 'Retour', product_path(@product.slug)
