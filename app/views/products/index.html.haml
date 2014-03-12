@@ -34,7 +34,7 @@
                     - else
                       = image_tag('product_default.png')
                   .row.product-name
-                    = product.name.capitalize
+                    = link_to product.name.capitalize, product_path(product.slug)
                   .row.product-messages
                     - if not product.selled
                       %i.icon.mail

@@ -29,17 +29,17 @@ require 'cancan/matchers'
 describe User do
   subject { FactoryGirl.create :user }
 
-
-
   it_behaves_like Slugable do
     subject { FactoryGirl.create :user, username: "momé dad hOme" }
   end
 
   describe 'Abilities' do
     subject(:ability){ Ability.new(user) }
+    let(:user) { FactoryGirl.create :user }
+    let(:user2) { FactoryGirl.create :user }
 
     context 'with a guest user' do
-      let(:user){ User.new }
+      let(:user){ nil }
 
       context 'concerning a product' do
 
@@ -51,11 +51,17 @@ describe User do
           ability.should be_able_to(:show, :all)
         end
       end
+
+      context 'concerning a report' do
+        let(:product2) { FactoryGirl.create :product, owner: user2 }
+
+        it 'cannot create a report' do
+          ability.should_not be_able_to(:create, Report.new(user: user, product: product2))
+        end
+      end
     end
 
     context 'with a connected user' do
-      let(:user) { FactoryGirl.create :user }
-      let(:user2) { FactoryGirl.create :user }
 
       before(:each) { user.stub(:new_record?).and_return(false) }
 
@@ -134,6 +140,25 @@ describe User do
 
         it 'can :create message' do
           ability.should be_able_to(:create, Message.new(sender_id: user.id, receiver_id: user2.id, status: status, content: 'test'))
+        end
+      end
+
+      context 'concerning a report' do
+
+        context 'with a product from another' do
+          let(:product2) { FactoryGirl.create :product, owner: user2 }
+
+          it 'can create a report' do
+            ability.should be_able_to(:create, Report.new(user_id: user.id, product: product2))
+          end
+
+          context 'when has already report the announce' do
+            let(:report) { FactoryGirl.create :report, user: user, product: product2 }
+            it 'cannot create a report' do
+              report
+              ability.should_not be_able_to(:create, Report.new(user_id: user.id, product: product2))
+            end
+          end
         end
       end
     end
