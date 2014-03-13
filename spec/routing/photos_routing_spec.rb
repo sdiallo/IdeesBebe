@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PhotosController, :focus do
+describe PhotosController do
   describe 'Routing' do
 
     it 'routes to #destroy' do

@@ -12,7 +12,7 @@
 
 require 'spec_helper'
 
-describe Photo, :focus do
+describe Photo do
   subject { FactoryGirl.create :photo }
   let(:product) { FactoryGirl.create :product }
   let(:user) { FactoryGirl.create :user }
