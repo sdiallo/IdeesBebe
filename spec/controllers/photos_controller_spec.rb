@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PhotosController, :focus do
+describe PhotosController do
   let(:user) { FactoryGirl.create :user }
   let(:user2) { FactoryGirl.create :user }
   let(:product) { FactoryGirl.create :product, user_id: user.id}
