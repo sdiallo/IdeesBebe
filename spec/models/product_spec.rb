@@ -80,27 +80,27 @@ describe Product do
     end
   end
 
-  describe '#pending_messages_for_owner' do
+  describe '#pending_status_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
     subject { FactoryGirl.create :product, owner: user2 }
 
-    it 'returns 0' do
+    it 'returns empty' do
       user
-      subject.pending_messages_for_owner.should == []
+      subject.pending_status_for_owner.should == []
     end
 
-    context 'with two messages' do
+    context 'with two status pending' do
       let(:user3) { FactoryGirl.create :user }
       let(:status) { FactoryGirl.create :status, product_id: subject.id, user_id: user.id }
       let(:status2) { FactoryGirl.create :status, product_id: subject.id, user_id: user3.id }
       let(:msg) { FactoryGirl.create :message, sender_id: user.id, receiver_id: user2.id, content: 'test2', status_id: status.id }
       let(:msg2) { FactoryGirl.create :message, sender_id: user3.id, receiver_id: user2.id, content: 'test1', status_id: status2.id }
 
-      it 'returns 2' do
+      it 'returns 2 status' do
         msg
         msg2
-        subject.pending_messages_for_owner.should == [msg, msg2]
+        subject.pending_status_for_owner.should == [status, status2]
       end
     end
 
@@ -113,12 +113,12 @@ describe Product do
       let(:msg3) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user3.id, content: 'test2', status_id: status2.id }
       let(:msg4) { FactoryGirl.create :message,  sender_id: user2.id, receiver_id: user.id, content: 'test1', status_id: status.id }
 
-      it 'returns 0' do
+      it 'returns empty' do
         msg
         msg2
         msg3
         msg4
-        subject.pending_messages_for_owner.should == []
+        subject.pending_status_for_owner.should == []
       end
     end
   end

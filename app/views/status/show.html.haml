@@ -14,7 +14,7 @@
         .five.column.wide
           .ui.segment.no-left-right-padding.status-list
             .ui.vertical.menu
-              - @avalaible_status.each do |status|
+              - @product.status.each do |status|
                 - active = status.user == @receiver ? 'active' : ''
                 = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
                   = status.user.username
@@ -36,15 +36,18 @@
                     = message.content
                 %div{ style: 'clear: both' }
 
-          - if not @product.selled
-            - if @status.can_send_message? current_user
-              = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
-                = f.input :content, label: '', as: :text
-                = f.hidden_field :receiver_id, value: @receiver.id
-                = f.hidden_field :status_id, value: @status.id
-                = f.button :button, class: 'ui fluid blue labeled submit icon button' do
-                  %i.icon.edit
-                  = 'Répondre'
-            - else
-              .cant-respond
-                = "#{name} n'a pas encore répondu"
+          - if @product.selled
+            Le produit est vendu
+          - elsif @status.closed
+            La discussion est fermée
+          - elsif @status.can_send_message? current_user
+            = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
+              = f.input :content, label: '', as: :text
+              = f.hidden_field :receiver_id, value: @receiver.id
+              = f.hidden_field :status_id, value: @status.id
+              = f.button :button, class: 'ui fluid blue labeled submit icon button' do
+                %i.icon.edit
+                = 'Répondre'
+          - else
+            .cant-respond
+              = "#{name} n'a pas encore répondu"

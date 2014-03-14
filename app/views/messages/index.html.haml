@@ -11,13 +11,16 @@
           .ui.vertical.menu.user-messages-categories
             = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
               = 'Toutes mes conversations'
+              .ui.teal.label
+                = @user.conversations.to_a.count
             = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
               = 'En attentes de ma réponse'
-              - if not @user.type_of_status('pending').count.zero?
-                .ui.teal.label
-                  = @user.type_of_status('pending').count
+              .ui.teal.label
+                = @user.conversations.pending(@user).count
             = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
               = 'Archivés'
+              .ui.teal.label
+                = @user.conversations.archived.count
       .eleven.wide.column
         .ui.grid.one.column.doubling.index-messages
           - if @status.empty?
@@ -26,25 +29,5 @@
                 Aucun messages
           - else
             - @status.each do |status|
-              - message = status.last_message
-              - other = @user.id == status.user_id ? status.product.owner : status.user
-              - relation = @user.id == status.user_id ? 'son produit' : 'votre produit'
-              .column
-                %h4.ui.top.attached.header
-                  %span.user= link_to other.username, profile_path(other.slug), class: 'underline'
-                  %span.intro= "à propos de #{relation}"
-                  %span.product= link_to status.product.name, product_path(status.product.slug), class: 'underline'
-                  %span.state
-                    - if status.product.selled
-                      .ui.inverted.icon.starpop{ 'data-content' => 'Ce produit est vendu', 'data-variation' => 'inverted' }
-                        %i.icon.circular.inverted.emphasized.green.checkmark
-                    - elsif status.closed
-                      .ui.inverted.icon.starpop{ 'data-content' => 'Cette conversation est fermé', 'data-variation' => 'inverted' }
-                        %i.icon.circular.inverted.emphasized.red.ban.circle
-                = link_to product_status_path(product_id: status.product_id, id: status.user.slug, anchor: 'last-message'), class: 'last-message-content' do
-                  .ui.attached.segment.index-message
-                    - intro = message.sender_id == @user.id ? 'Vous avez' : "#{message.sender.username} à"
-                    %p.speaker
-                      = "#{intro} dit :"
-                      %span.time-since= "Il y à #{distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i)}"
-                    %p= message.content
+              - situation = @user.id == status.user_id ? 'buyer' : 'owner'
+              = render "product_#{situation}_block", status: status, message: status.last_message, product: status.product

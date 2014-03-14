@@ -80,18 +80,7 @@ class Product < ActiveRecord::Base
     photos.count == MAXIMUM_UPLOAD_PHOTO
   end
 
-  def pending_messages_for_owner
-    last_messages.keep_if{ |msg| msg.sender_id != owner.id }
-  end
-
-  def last_messages
-    lasts = []
-
-    return lasts if status.empty?
-
-    status.each do |status|
-      lasts << status.messages.order('created_at DESC').first
-    end
-    lasts
+  def pending_status_for_owner
+    status.reject{ |stat| stat.last_message.from_owner? or stat.closed or stat.product.selled }
   end
 end

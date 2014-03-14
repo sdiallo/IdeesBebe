@@ -6,8 +6,10 @@ class MessagesController < ApplicationController
 
   def index
     raise CanCan::AccessDenied if @user != current_user
-    @state = params[:state] if params[:state].present?
-    @status = @user.type_of_status(@state)
+    @state = params[:state]
+    @status = params[:state] == 'pending' ? @user.conversations.pending(@user) : @user.conversations.try("#{@state}")
+    @status ||= @user.conversations
+    @status = @status.sort_by(&:updated_at).reverse
   end
 
   def create

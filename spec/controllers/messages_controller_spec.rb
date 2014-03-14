@@ -26,7 +26,7 @@ describe MessagesController do
       message2
       message3
       get :index, profile_id: user.slug
-      assigns(:status).should == [status, status2]
+      assigns(:status).should == [status2, status]
     end
 
     context 'with parameters pending messages' do

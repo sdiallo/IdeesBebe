@@ -16,8 +16,13 @@ class Status < ActiveRecord::Base
   belongs_to :user
   has_many :messages
 
+  MESSAGE_LIMIT_STRAIGHT = 2
+
   after_update :reactive_product, if: [:closed_changed?]
   after_update :mark_product_as_selled, if: [:done_changed?, :done]
+
+  scope :pending, ->(user) { where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == user.id or status.closed } }
+  scope :archived, ->() { select{ |status| status.closed or status.product.selled } }
 
   def mark_product_as_selled
     product.update_attributes!(selled: true)
@@ -25,15 +30,12 @@ class Status < ActiveRecord::Base
 
   def pending_messages_count
     date = messages.where(sender_id: product.user_id).maximum(:created_at) || DateTime.new
-    messages
-      .where(sender_id: user_id)
-      .where('messages.created_at > ?', date)
-      .count
+    messages.where(sender_id: user_id).where('messages.created_at > ?', date).count
   end
 
   def can_send_message? user
-    return messages.order('created_at DESC').limit(1).first.from_owner? ? false : true if user.id == product.user_id
-    product.active and not closed and (messages.order('created_at DESC').limit(Message::LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != user.id }.count < Message::LIMIT_STRAIGHT)
+    return false if closed or product.selled
+    messages.order('created_at DESC').limit(MESSAGE_LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != user.id }.count < MESSAGE_LIMIT_STRAIGHT
   end
 
   def last_message

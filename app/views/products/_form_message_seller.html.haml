@@ -1,6 +1,6 @@
-- msg_count = @product.pending_messages_for_owner.count
-- if msg_count.zero?
+- status_count = @product.pending_status_for_owner.count
+- if status_count.zero?
   Vous n'avez aucun nouveaux messages
 - else
-  = "Vous avez #{msg_count} conversation(s) en attente(s)"
+  = "Vous avez #{status_count} conversation(s) en attente(s)"
 = link_to 'Gerer mon produit', product_status_index_path(product_id: @product.slug)
