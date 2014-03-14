@@ -26,6 +26,7 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'haml-rails'
 gem 'simple_form'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+gem "blueimp-gallery-rails", "~> 2.7.0"
 
 # JS
 gem 'uglifier', '>= 1.3.0'

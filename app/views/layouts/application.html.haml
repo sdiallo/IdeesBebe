@@ -6,52 +6,74 @@
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
   %body
-    .row.equal.height
-      .ui.grid.page.two.column
-        / header-top
-        .ui.column
-          %h2 test
-          test logo
-        .ui.center.aligned.column
-          - if current_user
-            .vertical.menu.menur
-              .item.itemr
-                = link_to profile_path(current_user.slug) do
-                  %i.user.large.icon.circular
-                = link_to profile_products_path(current_user.slug) do 
-                  %i.suitcase.large.icon.circular
-                = link_to destroy_user_session_path, method: :delete do
-                  %i.sign.out.large.icon.circular
-              .item
-                = link_to 'Ajouter un produit', new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
-          - else
-            .vertical.pointing.secondary.menu.menur
-              .item.itemr
-                = link_to "S'inscrire", new_user_registration_path, class: 'small ui purple button'
-              .item.itemr  
-                = link_to 'Se connecter', new_user_session_path, class: 'small ui purple button'
-              .item.ui.facebook.button.small
-                %i.icon.facebook
-                = link_to 'sign in whith facebook', user_omniauth_authorize_path(:facebook)
-                                 
+    .row#top-menu
+      .ui.grid.page.stackable.two.column.equal.height
+        .ui.eight.column.wide
+          .image.small
+            = image_tag "http://a3.res.cloudinary.com/ideesbebe/image/upload/v1394092761/xvfexkvw4us1rha8iq5h.jpg"
+        .ui.eight.column.wide.right.aligned
+          .row
+            - if current_user
+              .ui.menu
+                .item.item-icon  
+                  = current_user.username
+                  %br
+                  0 new messages
+                .item.item-icon
+                  .avatar
+                    = image_tag "#{current_user.profile.avatar}", style: "height:40px;"
+                .ui.dropdown.item.pointing
+                  %i.icon.large.settings
+                  .menu.right
+                    .item
+                      = link_to profile_path(current_user.slug) do
+                        %i.user.icon 
+                        %span Mon profile
+                    .item
+                      = link_to profile_products_path(current_user.slug) do 
+                        %i.suitcase.icon
+                        %span Mes produits
+                    .item
+                      = link_to "#", method: :get do
+                        %i.mail.outline.icon
+                        %span Mes messages
+                    .item
+                      = link_to destroy_user_session_path, method: :delete do
+                        %i.sign.out.icon
+                        %span Deconnexion
+            - else
+              .ui.menu
+                .item
+                  = link_to "S'inscrire", new_user_registration_path, class: ''
+                .item  
+                  = link_to 'Se connecter', new_user_session_path, class: ''
+                .item
+                  = link_to 'sign in whith facebook', user_omniauth_authorize_path(:facebook)
+          .row
+            .add-product
+              = link_to 'Ajouter un produit', new_user_session_path, class: 'ui teal button'
+                                     
 
-    .row
-      .ui.secondary.pointing.menu.purple.inverted
-        .ui.grid.page.justified.tiered
-          %a.item{ href: root_path}
-            %i.home.icon
-            Home
+    .row#menu-bar
+      .ui.grid.page
+        .ui.fluid.seven.item.menu
+          .item{class: ('active' if current_page?(root_path))}
+            = link_to root_path do 
+              %i.home.large.icon
           - Category::main_categories.each do |main|
-            %a.item{ href: category_path(main.slug) }
-              = main.name
-    
+            - active_item = request.url.include?(category_path(main.slug)) ? 'active' : ""
+              
+            = link_to main.name, category_path(main.slug), class: "item #{active_item}"
 
     .row.main-contenaire
       .ui.grid.page
         = semantic_flash
         = yield
-    .row
-      .ui.grid.page
-        .footer
+    .row#footer-section
+      .footer-one
+        .ui.grid.page
+      .footer-two
+        .ui.grid.page
+
 
     = javascript_include_tag 'application'

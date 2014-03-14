@@ -1,6 +1,17 @@
-
 .ui.segment
-	%p test segment
-	%p Welcome#index
-	%p Find me in app/views/welcome/index.html.erb
+	#blueimp-gallery-carousel.blueimp-gallery.blueimp-gallery-carousel.home-car
+		.slides
+		%h3.title
+		%a.prev ‹
+		%a.next ›
+		%a.play-pause
+		%ol.indicator
+
+	#links{style: "display:none;"}
+		%a{:href => "assets/product_default.png", :title => "Banana"}
+			%img{:alt => "Banana", :src => "assets/product_default.png"}
+		%a{:href => "assets/product_default.png", :title => "Apple"}
+			%img{:alt => "Apple", :src => "assets/product_default.png"}
+		%a{:href => "assets/product_default.png", :title => "Orange"}
+			%img{:alt => "Orange", :src => "assets/product_default.png"}
 

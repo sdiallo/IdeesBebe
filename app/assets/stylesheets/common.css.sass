@@ -1,8 +1,57 @@
-.itemr
-	margin-bottom: 7px
+@import "semantic-ui"
+
+#top-menu
+	background-color: rgb(221, 221, 221)
+	border-top: 5px solid #624C99
+	.ui.menu
+		box-shadow: none
+		background-color: rgb(221, 221, 221)
+		.item
+			&:before
+				background-image: none
+			a
+				color: black
+		.right.menu
+			.item
+				&:before
+			.item-icon
+				padding: 4px 4px
+.add-product 
+	margin: 15px 0px
+
+#menu-bar
+	background-color: rgb(74, 15, 121)
+	.menu
+		background-color: rgb(74, 15, 121)
+		.item
+			&:hover
+				color: white
+		.active
+			color: white
+			box-shadow: none
+			background-color: rgba(51, 12, 109, 1)
+			a
+				color: rgb(145, 136, 136)
+				font-size: 14px
+				&:hover
+					color: #fff
+
+
+
 .row.main-contenaire > .ui.grid 
 	font-size: 1rem
 	margin-top: 0%
+
+
+#footer-section
+	.footer-one
+		height: 300px
+		background-color: rgba(238, 237, 243, 0.5)
+	.footer-two
+		height: 70px
+		background-color: rgb(24, 3, 68)
+
+
 .ui.grid > .row.downlink
 	font-size: 1em
 .transparent-button
