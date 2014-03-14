@@ -8,5 +8,5 @@
       = comment.content
     - if can? :destroy, comment
       %div
-        = link_to 'Supprimer', comment_path(comment.id), method: :delete
+        = link_to I18n.t('common.delete'), comment_path(comment.id), method: :delete
 %br

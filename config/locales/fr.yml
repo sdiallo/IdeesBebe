@@ -1,4 +1,77 @@
 fr:
+  common:
+    sign_up: "S'inscrire"
+    sign_up_facebook: "Se connecter avec Facebook"
+    sign_in: "Se connecter"
+    back: 'Retour'
+    delete: 'Supprimer'
+    save: 'Sauvegarder'
+    add: 'Ajouter'
+    edit: 'Editer'
+    product_selled: 'Ce produit est vendu'
+    status_closed: 'Cette conversation est fermée'
+    product_inactive: 'Ce produit est inactif'
+    reply_or_close: 'Répondez aux messages ou fermées les discussions'
+    name: 'Nom'
+    price: 'Prix'
+    description: 'Description'
+    category: 'Categorie'
+    comment: 'Commentaire'
+    contact: 'Contacter'
+    respond: 'Répondre'
+    resee: 'Revoir'
+    resee_discussion: 'Revoir la discussion'
+    manage: 'Gerer'
+    signal: 'Signaler'
+    signal: 'Signalé'
+    avatar: 'Avatar'
+    first_name: 'Prénom'
+    interest_people: 'Personnes intéressées'
+    none_interest: 'Aucun intéressées'
+    my_conversation_with: 'Ma conversation avec %{name}'
+    about: 'A propos de'
+
+  messages:
+    form:
+      has_not_reply_yet: "%{name} n'a pas encore repondu a votre message"
+    index:
+      title: 'Mes conversations'
+      all_conversations: 'Toutes mes conversations'
+      pending_conversations: 'En attente de ma réponse'
+      archived_conversations: 'Archivées'
+      about_my_product: 'à propos de votre produit'
+      about_product_of_another: 'à propos de son produit'
+      current_is_sender: 'Vous avez dit'
+      current_is_not_sender: '%{name} à dit'
+      since: 'Il y à %{date}'
+    pending:
+      zero: 'Aucun message en attente'
+      one: '1 message en attente'
+      other: '%{count} messages en attentes'
+  products:
+    new: 'Nouveau produit'
+    manage_my_product: 'Gerer mon produit'
+    form:
+      choose_category: 'Choisissez une categorie'
+      choose_carefully: "Prenez soin de choisir la bonne catégorie"
+    edit:
+      title: 'Editer %{product}'
+    index:
+      all_categories: 'Toutes catégories'
+    show:
+      avalaible_since: 'Disponible depuis :'
+      average_response_time: 'Temps de réponse moyen :'
+  status:
+    reopen: 'Reouvrir la discussion'
+    see_conversation: 'Voir la conversation'
+    pending:
+      zero: 'Aucune conversation en attente'
+      one: '1 conversation en attente'
+      other: '%{count} conversations en attentes'
+  photos:
+    starred: 'Photo mis en avant'
+    not_starred: 'Mettre en avant'
+
   activerecord:
     errors:
       models:
@@ -30,6 +103,7 @@ fr:
               invalid: 'Les caractères spéciaux sont intédits'
             price:
               numericality: 'Un prix pertinent est nécessaire'
+              greater_than: 'Un prix pertinent est nécessaire'
               too_short: 'Un prix pertinent est nécessaire'
               too_long: "C'est un peu trop non ?"
             category_id:
@@ -49,7 +123,7 @@ fr:
 
   datetime:
     distance_in_words:
-      half_a_minute: 'half a minute'
+      half_a_minute: '30 secondes'
       less_than_x_seconds:
         one:   'moins de 1 seconde'
         other: 'moins de %{count} secondes'
@@ -100,6 +174,7 @@ fr:
       subject: 'Votre produit ne sera plus afficher dans les recherches'
 
   product:
+    add: 'Ajouter un produit'
     create:
       success: 'Votre produit à été enregistré'
     update:

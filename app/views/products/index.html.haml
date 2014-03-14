@@ -10,7 +10,7 @@
         .ui.segment.no-box-shadow.block-categories.full-width.no-left-right-padding
           .ui.vertical.menu.user-products-categories
             = link_to profile_products_path(current_user.slug), class: "item teal #{'active' if @main_category.nil?}" do
-              = 'Toutes catégories'
+              = I18n.t('products.index.all_categories')
               .ui.label.teal
                 = current_user.products.count
             - Category.products_count_per_category_for(current_user).each do |main|
@@ -38,11 +38,11 @@
                   .row.product-messages
                     - if not product.selled
                       %i.icon.mail
-                      = "#{product.pending_status_for_owner.count} conversation(s) en attente(s)"
+                      = I18n.t('status.pending', count: product.pending_status_for_owner.count)
                     - else
                       .ui.inverted.icon
                         %i.icon.circular.inverted.emphasized.green.checkmark
                         Produit vendu !
                   .row.product-actions
-                    - link_name = product.selled ? 'Revoir' : 'Gérer'
+                    - link_name = product.selled ? I18n.t('common.resee') : I18n.t('common.manage')
                     = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'

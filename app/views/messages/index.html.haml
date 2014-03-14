@@ -3,22 +3,21 @@
     .row
       .sixteen.wide.column
         .ui.segment.no-box-shadow
-          %h2
-            Mes conversations 
+          %h2= I18n.t('messages.index.title')
     .row
       .five.wide.column
         .ui.segment.no-box-shadow.states-messages
           .ui.vertical.menu.user-messages-categories
             = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
-              = 'Toutes mes conversations'
+              = I18n.t('messages.index.all_conversations')
               .ui.teal.label
                 = @user.conversations.to_a.count
             = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
-              = 'En attentes de ma réponse'
+              = I18n.t('messages.index.pending_conversations')
               .ui.teal.label
                 = @user.conversations.pending(@user).count
             = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
-              = 'Archivés'
+              = I18n.t('messages.index.archived_conversations')
               .ui.teal.label
                 = @user.conversations.archived.count
       .eleven.wide.column

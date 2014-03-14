@@ -5,9 +5,9 @@
     .row
       .sixteen.wide.column
         .ui.segment.no-box-shadow
-          %h2= "Ma conversation avec #{name}"
+          %h2= I18n.t('common.my_conversation_with', name: name)
           %p.about
-            = "A propos de "
+            = I18n.t('common.about')
             = link_to @product.name, link
     .row
       - if current_user.is_owner_of?(@product)
@@ -31,7 +31,7 @@
                 - align = message.sender == current_user ? 'left' : 'right'
                 .message{ style: "text-align: #{align}; float: #{align}" }
                   %p
-                    = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
+                    = message.sender == current_user ? I18n.t('messages.index.current_is_sender') : I18n.t('messages.index.current_is_not_sender', name: message.sender.username)
                   %p
                     = message.content
                 %div{ style: 'clear: both' }
@@ -47,7 +47,7 @@
               = f.hidden_field :status_id, value: @status.id
               = f.button :button, class: 'ui fluid blue labeled submit icon button' do
                 %i.icon.edit
-                = 'Répondre'
+                = I18n.t('common.respond')
           - else
             .cant-respond
-              = "#{name} n'a pas encore répondu"
+              = I18n.t('messages.form.has_not_reply_yet', name: name)

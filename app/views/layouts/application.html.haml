@@ -25,16 +25,16 @@
                 = link_to destroy_user_session_path, method: :delete do
                   %i.sign.out.large.icon.circular
               .item
-                = link_to 'Ajouter un produit', new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
+                = link_to I18n.t('product.add'), new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
           - else
             .vertical.pointing.secondary.menu.menur
               .item.itemr
-                = link_to "S'inscrire", new_user_registration_path, class: 'small ui purple button'
+                = link_to I18n.t('common.sign_up'), new_user_registration_path, class: 'small ui purple button'
               .item.itemr  
-                = link_to 'Se connecter', new_user_session_path, class: 'small ui purple button'
+                = link_to I18n.t('common.sign_in'), new_user_session_path, class: 'small ui purple button'
               .item.ui.facebook.button.small
                 %i.icon.facebook
-                = link_to 'sign in whith facebook', user_omniauth_authorize_path(:facebook)
+                = link_to I18n.t('common.sign_up_facebook'), user_omniauth_authorize_path(:facebook)
 
     .row
       .ui.secondary.pointing.menu.purple.inverted
