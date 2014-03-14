@@ -28,29 +28,14 @@ class User < ActiveRecord::Base
   include Slugable
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
   validates :username,
-    length: {
-      minimum: 2,
-      message: I18n.t('user.username.length')
-    },
-    presence: {
-      message: I18n.t('user.username.presence')
-    },
-    uniqueness: {
-      case_sensitive: false,
-      message: I18n.t('user.username.uniqueness')
-    },
-    format: {
-      with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u,
-      message: I18n.t('user.username.format')
-    }
-
-  validates :email,
-    presence: {
-      message: I18n.t('user.email.presence')
-    }
+    length: { minimum: 2 },
+    presence: true,
+    uniqueness: { case_sensitive: false },
+    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
+  validates :email, presence: true
 
   has_one :profile, dependent: :destroy
 

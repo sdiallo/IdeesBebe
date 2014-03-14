@@ -36,30 +36,9 @@ class Product < ActiveRecord::Base
   scope :active, ->() { where(active: true) }
   scope :avalaible, ->() { where(active: true, selled: false) }
 
-  validates :name,
-    length: {
-      minimum: 2,
-      maximum: 60,
-      message: I18n.t('product.name.length')
-    },
-    format: {
-      with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u,
-      message: I18n.t('product.name.format')
-    }
-
-  validates :price,
-    numericality: {
-      only_integer: true,
-      greater_than: 0,
-      message: I18n.t('product.price.numericality')
-    },
-    length: {
-      minimum: 1,
-      maximum: 9,
-      message: I18n.t('product.price.length')
-    }
-
-  validates :category_id, presence: { message: I18n.t('product.category.presence') }
+  validates :name, length: { minimum: 2, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
+  validates :price, numericality: { only_integer: true, greater_than: 0 }, length: { minimum: 1, maximum: 9 }
+  validates :category_id, presence: true
 
 
   before_save :to_slug, if: :name_changed?

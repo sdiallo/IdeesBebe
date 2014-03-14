@@ -22,13 +22,7 @@ class Message < ActiveRecord::Base
   FIRST_REMINDER_OWNER = 3
   SECOND_REMINDER_OWNER = 7
   
-  validates :content,
-    length: {
-      minimum: 2,
-      maximum: 250,
-      message: I18n.t('comment.content.length')
-    },
-    presence: { message: I18n.t('comment.content.presence') }
+  validates :content, length: { minimum: 2 }, presence: true
 
   scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
