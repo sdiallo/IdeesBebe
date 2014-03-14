@@ -85,11 +85,7 @@ class User < ActiveRecord::Base
   end
 
   def conversations
-    Status.joins(:user)
-      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
-      .where('products.user_id = users.id OR statuses.user_id = users.id')
-      .group('statuses.id')
+    Status.joins(:user).joins(:product).where('products.user_id = ? OR statuses.user_id = ?', id, id).group('statuses.id')
   end
 
   class << self
