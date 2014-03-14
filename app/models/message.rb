@@ -50,7 +50,7 @@ class Message < ActiveRecord::Base
   private
 
     def last_is_from_buyer?
-      not status.messages.where('messages.id != ?', id).order('created_at DESC').first.from_owner?
+      not status.messages.where('messages.id != ?', id).order('created_at DESC').first.try(:from_owner?)
     end
 
     def touch_status
