@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
   
   belongs_to :sender, class_name: 'User', foreign_key: :sender_id
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
-  belongs_to :status
+  belongs_to :status, touch: true
 
   delegate :product, to: :status
 
@@ -37,7 +37,7 @@ class Message < ActiveRecord::Base
   after_create :unactive_product, unless: :from_owner?
   after_create :reactive_product, unless: :product_is_active?
   after_create :response_time, if: [:from_owner?, :last_is_from_buyer?]
-  after_create :touch_status
+  after_create :touch
 
   def from_owner?
     status.product.owner == sender
@@ -51,10 +51,6 @@ class Message < ActiveRecord::Base
 
     def last_is_from_buyer?
       not status.messages.where('messages.id != ?', id).order('created_at DESC').first.try(:from_owner?)
-    end
-
-    def touch_status
-      status.touch
     end
 
     # Reactive product for owner
