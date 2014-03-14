@@ -72,12 +72,6 @@ class User < ActiveRecord::Base
 
   before_save :to_slug, if: :username_changed?
 
-  def type_of_status state
-    return conversations_waiting_me if state == 'pending'
-    return conversations_archived if state == 'archived'
-    conversations
-  end
-
   def avatar
     profile.avatar
   end
@@ -88,6 +82,14 @@ class User < ActiveRecord::Base
 
   def is_owner_of? product
     product.user_id == self.id
+  end
+
+  def conversations
+    Status.joins(:user)
+      .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
+      .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
+      .where('products.user_id = users.id OR statuses.user_id = users.id')
+      .group('statuses.id')
   end
 
   class << self
@@ -107,23 +109,4 @@ class User < ActiveRecord::Base
       @user = User.create!(username:auth.info.name.strip, provider:auth.provider, fb_id:auth.uid, email:auth.info.email, fb_tk:auth.credentials.token, password:Devise.friendly_token[0,20])
     end
   end
-
-  private
-
-    def conversations
-      Status.includes(:user)
-        .joins('LEFT OUTER JOIN products ON products.id = statuses.product_id')
-        .joins('LEFT OUTER JOIN messages ON messages.status_id = statuses.id')
-        .where('products.user_id = ? OR statuses.user_id = ?', id, id)
-        .group('statuses.id')
-        .order('statuses.updated_at')
-    end
-
-    def conversations_archived
-      conversations.where('products.selled = ? OR statuses.closed = ?', true, true)
-    end
-
-    def conversations_waiting_me
-      conversations.where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == id or status.closed }
-    end
 end
