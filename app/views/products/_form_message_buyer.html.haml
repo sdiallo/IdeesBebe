@@ -3,9 +3,7 @@
   = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
     = f.input :content, label: 'Texte', as: :text
     = f.hidden_field :receiver_id, value: @product.owner.id
-    = f.button :submit, 'Contacter'
-- elsif @status.closed
-  Le vendeur à décider de ne plus poursuivre la discussion avec vous
+    = f.button :submit, I18n.t('common.contact')
 - elsif @status.can_send_message? current_user
   Dernier message recu :
   = @status.last_message.content
@@ -13,9 +11,13 @@
     = f.input :content, label: 'Texte', as: :text
     = f.hidden_field :receiver_id, value: @product.owner.id
     = f.hidden_field :status_id, value: @status.id
-    = f.button :submit, 'Répondre'
+    = f.button :submit, I18n.t('common.respond')
+- elsif @status.closed
+  = I18n.t('common.status_closed')
+- elsif @product.selled
+  = I18n.t('common.product_selled')
 - else
-  = "#{@product.owner.username} n'a pas encore repondu a votre message"
+  = I18n.t('form.has_not_reply_yet', name: @product.owner.username)
 
 - if @status
-  = link_to 'Voir la conversation', product_status_path(product_id: @product.slug, id: current_user.slug)
+  = link_to I18n.t('status.see_conversation'), product_status_path(product_id: @product.slug, id: current_user.slug)

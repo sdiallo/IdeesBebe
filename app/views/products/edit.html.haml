@@ -2,7 +2,7 @@
 .ui.grid
   .ten.wide.column
     .ui.segment
-      %h1= 'Editer ' + @product.name 
+      %h1= I18n.t('products.edit.title', product: @product.name) 
 
       = render 'form'
 
@@ -12,7 +12,7 @@
         = simple_form_for Photo.new, url: product_photos_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
           = f.hidden_field :starred, value: false
           = f.input :file, label: 'Photos', as: :file, allow_blank: true, input_html: {class: "ui button"}
-          = f.button :submit, 'Ajouter'
+          = f.button :submit, I18n.t('common.add')
       - else
         .ui.message.info
           Vous avez atteint le maximum de photo. Supprimez-en une pour en ajouter de nouvelles
@@ -23,19 +23,19 @@
             .image
               = image_tag(a.file, alt: @product.description, title: @product.description)
               - if a.starred?
-                .star.ui.corner.label.starpop{"data-content" => "cest moi en avant", "data-variation" => "inverted"}
+                .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.starred'), "data-variation" => "inverted"}
                   %i.icon.star.colorstar
               - else
-                .star.ui.corner.label.starpop{"data-content" => "mettre la photo en avant", "data-variation" => "inverted"}
+                .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.not_starred'), "data-variation" => "inverted"}
                   = simple_form_for a, url: photo_path(id: a.id), html: { multipart: true }, method: :put do |f|
                     = f.hidden_field :starred, value: true
                     = button_tag(type: 'submit', class: 'transparent-button') do 
                       %i.icon.link.star               
             .content
             .ui.red.small.button.bottom.attached
-              = link_to 'Supprimer', photo_path(id: a.id), method: :delete
+              = link_to I18n.t('common.delete'), photo_path(id: a.id), method: :delete
 .row.downlink
   .ui.blue.small.button                
-    = link_to 'Retour', product_path(@product.slug)
+    = link_to I18n.t('common.back'), product_path(@product.slug)
   .ui.red.small.button  
-    = link_to 'Destroy', @product, method: :delete, data: { confirm: 'Are you sure?' }
+    = link_to I18n.t('common.delete'), @product, method: :delete, data: { confirm: 'Are you sure?' }

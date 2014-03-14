@@ -2,18 +2,18 @@
 .column
   %h4.ui.top.attached.header
     %span.user= link_to other.username, profile_path(other.slug), class: 'underline'
-    %span.intro= "à propos de votre produit"
+    %span.intro= I18n.t('messages.index.about_my_product')
     %span.product= link_to product.name, product_status_index_path(product.slug), class: 'underline'
     %span.state
       - if product.selled
-        .ui.inverted.icon.starpop{ 'data-content' => 'Ce produit est vendu', 'data-variation' => 'inverted' }
+        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('commin.product_selled'), 'data-variation' => 'inverted' }
           %i.icon.circular.inverted.emphasized.green.checkmark
       - elsif status.closed
-        .ui.inverted.icon.starpop{ 'data-content' => 'Cette conversation est fermé', 'data-variation' => 'inverted' }
+        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('commin.status_closed'), 'data-variation' => 'inverted' }
           %i.icon.circular.inverted.emphasized.red.ban.circle
   = link_to product_status_path(product_id: product.slug, id: other.slug, anchor: 'last-message'), class: 'last-message-content' do
     .ui.attached.segment.index-message
       %p.speaker
-        = "#{message.sender.username} dit :"
-        %span.time-since= "Il y à #{distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i)}"
+        = current_user == message.sender ? I18n.t('messages.index.current_is_sender') : I18n.t('messages.index.current_is_not_sender', name: message.sender.username)
+        %span.time-since= I18n.t('messages.index.since', date: distance_of_time_in_words(DateTime.now.to_i - message.created_at.to_i))
       %p= message.content

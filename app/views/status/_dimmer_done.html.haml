@@ -8,7 +8,7 @@
               %h2.ui.inverted.icon.header
                 %i.icon.circular.inverted.emphasized.green.checkmark
               .texte.marked
-                = 'Produit vendu !'
+                = I18n.t('common.product_selled')
               .texte.unmark
                 Notez l'acheteur :
                 .ui.large.star.rating
@@ -20,6 +20,6 @@
       .ui.bottom.attached.header.base-attached-label
         %span.user-name= user.username
         %span.right
-          = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
+          = link_to I18n.t('common.resee_discussion'), product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
 

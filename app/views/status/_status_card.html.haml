@@ -38,9 +38,9 @@
       %span.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
         %i.icon.mail
         = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
-          = "#{status.pending_messages_count} message(s) en attente"
+          = I18n.t('messages.pending', count: status.pending_messages_count)
       %span.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
         = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
           = f.hidden_field :closed, value: false
-          = f.button :button, 'Réouvrir la discussion', class: 'no-box-shadow reopen-button'
+          = f.button :button, I18n.t('status.reopen'), class: 'no-box-shadow reopen-button'
 
