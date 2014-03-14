@@ -36,7 +36,7 @@ class Message < ActiveRecord::Base
   after_create :reminder_owner, unless: :from_owner?
   after_create :unactive_product, unless: :from_owner?
   after_create :reactive_product, unless: :product_is_active?
-  after_create :response_time, if: :from_owner?, unless: :last_is_from_owner?
+  after_create :response_time, if: [:from_owner?, :last_is_from_buyer?]
   after_create :touch_status
 
   def from_owner?
@@ -49,8 +49,8 @@ class Message < ActiveRecord::Base
 
   private
 
-    def last_is_from_owner?
-      status.messages.order('created_at DESC').first.from_owner?
+    def last_is_from_buyer?
+      not status.messages.where('messages.id != ?', id).order('created_at DESC').first.from_owner?
     end
 
     def touch_status

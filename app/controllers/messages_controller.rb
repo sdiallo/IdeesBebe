@@ -9,6 +9,7 @@ class MessagesController < ApplicationController
     @state = params[:state]
     @status = params[:state] == 'pending' ? @user.conversations.pending(@user) : @user.conversations.try("#{@state}")
     @status ||= @user.conversations
+    @status = @status.sort_by(&:updated_at)
   end
 
   def create
