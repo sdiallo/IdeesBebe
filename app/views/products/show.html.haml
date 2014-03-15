@@ -1,35 +1,44 @@
 %p
-  %b Nom:
+  %b= I18n.t('common.name')
   = @product.name
 %p
-  %b Description:
+  %b= I18n.t('common.description')
   = @product.description
+%p
+  %b= I18n.t('products.show.avalaible_since')
+  = distance_of_time_in_words(DateTime.now.to_i - @product.created_at.to_i)
 
 %p
-  %b Temps de réponse moyen
+  %b= I18n.t('products.show.average_response_time') 
   - if @product.owner.response_time.zero?
     Aucun
   - else
     = distance_of_time_in_words(@product.owner.average_response_time)
 
-- unless @product.assets.empty?
+- unless @product.photos.empty?
   #destroy_asset_link
-    - @product.assets.each do |a|
+    - @product.photos.each do |a|
       %div
         = image_tag(a.file)
 - else
   = image_tag("default_avatar.png")
 
 
-
-- if not @product.avalaible?
-  Produit vendu!
+- if @product.selled
+  = I18n.t('common.product_selled')
 - else
+  - if can? :create, @product.reports.build
+    - unless current_user.is_owner_of? @product
+      = simple_form_for @product.reports.build, url: product_reports_path(@product.slug) do |f|
+        = f.button :submit, I18n.t('common.signal')
+  - else
+    %i.icon.checkmark
+    = I18n.t('common.signaled')
 
   - if can? :edit, @product
-    = link_to 'Editer', edit_product_path(@product.slug)
+    = link_to I18n.t('common.edit'), edit_product_path(@product.slug)
 
-  - if can? :create, @comment and @product.avalaible?
+  - if can? :create, @comment
     = render 'form_comments'
 
   - if user_signed_in?

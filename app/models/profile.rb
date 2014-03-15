@@ -17,11 +17,6 @@ class Profile < ActiveRecord::Base
 
   mount_uploader :avatar, PhotoUploader
 
-  validates :first_name, :last_name,
-    format: {
-      with: /\A[a-zA-Z]+\z/,
-      message: I18n.t('profile.first_and_last_name.format')
-    },
-    allow_blank: true
+  validates :first_name, :last_name, format: { with: /\A[a-zA-Z]+\z/ }, allow_blank: true
 
 end

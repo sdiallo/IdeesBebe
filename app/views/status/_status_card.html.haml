@@ -1,15 +1,15 @@
 - user = message.from_owner? ? message.receiver : message.sender 
-- name = message.from_owner? ? 'vous-même' : message.sender .username
 #status-card
-  .ui.segment.index-user
-    .ui.grid
-      .twelve.wide.column
-        = "Dernier message, envoyé par #{name} :"
-        %p
-          = message.content
-      .four.wide.column
-        - if @product.avalaible?
-          .ui.vertical.buttons.actions.right
+  .ui.segment.attached.index-user
+    .ui.grid.stackable
+      .four.wide.column.user-avatar
+        = image_tag(user.avatar.thumb.url, alt: user.username, title: user.username)
+      .six.wide.column
+        %p= user.username
+        %p note
+      .six.wide.column.user-actions
+        - if not @product.selled
+          .ui.buttons.actions
             .ui.icon.button.ban.starpop{ 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' }
               = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, remote: true do |f|
                 = f.hidden_field :closed, value: true
@@ -27,26 +27,20 @@
           .ui.icon.button.messages.starpop.button-selled{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
             = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
               %i.icon.chat
-
-    .ui.bottom.attached.label.base-attached-label
-      %span.left.user-name
-        = user.username
-      - if @product.avalaible?
-        %span.right.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
-          - if message.from_owner?
-            0 message en attente
-          - else
-            = "#{status.pending_messages_count} message(s) en attente"
-        %span.right.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
-          = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
-            = f.hidden_field :closed, value: false
-            = f.button :button, 'Réouvrir la discussion', class: 'no-box-shadow'
-
     .ui.dimmer{ class: "status_#{status.id} #{('visible active' if status.closed)}" }  
       .wrap-no-click
         .content
           %h2.ui.inverted.icon.header
             %i.icon.circular.inverted.emphasized.red.ban.circle
-          %br
-          %span.texte
-            = 'Discussion fermée'
+
+  %h4.ui.bottom.attached.header.base-attached-label
+    - if not @product.selled
+      %span.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
+        %i.icon.mail
+        = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
+          = I18n.t('messages.pending', count: status.pending_messages_count)
+      %span.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
+        = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
+          = f.hidden_field :closed, value: false
+          = f.button :button, I18n.t('status.reopen'), class: 'no-box-shadow reopen-button'
+

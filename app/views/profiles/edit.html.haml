@@ -6,6 +6,6 @@
   .destroy_avatar_link
     = simple_form_for @profile, url: profile_path(id: @user.slug), html: { multipart: true }, method: :put do |f|
       = f.hidden_field :remove_avatar, value: true
-      = f.button :submit, 'Supprimer'
+      = f.button :submit, I18n.t('common.delete')
 
-= link_to 'Retour', profile_path(@user.slug)
+= link_to I18n.t('common.back'), profile_path(@user.slug)

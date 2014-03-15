@@ -103,11 +103,6 @@ describe ProductsController do
       expect(assigns(:product)).to eq(product)
     end
 
-    it 'assign message to nil' do
-      get :show, { id: product.slug }
-      expect(assigns(:message)).to eq(nil)
-    end
-
     it 'assign status to nil' do
       get :show, { id: product.slug }
       expect(assigns(:status)).to eq(nil)
@@ -119,13 +114,6 @@ describe ProductsController do
         let(:product) { FactoryGirl.create :product, user_id: user2.id}
         let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: subject.id}
         let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, status_id: status.id }
-
-        it 'assign message' do
-          message
-          get :show, { id: product.slug }
-          expect(assigns(:message)).to eq(message)
-        end
-
 
         it 'assign status' do
           message
@@ -203,7 +191,7 @@ describe ProductsController do
         end
 
 
-        it "flash an error if assets' limit is reached" do
+        it "flash an error if photos' limit is reached" do
           Product.any_instance.stub(:has_maximum_upload?).and_return(true)
           put :update, { id: product.id, product: {name: "Great thing", description: "1000" } }
           product.reload.description.should == product.description          
@@ -243,7 +231,7 @@ describe ProductsController do
   describe '#authorized_upload' do
 
     it 'raise an error with an unvalid asset' do
-      ProductAsset.any_instance.stub(:new).and_return(nil)
+      Photo.any_instance.stub(:new).and_return(nil)
       controller.authorized_upload 'test'
     end
   end

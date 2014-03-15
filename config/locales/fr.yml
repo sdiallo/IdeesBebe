@@ -1,16 +1,118 @@
 fr:
+  common:
+    sign_up: "S'inscrire"
+    sign_up_facebook: "Se connecter avec Facebook"
+    sign_in: "Se connecter"
+    back: 'Retour'
+    delete: 'Supprimer'
+    save: 'Sauvegarder'
+    add: 'Ajouter'
+    edit: 'Editer'
+    product_selled: 'Ce produit est vendu'
+    status_closed: 'Cette conversation est fermée'
+    product_inactive: 'Ce produit est inactif'
+    reply_or_close: 'Répondez aux messages ou fermées les discussions'
+    name: 'Nom'
+    price: 'Prix'
+    description: 'Description'
+    category: 'Categorie'
+    comment: 'Commentaire'
+    contact: 'Contacter'
+    respond: 'Répondre'
+    resee: 'Revoir'
+    resee_discussion: 'Revoir la discussion'
+    manage: 'Gerer'
+    signal: 'Signaler'
+    signal: 'Signalé'
+    avatar: 'Avatar'
+    first_name: 'Prénom'
+    interest_people: 'Personnes intéressées'
+    none_interest: 'Aucun intéressées'
+    my_conversation_with: 'Ma conversation avec %{name}'
+    about: 'A propos de'
+
+  messages:
+    form:
+      has_not_reply_yet: "%{name} n'a pas encore repondu a votre message"
+    index:
+      title: 'Mes conversations'
+      all_conversations: 'Toutes mes conversations'
+      pending_conversations: 'En attente de ma réponse'
+      archived_conversations: 'Archivées'
+      about_my_product: 'à propos de votre produit'
+      about_product_of_another: 'à propos de son produit'
+      current_is_sender: 'Vous avez dit'
+      current_is_not_sender: '%{name} à dit'
+      since: 'Il y à %{date}'
+    pending:
+      zero: 'Aucun message en attente'
+      one: '1 message en attente'
+      other: '%{count} messages en attentes'
+  products:
+    new: 'Nouveau produit'
+    manage_my_product: 'Gerer mon produit'
+    form:
+      choose_category: 'Choisissez une categorie'
+      choose_carefully: "Prenez soin de choisir la bonne catégorie"
+    edit:
+      title: 'Editer %{product}'
+    index:
+      all_categories: 'Toutes catégories'
+    show:
+      avalaible_since: 'Disponible depuis :'
+      average_response_time: 'Temps de réponse moyen :'
+  status:
+    reopen: 'Reouvrir la discussion'
+    see_conversation: 'Voir la conversation'
+    pending:
+      zero: 'Aucune conversation en attente'
+      one: '1 conversation en attente'
+      other: '%{count} conversations en attentes'
+  photos:
+    starred: 'Photo mis en avant'
+    not_starred: 'Mettre en avant'
+
   activerecord:
     errors:
       models:
         user:
           attributes:
+            username:
+              too_short: 'Votre pseudo est trop court'
+              presence: 'Un pseudo est obligatoire'
+              taken: 'Ce pseudo est deja utilisé'
+              invalid: 'Les caractères spéciaux sont intédits'
             email:
-              blank: 'Un email est obligatoire'
+              blank: 'Une adresse mail est nécessaire'
             password:
               blank: 'Un mot de passe est nécessaire'
               too_short: 'Votre mot de passe doit être de 6 caractères minimum'
             password_confirmation:
-              confirmation: 'La confirmation ne correspond pas'
+              confirmation: 'La confirmation de mot de passe ne correspond pas'
+        profile:
+          attributes:
+            first_name:
+              invalid: 'Le nom doit être composé de lettres'
+            last_name:
+              invalid: 'Le prénom doit être composé de lettres'
+        product:
+          attributes:
+            name:
+              too_short: 'Un nom de 2 caractères minimum est nécessaire'
+              too_long: 'Ce nom est trop long'
+              invalid: 'Les caractères spéciaux sont intédits'
+            price:
+              numericality: 'Un prix pertinent est nécessaire'
+              greater_than: 'Un prix pertinent est nécessaire'
+              too_short: 'Un prix pertinent est nécessaire'
+              too_long: "C'est un peu trop non ?"
+            category_id:
+              blank: 'Une catégorie est obligatoire'
+        message:
+          attributes:
+            content:
+              too_short: 'Un message est nécessaire'
+              presence: 'Un message est nécessaire'
 
   tooltip:
     messages:
@@ -21,7 +123,7 @@ fr:
 
   datetime:
     distance_in_words:
-      half_a_minute: 'half a minute'
+      half_a_minute: '30 secondes'
       less_than_x_seconds:
         one:   'moins de 1 seconde'
         other: 'moins de %{count} secondes'
@@ -71,37 +173,17 @@ fr:
     product_become_inactive:
       subject: 'Votre produit ne sera plus afficher dans les recherches'
 
-  user:
-    username:
-      length: "Votre nom d'utilisateur doit contenir 2 caractères au minimum"
-      presence: "Un nom d'utilisateur est nécessaire"
-      uniqueness: "Ce nom d'utilisateur est déjà pris"
-      format: "Un nom d'utilisateur ne peut contenir ces caractères"
-    email:
-      presence: 'Un email est nécessaire'
   product:
-    name:
-      uniqueness: 'Ce nom de produit est déjà utilisé'
-      length: 'Le nom doit contenir entre 2 et 60 caractères'
-      format: 'Les caractères spéciaux sont intédits'
-    price:
-      numericality: 'Un prix pertinent est nécessaire'
-      length: "C'est un peu trop non ?"
-    description:
-      length: 'La description ne peut excéder 140 caractères'
-    category:
-      presence: 'Une catégorie est obligatoire'
+    add: 'Ajouter un produit'
     create:
       success: 'Votre produit à été enregistré'
     update:
       success: 'Votre produit à été mise à jour'
-      too_many_assets: 'Vous avez déjà atteints le nombre maximum de photo'
+      too_many_photos: 'Vous avez déjà atteints le nombre maximum de photo'
     destroy:
       success: 'Votre produit à bien été supprimé'
       error: "Une erreur s'est produite"
   profile:
-    first_and_last_name:
-      format: 'Le nom et prénom doivent être composé de lettres'
     update:
       success: 'Votre profil à été mise à jour'
     destroy:
@@ -124,9 +206,6 @@ fr:
       success: 'La photo mise en avant a bien été mise à jour'
       error: "Une erreur s'est produite"
   comment:
-    content:
-      presence: 'Saisissez votre commentaire'
-      length: 'Votre commentaire est trop long'
     create:
       error: "Votre commentaire n'est pas correcte"
       success: 'Votre commentaire à bien été enregistré'

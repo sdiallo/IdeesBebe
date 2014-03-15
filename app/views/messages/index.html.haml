@@ -1,0 +1,32 @@
+#user-messages
+  .ui.grid.stackable
+    .row
+      .sixteen.wide.column
+        .ui.segment.no-box-shadow
+          %h2= I18n.t('messages.index.title')
+    .row
+      .five.wide.column
+        .ui.segment.no-box-shadow.states-messages
+          .ui.vertical.menu.user-messages-categories
+            = link_to profile_messages_path(current_user.slug), class: "item teal #{'active' if @state.nil?}" do
+              = I18n.t('messages.index.all_conversations')
+              .ui.teal.label
+                = @user.conversations.to_a.count
+            = link_to profile_messages_path(current_user.slug, state: 'pending'), class: "item teal #{'active' if @state == 'pending'}" do
+              = I18n.t('messages.index.pending_conversations')
+              .ui.teal.label
+                = @user.conversations.pending(@user).count
+            = link_to profile_messages_path(current_user.slug, state: 'archived'), class: "item teal #{'active' if @state == 'archived'}" do
+              = I18n.t('messages.index.archived_conversations')
+              .ui.teal.label
+                = @user.conversations.archived.count
+      .eleven.wide.column
+        .ui.grid.one.column.doubling.index-messages
+          - if @status.empty?
+            .column
+              .ui.message
+                Aucun messages
+          - else
+            - @status.each do |status|
+              - situation = @user.id == status.user_id ? 'buyer' : 'owner'
+              = render "product_#{situation}_block", status: status, message: status.last_message, product: status.product

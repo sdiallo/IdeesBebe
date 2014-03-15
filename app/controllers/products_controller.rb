@@ -15,11 +15,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   def show
     @comment = Comment.new
-
-    if user_signed_in? and not current_user.is_owner_of? @product
-      @message = @product.last_message_with(current_user)
-      @status = @message.status if @message
-    end
+    @status = @product.status.find_by(user_id: current_user.id) if user_signed_in? and not current_user.is_owner_of? @product
   end
 
   # GET /profiles/:profile_id/products/new

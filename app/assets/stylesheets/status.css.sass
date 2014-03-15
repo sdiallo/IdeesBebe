@@ -19,7 +19,10 @@
       margin-left: 20px
       font-size: 12px
   .index-user
-    min-height: 220px
+    border-radius: 0.3125em 0.3125em 0 0 !important
+    .column
+      margin-top: 0
+      margin-bottom: 0
     .ban
       &:hover
         i
@@ -34,26 +37,24 @@
       &:hover
         i
           color: green
-  .ui.bottom.attached.label
+  .ui.bottom.attached.header
     z-index: 1001
-    height: 37px
-    span:first
-      text-align: left
-    button
-      height: 10px
-      border: none
-      background: none !important
-      border: none
-      line-height: 1px
-      color: rgba(0, 0, 0, 0.65)
-      font-weight: normal
-      font-size: 0.8125rem
-      &:hover
-        text-decoration: underline
+    .avalaible
+      a
+        font-size: 14px
+        font-weight: normal
+        color: hsl(0, 0%, 49%)
+        display: table-cell
+        &:hover
+          text-decoration: underline
 
 #status-card
+  .user-avatar
+    text-align: center
+  .user-actions
+    padding: 24px
   .selled
-    height: 270px
+    height: 225px
     .buyer_name
       font-size: 12px
       color: grey
@@ -67,16 +68,18 @@
     width: 100%
     margin-top: 28%
   .actions
+    width: 100%
     button
       background-color: transparent !important
-      width: 0  
-      padding: 0 !important
+      height: 16px
+      padding: 0 0 0 4px !important
+      box-shadow: none
+      background: none
       i
-        margin-left: 2px
         color: #666
   .dimmer
     h2
-      margin-top: 18px
+      margin-top: 12px
       margin-bottom: 0
     .texte
       margin: 10px 0
@@ -84,8 +87,16 @@
       font-size: 20px
       font-weight: bold
   .closed
-    button
+    z-index: 1001
+    form
+      height: 18px
+    .reopen-button
+      background: none
       padding: 0 !important
+      font-size: 12px
+      margin-top: -6px
+      font-weight: normal
+      color: hsl(0, 0%, 49%)
   .user-name
     font-weight: bold
     font-size: 16px
@@ -94,11 +105,23 @@
 
 #conversation
   margin-top: 20px
+  h2
+    margin-bottom: 10px
+    font-size: 30px
   .status-list
-    .ui.vertical.menu
-      margin-top: 40px
-      width: 100%
+    padding-top: 0
+    padding-bottom: 0
+    border: none
+  .about
+    font-size: 14px
+    color: hsl(0, 0%, 49%)
+    a
+      color: hsl(247, 27%, 43%)
+      font-weight: bold
+      &:hover
+        text-decoration: underline
   .ui.vertical.menu
+    width: 100%
     .label
       background-color: #564F8A !important
     .active
@@ -107,42 +130,20 @@
   .messages
     margin: 22px 0
     border-bottom: solid 1px #E8E8E8
-    height: 550px !important
+    height: 330px !important
     overflow: hidden
     &:hover
       overflow: auto
   .message
     margin: 10px 10px
     position: relative
-    width: 400px
+    width: 50%
     vertical-align: top
     padding: 3px 10px
     background: #eee
     margin-bottom: 15px
     margin-left: 0
     border-radius: 3px
-  .message.left-chat:after
-    content: ""
-    position: absolute
-    top: 10px
-    left: -12px
-    border-style: solid
-    border-width: 9px 15px 9px 0
-    border-color: transparent #eee
-    display: block
-    width: 0
-    z-index: 1
-  .message.right-chat:after
-    content: ""
-    position: absolute
-    top: 10px
-    right: -12px
-    border-style: solid
-    border-width: 9px 0 9px 15px
-    border-color: transparent #eeeeee
-    display: block
-    width: 0
-    z-index: 1
   .underline
     &:hover
       text-decoration: underline

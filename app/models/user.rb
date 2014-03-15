@@ -28,29 +28,14 @@ class User < ActiveRecord::Base
   include Slugable
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
   validates :username,
-    length: {
-      minimum: 2,
-      message: I18n.t('user.username.length')
-    },
-    presence: {
-      message: I18n.t('user.username.presence')
-    },
-    uniqueness: {
-      case_sensitive: false,
-      message: I18n.t('user.username.uniqueness')
-    },
-    format: {
-      with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u,
-      message: I18n.t('user.username.format')
-    }
-
-  validates :email,
-    presence: {
-      message: I18n.t('user.email.presence')
-    }
+    length: { minimum: 2 },
+    presence: true,
+    uniqueness: { case_sensitive: false },
+    format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
+  validates :email, presence: true
 
   has_one :profile, dependent: :destroy
 
@@ -62,6 +47,8 @@ class User < ActiveRecord::Base
   has_many :messages_sent, class_name: 'Message', foreign_key: :sender_id
   has_many :messages_received, class_name: 'Message', foreign_key: :receiver_id
 
+  has_many :reports, dependent: :destroy
+
   attr_accessor :login
 
 
@@ -69,11 +56,6 @@ class User < ActiveRecord::Base
   after_create ->(user) { Notifier.delay.welcome(user) }
 
   before_save :to_slug, if: :username_changed?
-
-
-  def messages
-    Message.where('receiver_id = ? OR sender_id = ?', self.id, self.id).order('created_at DESC')
-  end
 
   def avatar
     profile.avatar
@@ -85,6 +67,10 @@ class User < ActiveRecord::Base
 
   def is_owner_of? product
     product.user_id == self.id
+  end
+
+  def conversations
+    Status.joins(:user).joins(:product).where('products.user_id = ? OR statuses.user_id = ?', id, id).group('statuses.id')
   end
 
   class << self
@@ -101,14 +87,7 @@ class User < ActiveRecord::Base
     def find_for_facebook_oauth(auth, signed_in_resource = nil)
       user = User.where('email = ? OR (provider = ? AND fb_id = ?)', auth.info.email, auth.provider, auth.uid).first
       return user if user.present?
-
-      @user = User.create!(username:auth.info.name.strip,
-                          provider:auth.provider,
-                          fb_id:auth.uid,
-                          email:auth.info.email,
-                          fb_tk:auth.credentials.token,
-                          password:Devise.friendly_token[0,20]
-                        )
+      @user = User.create!(username:auth.info.name.strip, provider:auth.provider, fb_id:auth.uid, email:auth.info.email, fb_tk:auth.credentials.token, password:Devise.friendly_token[0,20])
     end
   end
 end
