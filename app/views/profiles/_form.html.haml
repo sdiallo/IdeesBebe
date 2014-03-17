@@ -1,11 +1,11 @@
 .ui.form
   = simple_form_for @profile, url: profile_path(@user.slug), method: :put, html: { multipart: true } do |f|
     .field
-      = f.input :first_name, label: 'Prénom', input_html: { size: 20 }
+      = f.input :first_name, label: I18n.t('common.first_name'), input_html: { size: 20 }
     .field
-      = f.input :last_name, label: 'Nom', input_html: { size: 20 }
+      = f.input :last_name, label: I18n.t('common.name'), input_html: { size: 20 }
     - if not @profile.avatar?
       .field
-        = f.input :avatar, label: 'Avatar', as: :file, include_blank: true, input_html: { size: 20 }
+        = f.input :avatar, label: I18n.t('common.avatar'), as: :file, include_blank: true, input_html: { size: 20 }
     .actions
-      = f.button :submit, 'Sauvegarder'
+      = f.button :submit, I18n.t('common.save')

@@ -32,7 +32,7 @@ module IdeesBebe
       authentication: :plain
     }
     
-    I18n.default_locale = :en
+    I18n.default_locale = :fr
 
   end
 end

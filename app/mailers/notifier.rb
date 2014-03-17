@@ -21,19 +21,10 @@ class Notifier < ActionMailer::Base
     )
   end
 
-  def reminder_owner_3_days message
+  def reminder_owner(message, time)
+    return false if not message.need_to_remember?
     @message = message
-    @subject = I18n.t('notifier.reminder_owner_3_days.subject')
-    @user = message.sender
-    mail(
-      to: @message.receiver.email,
-      subject: @subject
-    )
-  end
-
-  def reminder_owner_7_days message
-    @message = message
-    @subject = I18n.t('notifier.reminder_owner_7_days.subject')
+    @subject = I18n.t("notifier.reminder_owner_#{time}_days.subject")
     @user = message.sender
     mail(
       to: @message.receiver.email,

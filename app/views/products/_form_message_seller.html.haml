@@ -1,6 +1,2 @@
-- msg_count = @product.pending_messages_for_owner.count
-- if msg_count.zero?
-  Vous n'avez aucun nouveaux messages
-- else
-  = "Vous avez #{msg_count} conversation(s) en attente(s)"
-= link_to 'Gerer mes messages', product_status_index_path(product_id: @product.slug)
+= I18n.t('status.pending', count: @product.pending_status_for_owner.count)
+= link_to I18n.t('products.manage_my_product'), product_status_index_path(product_id: @product.slug)

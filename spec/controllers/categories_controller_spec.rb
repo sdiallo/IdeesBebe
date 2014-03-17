@@ -27,7 +27,7 @@ describe CategoriesController do
     end
 
     it 'assigns @products' do
-      assigns(:products).should == [product3, product2]
+      assigns(:products).should == [product3, product2, product]
     end
 
     it 'render show template' do
@@ -49,7 +49,7 @@ describe CategoriesController do
     end
 
     it 'assigns @products' do
-      assigns(:products).should == [product3, product2]
+      assigns(:products).should == [product3, product2, product]
     end
 
     it 'render show_subcategory template' do

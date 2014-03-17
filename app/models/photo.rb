@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: product_assets
+# Table name: photos
 #
 #  id         :integer          not null, primary key
 #  product_id :integer
@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-class ProductAsset < ActiveRecord::Base
+class Photo < ActiveRecord::Base
 
   belongs_to :product
 
@@ -23,19 +23,19 @@ class ProductAsset < ActiveRecord::Base
   private
 
     def unstar
-      old_asset = ProductAsset.where(product: product, starred: true)
+      old_asset = Photo.where(product: product, starred: true)
       old_asset.first.update_attributes!(starred: false)
     end
 
     # Set starred at true if it's the first asset for a product
     def stars_if_first
-      self.starred = product.assets.empty? ? true : false
+      self.starred = product.photos.empty? ? true : false
       nil
     end
 
     # Set starred at true for another asset of the product if the destroyed asset is the starred one
     def random_starred
-      distance = ProductAsset.select('id').where(product: product, starred: false)
-      ProductAsset.find(distance.sample).update_attributes!(starred: true) if distance.any?
+      distance = Photo.select('id').where(product: product, starred: false)
+      Photo.find(distance.sample).update_attributes!(starred: true) if distance.any?
     end
 end

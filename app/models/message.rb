@@ -15,32 +15,37 @@ class Message < ActiveRecord::Base
   
   belongs_to :sender, class_name: 'User', foreign_key: :sender_id
   belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id
-  belongs_to :status
+  belongs_to :status, touch: true
 
-  LIMIT_STRAIGHT = 2
+  delegate :product, to: :status
+
+  FIRST_REMINDER_OWNER = 3
+  SECOND_REMINDER_OWNER = 7
   
-  validates :content,
-    length: {
-      minimum: 2,
-      maximum: 250,
-      message: I18n.t('comment.content.length')
-    },
-    presence: { message: I18n.t('comment.content.presence') }
+  validates :content, length: { minimum: 2 }, presence: true
 
   scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
   after_create ->(message) { Notifier.delay.new_message(message) }
-  after_create :reminder_owner_3_days, unless: :from_owner?
-  after_create :reminder_owner_7_days, unless: :from_owner?
+  after_create :reminder_owner, unless: :from_owner?
   after_create :unactive_product, unless: :from_owner?
   after_create :reactive_product, unless: :product_is_active?
-  after_create :response_time, if: :from_owner?
+  after_create :response_time, if: [:from_owner?, :last_is_from_buyer?]
+  after_create :touch
 
   def from_owner?
     status.product.owner == sender
   end
 
+  def need_to_remember?
+    status.last_message == self and not product.selled and not status.closed
+  end
+
   private
+
+    def last_is_from_buyer?
+      not status.messages.where('messages.id != ?', id).order('created_at DESC').first.try(:from_owner?)
+    end
 
     # Reactive product for owner
 
@@ -67,22 +72,12 @@ class Message < ActiveRecord::Base
       sender.update_attributes!(response_time: time)
     end
 
-
     # Reminder for owner
 
-    def need_to_remember?
-      (status.product.last_message_with(sender)) == self and status.product.avalaible? and not status.closed
+    def reminder_owner
+      Notifier.delay(run_at: created_at + FIRST_REMINDER_OWNER.days).reminder_owner(self, FIRST_REMINDER_OWNER)
+      Notifier.delay(run_at: created_at + SECOND_REMINDER_OWNER.days).reminder_owner(self, SECOND_REMINDER_OWNER)
     end
-
-    def reminder_owner_3_days
-      Notifier.reminder_owner_3_days(self).deliver if need_to_remember?
-    end
-    handle_asynchronously :reminder_owner_3_days, run_at: ->(message) { message.created_at + 3.days }
-
-    def reminder_owner_7_days
-      Notifier.reminder_owner_7_days(self).deliver if need_to_remember?
-    end
-    handle_asynchronously :reminder_owner_7_days, run_at: ->(message) { message.created_at + 7.days }
 
     def unactive_product
       if need_to_remember?

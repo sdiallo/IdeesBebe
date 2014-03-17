@@ -1,13 +1,13 @@
 %p
-  %strong Pr&eacute;nom:
+  %strong= I18n.t('common.first_name')
   = @profile.first_name
 %p
-  %strong Nom:
+  %strong= I18n.t('common.name')
   = @profile.last_name
 
 = image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
 
 - if can? :edit, @profile
-  = link_to 'Editer', edit_profile_path(@user.slug)
+  = link_to I18n.t('common.edit'), edit_profile_path(@user.slug)
 - if can? :destroy, @user
-  = link_to 'Supprimer mon compte', profile_path(@user.slug), method: :delete
+  = link_to I18n.t('common.delete'), profile_path(@user.slug), method: :delete

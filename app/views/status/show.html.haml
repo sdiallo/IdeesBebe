@@ -1,53 +1,53 @@
+- name = current_user.is_owner_of?(@product) ? @user.username : current_user.username
+- link = current_user.username == name ? product_path(@product.slug) : product_status_index_path(@product.slug)
 #conversation
-  .ui.grid
-    .ten.wide.column
-      .ui.segment.piled.feed
-        .messages
-          - @messages.includes(:sender).each do |message|
-            - if message == @messages.last
-              #last-message
-            .row
-              - align = message.sender == current_user ? 'left' : 'right'
-              .message{ style: "text-align: #{align}; float: #{align}" }
-                %p
-                  = message.sender == current_user ? 'Vous avez dit :' : "#{message.sender.username} à dit :"
-                %p
-                  = message.content
-              %div{ style: 'clear: both' }
+  .ui.grid.stackable
+    .row
+      .sixteen.wide.column
+        .ui.segment.no-box-shadow
+          %h2= I18n.t('common.my_conversation_with', name: name)
+          %p.about
+            = I18n.t('common.about')
+            = link_to @product.name, link
+    .row
+      - if current_user.is_owner_of?(@product)
+        .five.column.wide
+          .ui.segment.no-left-right-padding.status-list
+            .ui.vertical.menu
+              - @product.status.each do |status|
+                - active = status.user == @receiver ? 'active' : ''
+                = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
+                  = status.user.username
+                  - if status.pending_messages_count > 0 and not status.closed and not @product.selled
+                    .ui.label.teal
+                      %i.mail.icon
+      .eleven.wide.column
+        .ui.segment.piled.feed
+          .messages
+            - @messages.includes(:sender).each do |message|
+              - if message == @messages.last
+                #last-message
+              .row
+                - align = message.sender == current_user ? 'left' : 'right'
+                .message{ style: "text-align: #{align}; float: #{align}" }
+                  %p
+                    = message.sender == current_user ? I18n.t('messages.index.current_is_sender') : I18n.t('messages.index.current_is_not_sender', name: message.sender.username)
+                  %p
+                    = message.content
+                %div{ style: 'clear: both' }
 
-        - if @product.avalaible?
-          - if @status.can_send_message? current_user
+          - if @product.selled
+            Le produit est vendu
+          - elsif @status.closed
+            La discussion est fermée
+          - elsif @status.can_send_message? current_user
             = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
               = f.input :content, label: '', as: :text
               = f.hidden_field :receiver_id, value: @receiver.id
               = f.hidden_field :status_id, value: @status.id
               = f.button :button, class: 'ui fluid blue labeled submit icon button' do
                 %i.icon.edit
-                = 'Répondre'
+                = I18n.t('common.respond')
           - else
-            - name = current_user.is_owner_of?(@product) ? @user.username : @product.owner.username
             .cant-respond
-              = "#{name} n'a pas encore répondu"
-        .ui.attached.label.top
-          A propros de
-          = link_to @product.name, product_path(@product.slug), class: 'underline'
-          %span.right
-            - if current_user.is_owner_of? @product
-              = link_to 'Gérer mon produit', product_status_index_path(product_id: @product.slug), class: 'underline'
-
-    - if current_user.is_owner_of?(@product)
-      .six.column.wide.computer.only.status-list
-        .ui.segment
-          .ui.attached.label.top
-            Personne(s) intéressée(s)
-          .ui.vertical.menu
-            - @avalaible_status.each do |status|
-              - active = status.user == @receiver ? 'active' : ''
-              = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
-                = status.user.username
-                - count = status.pending_messages_count
-                - if count > 0
-                  .ui.label.teal
-                    %i.mail.icon
-                    = count
-
+              = I18n.t('messages.form.has_not_reply_yet', name: name)

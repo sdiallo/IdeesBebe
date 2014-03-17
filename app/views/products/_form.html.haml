@@ -6,15 +6,15 @@
 = simple_form_for @product, url: url do |f|
 
   
-  = f.input :name, label: 'Nom', required: true
+  = f.input :name, label: I18n.t('common.name'), required: true
 
-  = f.input :price, label: 'Prix', required: true
+  = f.input :price, label: I18n.t('common.price'), required: true
 
-  = f.input :description, label: 'Description'
+  = f.input :description, label: I18n.t('common.description')
 
   - if @product.category_id.nil?
-    = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', prompt: "Choisissez une catégorie", hint: "Prenez soin de choisir la bonne catégorie", input_html: {class: "ui selection dropdown"}
+    = f.association :category, collection: Category.order('main_category_id'), label: I18n.t('common.category'), prompt: I18n.t('products.form.choose_category'), hint: I18n.t('products.form.choose_carefully'), input_html: {class: "ui selection dropdown"}
   - else
-    = f.association :category, collection: Category.order('main_category_id'), label: 'Catégorie', default: @product.category_id, hint: "Prenez soin de choisir la bonne catégorie", input_html: { class: 'ui selection dropdown' }
+    = f.association :category, collection: Category.order('main_category_id'), label: I18n.t('common.category'), default: @product.category_id, hint: I18n.t('products.form.choose_carefully'), input_html: { class: 'ui selection dropdown' }
 
-  = f.button :submit, 'Sauvegarder'
+  = f.button :submit, I18n.t('common.save')

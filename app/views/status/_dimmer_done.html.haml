@@ -1,14 +1,14 @@
 .ui.grid
   .column
     #status-card
-      .ui.segment.index-user.selled
+      .ui.segment.attached.index-user.selled
         .ui.dimmer.visible.active
           .wrap-no-click
             .content
               %h2.ui.inverted.icon.header
                 %i.icon.circular.inverted.emphasized.green.checkmark
               .texte.marked
-                = 'Produit vendu !'
+                = I18n.t('common.product_selled')
               .texte.unmark
                 Notez l'acheteur :
                 .ui.large.star.rating
@@ -17,10 +17,9 @@
                   %i.icon
                   %i.icon
                   %i.icon
-        .ui.bottom.attached.label.base-attached-label
-          .left
-            %span.user-name= user.username
-          %span.right
-            = link_to 'Revoir la discussion', product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
+      .ui.bottom.attached.header.base-attached-label
+        %span.user-name= user.username
+        %span.right
+          = link_to I18n.t('common.resee_discussion'), product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
 

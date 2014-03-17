@@ -3,7 +3,7 @@
   %head
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
     %title IdeesBebe
-    = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
   %body
     .row#top-menu
@@ -44,14 +44,15 @@
             - else
               .ui.menu
                 .item
-                  = link_to "S'inscrire", new_user_registration_path, class: ''
+                  = link_to I18n.t('common.sign_up'), new_user_registration_path, class: 'small ui purple button'
                 .item  
-                  = link_to 'Se connecter', new_user_session_path, class: ''
+                  = link_to I18n.t('common.sign_in'), new_user_session_path, class: 'small ui purple button'
                 .item
-                  = link_to 'sign in whith facebook', user_omniauth_authorize_path(:facebook)
+                  %i.icon.facebook
+                    = link_to I18n.t('common.sign_up_facebook'), user_omniauth_authorize_path(:facebook)
           .row
             .add-product
-              = link_to 'Ajouter un produit', new_user_session_path, class: 'ui teal button'
+              = link_to I18n.t('product.add'), new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
                                      
 
     .row#menu-bar
