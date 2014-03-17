@@ -30,6 +30,7 @@ fr:
     none_interest: 'Aucun intéressées'
     my_conversation_with: 'Ma conversation avec %{name}'
     about: 'A propos de'
+    my_contacts: 'Mes contacts'
 
   messages:
     form:
@@ -45,7 +46,7 @@ fr:
       current_is_not_sender: '%{name} à dit'
       since: 'Il y à %{date}'
     pending:
-      zero: 'Aucun message en attente'
+      zero: '0 message en attente'
       one: '1 message en attente'
       other: '%{count} messages en attentes'
   products:
@@ -65,7 +66,7 @@ fr:
     reopen: 'Reouvrir la discussion'
     see_conversation: 'Voir la conversation'
     pending:
-      zero: 'Aucune conversation en attente'
+      zero: '0 conversation en attente'
       one: '1 conversation en attente'
       other: '%{count} conversations en attentes'
   photos:
