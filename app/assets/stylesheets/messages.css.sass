@@ -14,13 +14,15 @@
         border-color: #564F8A !important
         color: #564F8A !important
   .index-messages
-    .column:first-child
-      margin-top: 0
-    .last-message-content
-      &:hover
-        text-decoration: none
-        color: black
-    h4
+    .ui.top.attached.header
+      i
+        display: inline-block
+        color: #564F8A
+      .emphasized
+        color: white !important
+      span,
+      a
+        display: inline-block
       .intro
         font-size: 14px
         color: grey
@@ -33,6 +35,12 @@
         color: #564F8A
       .product
         color: #564F8A
+    .column:first-child
+      margin-top: 0
+    .last-message-content
+      &:hover
+        text-decoration: none
+        color: black
     .index-message
       &:hover
         background: hsla(0, 0%, 66%, 0.1)

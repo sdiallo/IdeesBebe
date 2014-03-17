@@ -9,18 +9,12 @@
   <% end %>
 <% else %>
   <% if @status.closed %>
-    cl = '.status_<%= raw @status.id %>'
-    $('.avalaible_<%= raw @status.id %>').hide()
-    $('.closed_<%= raw @status.id %>').show()
-    $(cl).dimmer('show')
-    setTimeout ( ->
-      $msg = $('.product-state.error')
-      if $msg.length > 0
-        $msg.slideToggle('200')
-    ), 1000
+    $('.closed-button').slideUp(200)
+    $('.cant-respond').slideUp(200)
+    $('#block-form-status-show').html("<%= j render 'status_closed' %>")
   <% else %>
     cl = '.status_<%= raw @status.id %>'
-    $('.closed_<%= raw @status.id %>').hide()
+    $('.closed_<%= raw @status.id %>').hide(200)
     $('.avalaible_<%= raw @status.id %>').show()
     $(cl).dimmer('hide')
     setTimeout ( ->

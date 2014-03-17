@@ -1,21 +1,17 @@
 #conversations
-  .ui.segment.product-header
-    %h2.left
-      =link_to @product.name, product_path(@product.slug)
-    - if not @product.selled
-      .main-actions.right
-        = link_to edit_product_path(@product.slug), class: 'ui button small purple' do
-          %i.icon.wrench
-          %span= I18n.t('common.edit')
-        = link_to product_path(@product.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: 'ui button small purple' do
-          %i.icon.remove
-          %span= I18n.t('common.delete')
-
+  .row
+    .sixteen.wide.column
+      %h3.ui.header.block.black
+        %i.icon.users
+        = I18n.t('common.my_contacts')
+      .about
+        = I18n.t('common.about')
+        = link_to @product.name, product_path(@product.slug)
   - if not @product.selled and not @product.active 
-    .ui.message.product-state.error
-      .title= I18n.t('common.product_inactive')
-      .info= I18n.t('common.reply_or_close')
-  %h2= I18n.t('common.interest_people')
+    .row
+      .ui.message.product-state.error
+        .title= I18n.t('common.product_inactive')
+        .info= I18n.t('common.reply_or_close')
 
   - if @product.selled
     .row

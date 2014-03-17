@@ -2,9 +2,9 @@
   .ui.grid.stackable
     .row
       .sixteen.wide.column
-        .ui.segment.no-box-shadow
-          %h2
-            Mes produits
+        %h3.ui.header.block.black
+          %i.icon.suitcase
+          Mes produits
     .row
       .five.wide.column
         .ui.segment.no-box-shadow.block-categories.full-width.no-left-right-padding
@@ -44,5 +44,13 @@
                         %i.icon.circular.inverted.emphasized.green.checkmark
                         Produit vendu !
                   .row.product-actions
-                    - link_name = product.selled ? I18n.t('common.resee') : I18n.t('common.manage')
-                    = link_to link_name, product_status_index_path(product.slug), class: 'ui button purple'
+                    .ui.buttons
+                      - if product.selled
+                        = link_to product_status_index_path(product.slug), class: 'ui button starpop eye-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
+                          %i.icon.unhide
+                      - else
+                        = link_to edit_product_path(product.slug), class: 'ui button starpop setting-button', 'data-content' => I18n.t('common.edit'), 'data-variation' => 'inverted' do
+                          %i.icon.settings
+                        = link_to product_status_index_path(product.slug), class: 'ui button starpop list-button', 'data-content' => I18n.t('common.my_contacts'), 'data-variation' => 'inverted' do
+                          %i.icon.users
+
