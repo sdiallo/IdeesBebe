@@ -29,8 +29,10 @@ fr:
     interest_people: 'Personnes intéressées'
     none_interest: 'Aucun intéressées'
     my_conversation_with: 'Ma conversation avec %{name}'
+    done_product: 'Attribuer la vente'
     about: 'A propos de'
     my_contacts: 'Mes contacts'
+    no_appreciation: 'Aucune appréciation'
 
   messages:
     form:
@@ -40,8 +42,10 @@ fr:
       all_conversations: 'Toutes mes conversations'
       pending_conversations: 'En attente de ma réponse'
       archived_conversations: 'Archivées'
-      about_my_product: 'à propos de votre produit'
+      about_my_product: 'à propos de mon produit'
       about_product_of_another: 'à propos de son produit'
+      about_my_product_cap: 'A propos de mon produit'
+      about_product_of_another_cap: 'A propos de son produit'
       current_is_sender: 'Vous avez dit'
       current_is_not_sender: '%{name} à dit'
       since: 'Il y à %{date}'
