@@ -23,7 +23,7 @@ class StatusController < ApplicationController
     @status.update(status_params)
 
     respond_to do |format|
-      format.html { redirect_to action: :index }
+      format.html { redirect_to product_status_path(@product.slug, @status.user.slug) }
       format.js
     end
   end

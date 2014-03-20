@@ -1,3 +1,7 @@
 .status-situation
   %i.icon.circular.inverted.emphasized.red.ban.circle
   = I18n.t('common.status_closed')
+  .reopen-button
+    = simple_form_for @status, url: product_status_path(product_id: @product.slug, id: @user.slug), method: :put do |f|
+      = f.hidden_field :closed, value: false
+      = f.button :submit, I18n.t('tooltip.messages.index.reopen')
