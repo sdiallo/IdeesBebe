@@ -7,10 +7,10 @@
     %span.product= link_to product.name, product_status_index_path(product.slug), class: 'underline'
     %span.state
       - if product.selled
-        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('commin.product_selled'), 'data-variation' => 'inverted' }
+        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('common.product_selled'), 'data-variation' => 'inverted' }
           %i.icon.circular.inverted.emphasized.green.checkmark
       - elsif status.closed
-        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('commin.status_closed'), 'data-variation' => 'inverted' }
+        .ui.inverted.icon.starpop{ 'data-content' => I18n.t('common.status_closed'), 'data-variation' => 'inverted' }
           %i.icon.circular.inverted.emphasized.red.ban.circle
   = link_to product_status_path(product_id: product.slug, id: other.slug, anchor: 'last-message'), class: 'last-message-content' do
     .ui.attached.segment.index-message

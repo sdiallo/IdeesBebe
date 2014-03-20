@@ -22,10 +22,9 @@ class StatusController < ApplicationController
     @status = Status.find_by(user_id: @user.id, product_id: @product.id)
     @status.update(status_params)
 
-    @updated = @status.done_changed? ? 'done' : 'closed'
     respond_to do |format|
       format.html { redirect_to action: :index }
-      format.js { @message = @status.last_message }
+      format.js
     end
   end
 

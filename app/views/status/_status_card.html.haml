@@ -1,41 +1,30 @@
 - user = message.from_owner? ? message.receiver : message.sender 
 #status-card
   .ui.segment.attached.index-user
-    .ui.grid.stackable
-      .four.wide.column.user-avatar
-        = image_tag(user.avatar.thumb.url, alt: user.username, title: user.username)
-      .six.wide.column
-        %p= user.username
-        %p note
-      .six.wide.column.user-actions
-        - if not @product.selled
-          .ui.buttons.actions
-            .ui.icon.button.messages.starpop{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
-              = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
-                %i.icon.chat
-            .ui.icon.button.check.starpop{ 'data-content' => I18n.t('tooltip.messages.index.done'), 'data-variation' => 'inverted' }
-              = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put do |f|
-                = f.hidden_field :done, value: true
-                = f.button :button do
-                  %i.icon.checkmark
-        - else
-          .ui.icon.button.messages.starpop.button-selled{ 'data-content' => I18n.t('tooltip.messages.index.chat'), 'data-variation' => 'inverted' }
-            = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
-              %i.icon.chat
-    .ui.dimmer{ class: "status_#{status.id} #{('visible active' if status.closed)}" }  
-      .wrap-no-click
-        .content
-          %h2.ui.inverted.icon.header
+    .ui.grid.two.column.stackable
+      .column.avatar-contact
+        .row.user-avatar
+          = link_to product_status_path(@product.slug, user.slug) do
+            = image_tag(user.avatar.url, alt: user.username, title: user.username, class: '')
+      .column.details-contact
+        .row.user-name
+          = link_to user.username, profile_path(user.slug), class: 'underline'
+        .row.user-note= t('common.no_appreciation')
+        .row.user-pending-message
+          - if status.closed
             %i.icon.circular.inverted.emphasized.red.ban.circle
-
-  %h4.ui.bottom.attached.header.base-attached-label
-    - if not @product.selled
-      %span.avalaible{ class: "avalaible_#{status.id}", style: ('display: none' if status.closed) }
-        %i.icon.mail
-        = link_to product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message') do
-          = I18n.t('messages.pending', count: status.pending_messages_count)
-      %span.closed{ class: "closed_#{status.id}", style: ('display: none' if not status.closed) }
-        = simple_form_for status, url: product_status_path(product_id: @product.slug, id: status.user.slug), method: :put, remote: true do |f|
-          = f.hidden_field :closed, value: false
-          = f.button :button, I18n.t('status.reopen'), class: 'no-box-shadow reopen-button'
-
+            = I18n.t('common.status_closed')
+          - else
+            = t('messages.pending', count: status.pending_messages_count)
+        .row.user-actions
+          .ui.buttons
+            - if @product.selled
+              = link_to product_status_index_path(@product.slug), class: 'ui button starpop chat-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
+                %i.icon.unhide
+            - else
+              = link_to product_status_path(@product.slug, user.slug), class: 'ui button starpop chat-button large', 'data-content' => I18n.t('common.my_conversation_with', name: user.username), 'data-variation' => 'inverted' do
+                %i.icon.chat
+              = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, 'data-content' => I18n.t('common.done_product'), 'data-variation' => 'inverted' do |f|
+                = f.hidden_field :done, value: true
+                = f.button :button, class: 'ui button starpop done-button large' do
+                  %i.icon.checkmark
