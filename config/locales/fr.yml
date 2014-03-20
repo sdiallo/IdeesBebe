@@ -10,7 +10,6 @@ fr:
     edit: 'Editer'
     product_selled: 'Ce produit est vendu'
     status_closed: 'Cette conversation est fermée'
-    product_inactive: 'Ce produit est inactif'
     reply_or_close: 'Répondez aux messages ou fermées les discussions'
     name: 'Nom'
     price: 'Prix'
@@ -175,8 +174,6 @@ fr:
       subject: 'Vous avez un message en attente depuis trois jours'
     reminder_owner_7_days:
       subject: 'Vous avez un message en attente depuis sept jours !!'
-    product_become_inactive:
-      subject: 'Votre produit ne sera plus afficher dans les recherches'
 
   product:
     add: 'Ajouter un produit'

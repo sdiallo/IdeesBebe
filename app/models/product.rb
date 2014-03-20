@@ -10,7 +10,6 @@
 #  updated_at  :datetime
 #  user_id     :integer
 #  category_id :integer
-#  active      :boolean          default(TRUE)
 #  price       :integer          default(0)
 #  selled      :boolean          default(FALSE)
 #
@@ -20,7 +19,6 @@ class Product < ActiveRecord::Base
   include Slugable
 
   MAXIMUM_UPLOAD_PHOTO = 2
-  BECOME_INACTIVE_UNTIL = 10.days
 
   belongs_to :owner, foreign_key: 'user_id', class_name: 'User'
   belongs_to :category
@@ -33,8 +31,7 @@ class Product < ActiveRecord::Base
 
   accepts_nested_attributes_for :category
 
-  scope :active, ->() { where(active: true) }
-  scope :avalaible, ->() { where(active: true, selled: false) }
+  scope :avalaible, ->() { where(selled: false) }
 
   validates :name, length: { minimum: 2, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
   validates :price, numericality: { only_integer: true, greater_than: 0 }, length: { minimum: 1, maximum: 9 }

@@ -28,8 +28,6 @@ class Message < ActiveRecord::Base
   
   after_create ->(message) { Notifier.delay.new_message(message) }
   after_create :reminder_owner, unless: :from_owner?
-  after_create :unactive_product, unless: :from_owner?
-  after_create :reactive_product, unless: :product_is_active?
   after_create :response_time, if: [:from_owner?, :last_is_from_buyer?]
   after_create :touch
 
@@ -45,16 +43,6 @@ class Message < ActiveRecord::Base
 
     def last_is_from_buyer?
       not status.messages.where('messages.id != ?', id).order('created_at DESC').first.try(:from_owner?)
-    end
-
-    # Reactive product for owner
-
-    def product_is_active?
-      status.product.active
-    end
-
-    def reactive_product
-      status.product.update_attributes!(active: true)
     end
 
     # Response time for owner
@@ -78,12 +66,4 @@ class Message < ActiveRecord::Base
       Notifier.delay(run_at: created_at + FIRST_REMINDER_OWNER.days).reminder_owner(self, FIRST_REMINDER_OWNER)
       Notifier.delay(run_at: created_at + SECOND_REMINDER_OWNER.days).reminder_owner(self, SECOND_REMINDER_OWNER)
     end
-
-    def unactive_product
-      if need_to_remember?
-        status.product.update_attributes!(active: false)
-        Notifier.product_become_inactive(status.product).deliver
-      end
-    end
-    handle_asynchronously :unactive_product, run_at: ->(message) { message.created_at + Product::BECOME_INACTIVE_UNTIL }
 end
