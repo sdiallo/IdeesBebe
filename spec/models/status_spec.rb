@@ -22,16 +22,6 @@ describe Status do
     subject { FactoryGirl.create :status, user_id: user2.id, product: product }
     let(:message) { FactoryGirl.create :message, sender_id: user2.id, status: subject, receiver_id: user.id, content: 'test'}
 
-    context 'when the product is inactive and closed the status' do
-      
-      it 'reactive the product' do
-        product.update_attributes!(active: false)
-        message
-        subject.update_attributes!(closed: true)
-        subject.product.reload.active.should == true
-      end
-    end
-
     context 'when the selling the product' do
       
       it 'mark the product as selled' do
