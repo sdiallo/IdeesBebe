@@ -123,6 +123,7 @@ fr:
     messages:
       index:
         close: 'Fermer la discussion'
+        reopen: 'Réouvrir la discussion'
         chat: 'Voir la discussion'
         done: "Conclure l'affaire"
 

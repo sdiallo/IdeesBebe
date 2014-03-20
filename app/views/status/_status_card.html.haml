@@ -22,7 +22,7 @@
               = link_to product_status_index_path(@product.slug), class: 'ui button starpop chat-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
                 %i.icon.unhide
             - else
-              = link_to product_status_path(@product.slug, user.slug), class: 'ui button starpop chat-button large', 'data-content' => I18n.t('common.my_conversation_with', name: user.username), 'data-variation' => 'inverted' do
+              = link_to product_status_path(@product.slug, user.slug, anchor: 'last-message'), class: 'ui button starpop chat-button large', 'data-content' => I18n.t('common.my_conversation_with', name: user.username), 'data-variation' => 'inverted' do
                 %i.icon.chat
               = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, 'data-content' => I18n.t('common.done_product'), 'data-variation' => 'inverted' do |f|
                 = f.hidden_field :done, value: true
