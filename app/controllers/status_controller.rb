@@ -7,7 +7,7 @@ class StatusController < ApplicationController
 
   def index
     raise CanCan::AccessDenied if not current_user.is_owner_of? @product
-    @status = @product.status.order('done ASC, closed ASC')
+    @status = @product.status.order('done DESC, closed ASC')
   end
 
   def show
@@ -23,7 +23,7 @@ class StatusController < ApplicationController
     @status.update(status_params)
 
     respond_to do |format|
-      format.html { redirect_to product_status_path(@product.slug, @status.user.slug) }
+      format.html { redirect_to product_status_index_path(@product.slug) }
       format.js
     end
   end

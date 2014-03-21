@@ -51,7 +51,7 @@
                   = f.input :content, label: '', as: :text
                   = f.hidden_field :receiver_id, value: @receiver.id
                   = f.hidden_field :status_id, value: @status.id
-                  = f.button :button, class: 'ui fluid blue labeled submit icon button' do
+                  = f.button :button, class: 'ui fluid purple labeled submit icon button' do
                     %i.icon.edit
                     = I18n.t('common.respond')
               - else
