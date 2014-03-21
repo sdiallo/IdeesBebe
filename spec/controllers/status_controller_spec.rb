@@ -51,11 +51,11 @@ describe StatusController do
 
     end
 
-    it 'redirects to show' do
+    it 'redirects to index' do
       connect
       message
-      put :update, product_id: product.slug, id: user2.slug, status: { closed: true }
-      response.should redirect_to product_status_path(product.slug, user2.slug)
+      put :update, product_id: product.slug, id: user2.slug, status: { done: true }
+      response.should redirect_to product_status_index_path(product.slug)
     end
 
     context 'with product of another' do

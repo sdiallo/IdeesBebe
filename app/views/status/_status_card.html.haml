@@ -9,18 +9,25 @@
       .column.details-contact
         .row.user-name
           = link_to user.username, profile_path(user.slug), class: 'underline'
-        .row.user-note= t('common.no_appreciation')
+        / .row.user-note= t('common.no_appreciation')
         .row.user-pending-message
-          - if status.closed
-            %i.icon.circular.inverted.emphasized.red.ban.circle
-            = I18n.t('common.status_closed')
+          - if not @product.selled
+            - if status.closed
+              %i.icon.circular.inverted.emphasized.red.ban.circle
+              = I18n.t('common.status_closed')
+            - else
+              %i.icon.mail
+              = t('messages.pending', count: status.pending_messages_count)
+          - elsif @product.selled_to == status.user
+            %i.icon.circular.inverted.emphasized.green.checkmark
+            Vente attribué          
           - else
-            = t('messages.pending', count: status.pending_messages_count)
+            = t('status.messages.total', count: status.messages.count)
         .row.user-actions
           .ui.buttons
             - if @product.selled
-              = link_to product_status_index_path(@product.slug), class: 'ui button starpop chat-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
-                %i.icon.unhide
+              = link_to product_status_path(@product.slug, user.slug, anchor: 'last-message'), class: 'ui button starpop unhide-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
+                %i.icon.chat
             - else
               = link_to product_status_path(@product.slug, user.slug, anchor: 'last-message'), class: 'ui button starpop chat-button large', 'data-content' => I18n.t('common.my_conversation_with', name: user.username), 'data-variation' => 'inverted' do
                 %i.icon.chat

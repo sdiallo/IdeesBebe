@@ -66,6 +66,8 @@ fr:
       avalaible_since: 'Disponible depuis :'
       average_response_time: 'Temps de réponse moyen :'
   status:
+    messages:
+      total: '%{count} messages au total'
     reopen: 'Reouvrir la discussion'
     see_conversation: 'Voir la conversation'
     pending:
