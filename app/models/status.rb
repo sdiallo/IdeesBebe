@@ -18,7 +18,6 @@ class Status < ActiveRecord::Base
 
   MESSAGE_LIMIT_STRAIGHT = 2
 
-  after_update :reactive_product, if: [:closed_changed?]
   after_update :mark_product_as_selled, if: [:done_changed?, :done]
 
   scope :pending, ->(user) { where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == user.id or status.closed } }
@@ -41,10 +40,4 @@ class Status < ActiveRecord::Base
   def last_message
     messages.order('messages.created_at DESC').first
   end
-
-  private
-
-    def reactive_product
-      product.update_attributes!(active: true) if not product.active
-    end
 end

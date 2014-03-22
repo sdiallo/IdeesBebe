@@ -1,25 +1,48 @@
-.ui.grid
-  .column
-    #status-card
-      .ui.segment.attached.index-user.selled
-        .ui.dimmer.visible.active
-          .wrap-no-click
-            .content
-              %h2.ui.inverted.icon.header
-                %i.icon.circular.inverted.emphasized.green.checkmark
-              .texte.marked
-                = I18n.t('common.product_selled')
-              .texte.unmark
-                Notez l'acheteur :
-                .ui.large.star.rating
-                  %i.icon
-                  %i.icon
-                  %i.icon
-                  %i.icon
-                  %i.icon
-      .ui.bottom.attached.header.base-attached-label
-        %span.user-name= user.username
-        %span.right
-          = link_to I18n.t('common.resee_discussion'), product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
+.ui.segment.attached.index-user
+  .ui.grid.four.column.stackable
+    .column.avatar-contact
+      .row.user-avatar
+        = link_to product_status_path(@product.slug, user.slug) do
+          = image_tag(user.avatar.url, alt: user.username, title: user.username)
+    .column.details-contact
+      .row.user-name
+        = link_to user.username, profile_path(user.slug), class: 'underline'
+      .row.user-note= t('common.no_appreciation')
+      .row.user-pending-message
+      .row.user-actions
+        .ui.buttons
+        - if @product.selled
+          = link_to product_status_index_path(@product.slug), class: 'ui button starpop unhide-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
+            %i.icon.chat
+        - else
+          = link_to product_status_path(@product.slug, user.slug, anchor: 'last-message'), class: 'ui button starpop chat-button large', 'data-content' => I18n.t('common.my_conversation_with', name: user.username), 'data-variation' => 'inverted' do
+            %i.icon.chat
+          = simple_form_for status, url: product_status_path(product_id: @product.slug, id: user.slug), method: :put, 'data-content' => I18n.t('common.done_product'), 'data-variation' => 'inverted' do |f|
+            = f.hidden_field :done, value: true
+            = f.button :button, class: 'ui button starpop done-button large' do
+              %i.icon.checkmark
+/ .ui.grid
+/   .column
+/     #status-card
+/       .ui.segment.attached.index-user.selled
+/         .ui.dimmer.visible.active
+/           .wrap-no-click
+/             .content
+/               %h2.ui.inverted.icon.header
+/                 %i.icon.circular.inverted.emphasized.green.checkmark
+/               .texte.marked
+/                 = I18n.t('common.product_selled')
+/               .texte.unmark
+/                 Notez l'acheteur :
+/                 .ui.large.star.rating
+/                   %i.icon
+/                   %i.icon
+/                   %i.icon
+/                   %i.icon
+/                   %i.icon
+/       .ui.bottom.attached.header.base-attached-label
+/         %span.user-name= user.username
+/         %span.right
+/           = link_to I18n.t('common.resee_discussion'), product_status_path(product_id: @product.slug, id: user.slug, anchor: 'last-message')
 
 

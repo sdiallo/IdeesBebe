@@ -19,10 +19,10 @@
                   = current_user.username
                   .text
                     %i.icon.mail
-                    messages en attente
+                    = "#{current_user.conversations.pending(current_user).count} conversations en attentes"
                 .item
                   .ui.dropdown.item
-                    = image_tag "#{current_user.profile.avatar}", style: "height:35px;"
+                    = image_tag "#{current_user.avatar}", style: "height:35px;"
                     %i.icon.dropdown.customdrop
                     .menu
                       .item.labeled.icon
@@ -34,7 +34,7 @@
                           %i.suitcase.icon
                           Mes produits
                       .item.labeled.icon
-                        = link_to "#", method: :get do
+                        = link_to profile_messages_path(current_user.slug) do
                           %i.mail.outline.icon
                           Mes messages
                       .item.labeled.icon

@@ -4,17 +4,24 @@
   .ui.grid.stackable
     .row
       .sixteen.wide.column
-        .ui.segment.no-box-shadow
-          %h2= I18n.t('common.my_conversation_with', name: name)
-          %p.about
-            = I18n.t('common.about')
-            = link_to @product.name, link
+        %h3.ui.header.block.black
+          %i.icon.chat
+          = I18n.t('common.my_conversation_with', name: name)
+        .about
+          = current_user.is_owner_of?(@product) ? I18n.t('messages.index.about_my_product_cap') : I18n.t('messages.index.about_product_of_another_cap') 
+          = link_to @product.name, link
+          - if current_user.is_owner_of?(@product) and not @product.selled and not @status.closed
+            .closed-button.right
+              = simple_form_for @status, url: product_status_path(product_id: @product.slug, id: @user.slug), method: :put, remote: true do |f|
+                = f.hidden_field :closed, value: true
+                = f.button :button, class: 'ui negative button starpop small', 'data-content' => I18n.t('tooltip.messages.index.close'), 'data-variation' => 'inverted' do
+                  %i.icon.ban.circle
     .row
       - if current_user.is_owner_of?(@product)
         .five.column.wide
           .ui.segment.no-left-right-padding.status-list
             .ui.vertical.menu
-              - @product.status.each do |status|
+              - @product.status.order('created_at DESC').each do |status|
                 - active = status.user == @receiver ? 'active' : ''
                 = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
                   = status.user.username
@@ -30,24 +37,23 @@
               .row
                 - align = message.sender == current_user ? 'left' : 'right'
                 .message{ style: "text-align: #{align}; float: #{align}" }
-                  %p
-                    = message.sender == current_user ? I18n.t('messages.index.current_is_sender') : I18n.t('messages.index.current_is_not_sender', name: message.sender.username)
-                  %p
-                    = message.content
+                  %p= message.sender == current_user ? I18n.t('messages.index.current_is_sender') : I18n.t('messages.index.current_is_not_sender', name: message.sender.username)
+                  %p= message.content
                 %div{ style: 'clear: both' }
-
-          - if @product.selled
-            Le produit est vendu
-          - elsif @status.closed
-            La discussion est fermée
-          - elsif @status.can_send_message? current_user
-            = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
-              = f.input :content, label: '', as: :text
-              = f.hidden_field :receiver_id, value: @receiver.id
-              = f.hidden_field :status_id, value: @status.id
-              = f.button :button, class: 'ui fluid blue labeled submit icon button' do
-                %i.icon.edit
-                = I18n.t('common.respond')
-          - else
+          #block-form-status-show
             .cant-respond
-              = I18n.t('messages.form.has_not_reply_yet', name: name)
+              - if @product.selled
+                = render 'status_done'
+              - elsif @status.closed
+                = render 'status_closed'
+              - elsif @status.can_send_message? current_user
+                = simple_form_for Message.new, url: product_messages_path(product_id: @product.id), class: 'ui reply form' do |f|
+                  = f.input :content, label: '', as: :text
+                  = f.hidden_field :receiver_id, value: @receiver.id
+                  = f.hidden_field :status_id, value: @status.id
+                  = f.button :button, class: 'ui fluid purple labeled submit icon button' do
+                    %i.icon.edit
+                    = I18n.t('common.respond')
+              - else
+                .status-situation
+                  = I18n.t('messages.form.has_not_reply_yet', name: name)

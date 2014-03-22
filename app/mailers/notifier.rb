@@ -31,13 +31,4 @@ class Notifier < ActionMailer::Base
       subject: @subject
     )
   end
-
-  def product_become_inactive product
-    @product = product
-    @subject = I18n.t('notifier.product_become_inactive.subject')
-    mail(
-      to: @product.owner.email,
-      subject: @subject
-    )
-  end
 end

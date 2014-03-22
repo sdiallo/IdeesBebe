@@ -10,7 +10,6 @@ fr:
     edit: 'Editer'
     product_selled: 'Ce produit est vendu'
     status_closed: 'Cette conversation est fermée'
-    product_inactive: 'Ce produit est inactif'
     reply_or_close: 'Répondez aux messages ou fermées les discussions'
     name: 'Nom'
     price: 'Prix'
@@ -29,7 +28,10 @@ fr:
     interest_people: 'Personnes intéressées'
     none_interest: 'Aucun intéressées'
     my_conversation_with: 'Ma conversation avec %{name}'
+    done_product: 'Attribuer la vente'
     about: 'A propos de'
+    my_contacts: 'Mes contacts'
+    no_appreciation: 'Aucune appréciation'
 
   messages:
     form:
@@ -39,13 +41,15 @@ fr:
       all_conversations: 'Toutes mes conversations'
       pending_conversations: 'En attente de ma réponse'
       archived_conversations: 'Archivées'
-      about_my_product: 'à propos de votre produit'
+      about_my_product: 'à propos de mon produit'
       about_product_of_another: 'à propos de son produit'
+      about_my_product_cap: 'A propos de mon produit'
+      about_product_of_another_cap: 'A propos de son produit'
       current_is_sender: 'Vous avez dit'
       current_is_not_sender: '%{name} à dit'
       since: 'Il y à %{date}'
     pending:
-      zero: 'Aucun message en attente'
+      zero: '0 message en attente'
       one: '1 message en attente'
       other: '%{count} messages en attentes'
   products:
@@ -62,10 +66,12 @@ fr:
       avalaible_since: 'Disponible depuis :'
       average_response_time: 'Temps de réponse moyen :'
   status:
+    messages:
+      total: '%{count} messages au total'
     reopen: 'Reouvrir la discussion'
     see_conversation: 'Voir la conversation'
     pending:
-      zero: 'Aucune conversation en attente'
+      zero: '0 conversation en attente'
       one: '1 conversation en attente'
       other: '%{count} conversations en attentes'
   photos:
@@ -118,6 +124,7 @@ fr:
     messages:
       index:
         close: 'Fermer la discussion'
+        reopen: 'Réouvrir la discussion'
         chat: 'Voir la discussion'
         done: "Conclure l'affaire"
 
@@ -170,8 +177,6 @@ fr:
       subject: 'Vous avez un message en attente depuis trois jours'
     reminder_owner_7_days:
       subject: 'Vous avez un message en attente depuis sept jours !!'
-    product_become_inactive:
-      subject: 'Votre produit ne sera plus afficher dans les recherches'
 
   product:
     add: 'Ajouter un produit'

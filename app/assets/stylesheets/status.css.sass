@@ -1,13 +1,4 @@
 #conversations
-  .product-header
-    margin: 15px 0
-    box-shadow: none
-    padding: 10px
-    h2
-      font-size: 22px
-      margin-bottom: 0px
-      color: rgba(0, 0, 0, 0.65)
-      margin-top: 8px
   .product-state
     margin-top: 15px
     .title
@@ -18,108 +9,62 @@
       display: inline-block
       margin-left: 20px
       font-size: 12px
-  .index-user
-    border-radius: 0.3125em 0.3125em 0 0 !important
-    .column
-      margin-top: 0
-      margin-bottom: 0
-    .ban
-      &:hover
-        i
-          color: red
-    .messages
-      i
-        color: #666666
-      &:hover
-        i
-          color: #564F8A
-    .check
-      &:hover
-        i
-          color: green
-  .ui.bottom.attached.header
-    z-index: 1001
-    .avalaible
-      a
-        font-size: 14px
-        font-weight: normal
-        color: hsl(0, 0%, 49%)
-        display: table-cell
-        &:hover
-          text-decoration: underline
 
 #status-card
+  .column
+    margin: 0
+  .ui.grid
+    .row
+      padding: 10px 0
+    .avatar-contact
+      width: 42%
+      padding-right: 0
+    .details-contact
+      padding-top: 35px
+      padding-left: 0
+      width: 58%
+  .ui.buttons
+    width: 255px
+    .done-button,
+    .chat-button
+      width: 50%
+    .unhide-button
+      width: 100%
+  .index-user
+    padding: 0
+    border-radius: 0.3125em !important
   .user-avatar
     text-align: center
-  .user-actions
-    padding: 24px
-  .selled
-    height: 225px
-    .buyer_name
-      font-size: 12px
-      color: grey
-    .unmark
-      margin: 15px 0 !important
-    .icon
-      color: darkgoldenrod
-    .dimmer
-      background: rgba(0, 0, 0, 0.8)
-  .button-selled
-    width: 100%
-    margin-top: 28%
-  .actions
-    width: 100%
-    button
-      background-color: transparent !important
-      height: 16px
-      padding: 0 0 0 4px !important
-      box-shadow: none
-      background: none
-      i
-        color: #666
-  .dimmer
-    h2
-      margin-top: 12px
-      margin-bottom: 0
-    .texte
-      margin: 10px 0
-      color: white
-      font-size: 20px
+  .user-name  
+    height: 28px
+    text-align: center
+    padding-top: 6px !important
+    a
+      margin-top: 15px
+      padding-bottom: 5px
+      font-size: 16px
+      color: #564F8A
       font-weight: bold
-  .closed
-    z-index: 1001
-    form
-      height: 18px
-    .reopen-button
-      background: none
-      padding: 0 !important
-      font-size: 12px
-      margin-top: -6px
-      font-weight: normal
-      color: hsl(0, 0%, 49%)
-  .user-name
-    font-weight: bold
-    font-size: 16px
-  .wrap-no-click
-    height: 100%
+  .user-note
+    color: hsl(0, 0%, 49%)
+    text-align: center
+    font-size: 14px
+  .user-pending-message
+    height: 30px
+    color: hsl(0, 0%, 49%)
+    text-align: center
+    font-size: 14px
+  .user-actions
+    text-align: center
+    margin-top: 8px
+    i
+      padding-left: 6px
 
 #conversation
-  margin-top: 20px
-  h2
-    margin-bottom: 10px
-    font-size: 30px
   .status-list
     padding-top: 0
     padding-bottom: 0
     border: none
-  .about
-    font-size: 14px
-    color: hsl(0, 0%, 49%)
-    a
-      color: hsl(247, 27%, 43%)
-      font-weight: bold
-      &:hover
-        text-decoration: underline
   .ui.vertical.menu
     width: 100%
     .label
@@ -144,13 +89,19 @@
     margin-bottom: 15px
     margin-left: 0
     border-radius: 3px
-  .underline
-    &:hover
-      text-decoration: underline
-    color: #564F8A
-    font-weight: bold
-    font-size: 16px
-  .cant-respond
-    text-align: center
-    font-size: 26px
-    margin-bottom: 20px
+  #block-form-status-show
+    min-height: 44px 
+    .status-situation
+      text-align: center
+      font-size: 22px
+      a
+        text-align: center
+  .closed-button,
+  .reopen-button
+    button
+      width: 80px
+      height: 34px
+      padding: 0 0 0 8px !important
+      box-shadow: none
+  .reopen-button
+    margin-top: 10px

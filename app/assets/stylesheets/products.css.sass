@@ -3,9 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #user-products
-  h2
-    font-size: 30px
-    margin-top: 20px
   .index-products
     .column
       margin-top: 0
@@ -14,8 +11,17 @@
   .index-product
     text-align: center
     a
-      width: 100%
       font-size: 18px
+    .ui.buttons
+      width: 217px
+      .eye-button
+        width: 100%
+      .setting-button
+        width: 50%
+      .list-button
+        width: 50%
+      i
+        padding-left: 6px
     .row
       padding: 10px 0
     .product-name
@@ -31,10 +37,14 @@
       font-size: 14px
       color: grey
       height: 18px
+      .icon.checkmark
+        font-size: 12px
       .icon.mail
+        font-size: 15px
         margin-right: 0
     .product-actions
       padding-bottom: 0
+      margin-top: 10px
   .user-products-categories
     width: 100%
     .label
