@@ -6,7 +6,8 @@ $ ->
 
 
 	$("#homeslider").bxSlider(
-		mode: 'fade'
+		mode: 'fade',
+		caption: true
 	)
 	$(document).ready ->
 		$("#product-carousel").bxSlider(
