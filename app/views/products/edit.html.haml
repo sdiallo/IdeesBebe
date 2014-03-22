@@ -21,7 +21,7 @@
         - @product.photos.each do |a|
           .item.photos
             .image
-              = image_tag(a.file, alt: @product.description, title: @product.description)
+              = image_tag(a.file.thumb, alt: @product.description, title: @product.description)
               - if a.starred?
                 .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.starred'), "data-variation" => "inverted"}
                   %i.icon.star.colorstar

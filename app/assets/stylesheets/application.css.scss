@@ -9,9 +9,9 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree 
  *= require common 
  *= require semantic-ui
- *= require blueimp-gallery
+ *= require bxslider
+ *= require_tree 
  */
  

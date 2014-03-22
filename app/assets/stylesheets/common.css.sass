@@ -1,44 +1,110 @@
 @import "semantic-ui"
+body
+	margin: 0
+	background-color: #fff
+	color: #333
+	font-family: verdana, arial, helvetica, sans-serif
+	font-size: 14px
+	line-height: 18px
+a
+	text-decoration: none
+	color: white
+	&:visited 
+		color: #666
+	&:hover 
+		color: #944e96
+
+.ui.items
+	.item
+		&:hover
+			border-bottom: 0.2em solid #944e96 !important
+
+.ui.menu
+	border-radius: 0
+	.item:first-child
+		border-radius: 0
+.ui.menu > .item:last-child
+	border-radius: 0
 
 #top-menu
-	background-color: rgb(221, 221, 221)
-	border-top: 5px solid #624C99
+	border-top: 5px solid #944e96
 	.ui.menu
 		box-shadow: none
 		background-color: rgb(221, 221, 221)
 		.item
+			line-height: 1.4
+			&:last-child
+				float: right
 			&:before
 				background-image: none
+				whidth: 0px
 			a
 				color: black
-		.right.menu
-			.item
-				&:before
-			.item-icon
-				padding: 4px 4px
+		.ui.dropdown > .dropdown.icon
+			margin: 0px
+	.customdrop
+		position: relative
+		top: 17px
+		left: -15px
+	.user-menu
+		text-align: right
 .add-product 
-	margin: 15px 0px
+	margin-top: 10px
 
 #menu-bar
-	background-color: rgb(74, 15, 121)
+	background-color: #944e96
 	.menu
-		background-color: rgb(74, 15, 121)
+		background-color: #944e96
+		display: table
 		.item
+			color: #C589C7
+			display: table-cell
 			&:hover
 				color: white
-		.active
-			color: white
-			box-shadow: none
-			background-color: rgba(51, 12, 109, 1)
+				background-color: #663d67
 			a
-				color: rgb(145, 136, 136)
 				font-size: 14px
 				&:hover
 					color: #fff
 
-body
-	margin: 0
-.row.main-contenaire > .ui.grid 
+		.active
+			color: white
+			box-shadow: none
+			background-color: #663d67
+#subategories
+	background-color: #663d67
+	.ui.menu
+		background-color: #663d67
+		display: table
+		.item
+			display: table-cell
+			&:hover
+				color: white
+			a
+				color: #944e96
+				&:hover
+					color: white
+		.active
+			color: white
+			box-shadow: none
+
+#homePageCategorie
+	.ui.image
+		img
+			width: 100%
+			height: 300px
+	.cat-item
+		background-color: #944e96
+		a
+			color: white
+#homeslider
+	li
+		img
+			height: 300px
+			width: 100%
+
+.row.main-contenaire > .ui.grid
+	min-height: 700px 
 	font-size: 1rem
 	margin-top: 0%
 
@@ -46,7 +112,7 @@ body
 #footer-section
 	.footer-one
 		height: 300px
-		background-color: rgba(238, 237, 243, 0.5)
+		background-color: #222222
 	.footer-two
 		height: 70px
 		background-color: rgb(24, 3, 68)

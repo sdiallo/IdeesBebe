@@ -1,2 +1,4 @@
 = I18n.t('status.pending', count: @product.pending_status_for_owner.count)
-= link_to I18n.t('products.manage_my_product'), product_status_index_path(product_id: @product.slug)
+= link_to product_status_index_path(product_id: @product.slug), class: "ui submit fluid labeled icon button" do
+	= I18n.t('products.manage_my_product')
+	%i.icon.chevron

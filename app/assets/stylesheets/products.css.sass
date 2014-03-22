@@ -50,15 +50,52 @@
 #product-show
   .ui.segment
     box-shadow: none
-  .title
+  .product-label
+    background-color: #944e96
+    color: white
+    font-size: 20px
+  .product-title
+    font-size: 20px
     color: #564F8A
+  .item#owner
+    .content
+      line-height: 2
+      font-size: 20px
+
+  .resposetime
+    margin-top: 15px
 
   #product-carousel 
     max-width: 596px
+    .photo-cont
+      img
+        height: 300px 
     .bx-wrapper
-      margin: 0 auto 15px
+      align: center
+      margin: 0 auto
       .bx-viewport
         border: solid #D4BEE2 5px !important
+    #product-control
 
   #product-pager
     text-align: center
+#form-comment
+  .comm-avatar
+    margin-top: 30px
+    img
+      height: 150px
+
+#categorie-show,
+#subcategorie-show
+  margin-top: 10px
+  .ui.items
+    .item
+      &:hover
+        border-bottom: 0.2em solid #944e96 !important
+    .product-name
+      color: #944e96
+    .price
+      text-align: center
+      color: #944e96
+      font-size: 20px
+

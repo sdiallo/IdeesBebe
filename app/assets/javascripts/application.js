@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
 //= require semantic-ui/dropdown
 //= require semantic-ui/dimmer
 //= require semantic-ui/popup
@@ -22,4 +21,5 @@
 //= require semantic-ui/behavior/colorize
 //= require semantic-ui/behavior/form
 //= require semantic-ui/behavior/state
-//= require blueimp-gallery
+//= require bxslider
+//= require_tree .

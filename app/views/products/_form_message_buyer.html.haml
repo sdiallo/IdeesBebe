@@ -3,7 +3,10 @@
   = simple_form_for Message.new, url: product_messages_path(product_id: @product.id) do |f|
     = f.input :content, label: 'Texte', as: :text
     = f.hidden_field :receiver_id, value: @product.owner.id
-    = f.button :submit, I18n.t('common.contact')
+    = f.button :button, class: "ui submit fluid labeled icon button" do 
+      %i.icon.edit
+      = I18n.t('common.contact')
+
 - elsif @status.can_send_message? current_user
   Dernier message recu :
   = @status.last_message.content
@@ -11,7 +14,9 @@
     = f.input :content, label: 'Texte', as: :text
     = f.hidden_field :receiver_id, value: @product.owner.id
     = f.hidden_field :status_id, value: @status.id
-    = f.button :submit, I18n.t('common.respond')
+    = f.button :button, class: "ui submit fluid labeled icon button" do 
+      %i.icon.edit
+      = I18n.t('common.respond')
 - elsif @status.closed
   = I18n.t('common.status_closed')
 - elsif @product.selled
