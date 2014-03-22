@@ -1,4 +1,11 @@
-.ui.segment
-	%p test segment
-	%p Welcome#index
-	%p Find me in app/views/welcome/index.html.erb
+#homePageCategorie
+	.ui.center.aligned.header
+		%h1 Sélectionnez la catégorie de votre choix
+	.ui.stackable.grid.equal.height
+		- Category::main_categories.each_with_index do |main, i|
+			.five.wide.column
+				.ui.segement.attached
+					.ui.image
+						= link_to (image_tag "$_#{i}.jpg"), category_path(main.slug)
+				.ui.header.attached.bottom.cat-item
+					= link_to main.name, category_path(main.slug), class: ""	

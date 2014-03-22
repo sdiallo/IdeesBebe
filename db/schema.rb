@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(version: 20140320201545) do
   create_table "statuses", force: true do |t|
     t.integer  "product_id"
     t.integer  "user_id"
-    t.boolean  "closed"
-    t.boolean  "done"
+    t.boolean  "closed",     default: false
+    t.boolean  "done",       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -133,10 +133,11 @@ ActiveRecord::Schema.define(version: 20140320201545) do
     t.datetime "updated_at"
     t.string   "username"
     t.string   "slug"
-    t.integer  "response_time",          default: 0
     t.string   "provider"
     t.string   "fb_id"
     t.string   "fb_tk"
+    t.integer  "response_time",          default: 0
+    t.boolean  "guest"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -1,7 +1,12 @@
-.reply
-  %h3 Commentaires
-
-  = simple_form_for @comment, url: product_comments_path(@product.slug) do |f|
-    = f.input :content, label: I18n.t('common.comment')
-    .actions
-      = f.submit I18n.t('common.save')
+#form-comment	
+	.ui.grid.stackable
+		%h3 Ajouter un commentaire
+		.ui.three.column.wide
+			.ui.image.label.comm-avatar.pointing.right
+				= image_tag current_user.profile.avatar
+		.ui.thirteen.wide.column
+			= simple_form_for @comment, url: product_comments_path(@product.slug) do |f|
+				= f.input :content, label: I18n.t('common.comment')
+				= f.button :button, class: "ui submit fluid labeled icon button" do	
+					%i.icon.edit
+					= I18n.t('common.save')

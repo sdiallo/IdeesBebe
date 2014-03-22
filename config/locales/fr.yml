@@ -22,7 +22,7 @@ fr:
     resee_discussion: 'Revoir la discussion'
     manage: 'Gerer'
     signal: 'Signaler'
-    signal: 'Signalé'
+    signaled: 'Signalé'
     avatar: 'Avatar'
     first_name: 'Prénom'
     interest_people: 'Personnes intéressées'

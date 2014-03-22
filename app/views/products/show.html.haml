@@ -1,27 +1,67 @@
-%p
-  %b= I18n.t('common.name')
-  = @product.name
-%p
-  %b= I18n.t('common.description')
-  = @product.description
-%p
-  %b= I18n.t('products.show.avalaible_since')
-  = distance_of_time_in_words(DateTime.now.to_i - @product.created_at.to_i)
+#product-show.row
+  .ui.grid.stackable
+    .ui.nine.wide.column
+      .ui.segment
+        .ui.header.product-title
+          = @product.name.capitalize
+          .ui.sub.header.right
+            = I18n.t('products.show.avalaible_since')
+            = distance_of_time_in_words(DateTime.now.to_i - @product.created_at.to_i)
+          %ul#product-carousel
+            - unless @product.photos.empty?
+              - @product.photos.each_with_index do |a|
+                %li.photo-cont
+                  = image_tag a.file.url
 
-%p
-  %b= I18n.t('products.show.average_response_time') 
-  - if @product.owner.response_time.zero?
-    Aucun
-  - else
-    = distance_of_time_in_words(@product.owner.average_response_time)
+            - else
+              %li.photo-cont
+                = image_tag("product_default.png")
 
-- unless @product.photos.empty?
-  #destroy_asset_link
-    - @product.photos.each do |a|
-      %div
-        = image_tag(a.file)
-- else
-  = image_tag("default_avatar.png")
+        .row
+          .ui.segment
+            .ui.horizontal.fluid.label.product-label
+              = @product.price
+              %i.icon.euro
+          .ui.segment  
+            .ui.horizontal.fluid.label.product-label
+              = I18n.t('common.description')
+            %p
+              = @product.description
+      
+
+    .ui.seven.wide.column
+      .ui.segment
+        .ui.label.attached.top
+          A propos du vendeur
+        .ui.list
+          .item#owner
+            .ui.image.small
+              = image_tag @product.owner.profile.avatar
+            .content
+              .header
+                = @product.owner.username
+              %i.icon.map.marker
+              Paris
+        .resposetime
+          .ui.horizontal.label
+            %b= I18n.t('products.show.average_response_time') 
+            .ui.horizontal.red.label 
+              - if @product.owner.response_time.zero?
+                Aucun
+              - else
+                = distance_of_time_in_words(@product.owner.average_response_time)
+          .row
+            - if user_signed_in?
+              = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
+              - if can? :edit, @product
+                = link_to edit_product_path(@product.slug), class: "ui submit fluid labeled icon button" do  
+                  %i.icon.edit
+                  = I18n.t('common.edit')
+            - else
+              .row
+                .ui.message.purple
+                  Connectez-vous pour contacter le vendeur
+
 
 
 - if @product.selled
@@ -34,14 +74,8 @@
   - else
     %i.icon.checkmark
     = I18n.t('common.signaled')
-
-  - if can? :edit, @product
-    = link_to I18n.t('common.edit'), edit_product_path(@product.slug)
-
   - if can? :create, @comment
     = render 'form_comments'
 
-  - if user_signed_in?
-    = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
 
 = render 'comments'

@@ -6,53 +6,90 @@
     = stylesheet_link_tag 'application', media: 'all'
     = csrf_meta_tags
   %body
-    .row.equal.height
-      .ui.grid.page.two.column
-        / header-top
-        .ui.column
-          %h2 test
-          test logo
-        .ui.center.aligned.column
-          - if current_user
-            .vertical.menu.menur
-              .item.itemr
-                = link_to profile_path(current_user.slug) do
-                  %i.user.large.icon.circular
-                = link_to profile_products_path(current_user.slug) do 
-                  %i.suitcase.large.icon.circular
-                = link_to profile_messages_path(current_user.slug) do 
-                  %i.chat.large.icon.circular
-                = link_to destroy_user_session_path, method: :delete do
-                  %i.sign.out.large.icon.circular
-              .item
-                = link_to I18n.t('product.add'), new_profile_product_path(profile_id: current_user.slug), class: 'ui red button'
-          - else
-            .vertical.pointing.secondary.menu.menur
-              .item.itemr
-                = link_to I18n.t('common.sign_up'), new_user_registration_path, class: 'small ui purple button'
-              .item.itemr  
-                = link_to I18n.t('common.sign_in'), new_user_session_path, class: 'small ui purple button'
-              .item.ui.facebook.button.small
-                %i.icon.facebook
-                = link_to I18n.t('common.sign_up_facebook'), user_omniauth_authorize_path(:facebook)
+    .row#top-menu
+      .ui.grid.page.stackable
+        .ui.eight.column.wide
+          .ui.image.medium
+            = image_tag "logo.png"
+        .ui.eight.column.wide.user-menu
+          .row
+            - if current_user
+              .ui.horizontal.list
+                .item 
+                  = current_user.username
+                  .text
+                    %i.icon.mail
+                    = "#{current_user.conversations.pending(current_user).count} conversations en attentes"
+                .item
+                  .ui.dropdown.item
+                    = image_tag "#{current_user.avatar}", style: "height:35px;"
+                    %i.icon.dropdown.customdrop
+                    .menu
+                      .item.labeled.icon
+                        = link_to profile_path(current_user.slug) do
+                          %i.user.icon 
+                          Mon profile
+                      .item.labeled.icon
+                        = link_to profile_products_path(current_user.slug) do 
+                          %i.suitcase.icon
+                          Mes produits
+                      .item.labeled.icon
+                        = link_to profile_messages_path(current_user.slug) do
+                          %i.mail.outline.icon
+                          Mes messages
+                      .item.labeled.icon
+                        = link_to destroy_user_session_path, method: :delete do
+                          %i.sign.out.icon
+                          Deconnexion
+              .add-product
+                .ui.button.small.teal.labeled.icon
+                  %i.icon.add
+                  = link_to I18n.t('product.add'), new_profile_product_path(current_user.slug), class: ''
+            - else
+              = link_to I18n.t('common.sign_up'), new_user_registration_path, class: 'ui purple button item small'
+              = link_to I18n.t('common.sign_in'), new_user_session_path, class: 'ui purple button item small'
+                                     
 
-    .row
-      .ui.secondary.pointing.menu.purple.inverted
-        .ui.grid.page.justified.tiered
-          %a.item{ href: root_path}
+    .row#menu-bar
+      .ui.grid.page
+        .ui.menu.fluid.no-box-shadow
+          %a.item{:href => "/", class: ('active' if current_page?(root_path))}
             %i.home.icon
-            Home
           - Category::main_categories.each do |main|
-            %a.item{ href: category_path(main.slug) }
-              = main.name
-    
+            - active_item = request.url.include?(category_path(main.slug)) ? 'active' : ""
+              
+            = link_to main.name, category_path(main.slug), class: "item #{active_item}"
+    .row#subategories
+      - Category::main_categories.each do |main|
+        = render 'subcategories', main_category: main if request.url.include?(category_path(main.slug))
 
     .row.main-contenaire
+      = render 'home_slide' if current_page?(root_path)
       .ui.grid.page
         = semantic_flash
         = yield
-    .row
-      .ui.grid.page
-        .footer
+    .row#footer-section
+      .footer-one
+        .ui.grid.page.stackable
+          .ui.five.column.wide
+            .ui.segment.inverted
+              .ui.header.dividing
+                A propos
+
+            - Category::main_categories.each do |main|
+              .item
+                = link_to main.name, category_path(main.slug), class: "item"
+          .ui.six.column.wide
+            .ui.segment.inverted
+              .ui.header.dividing
+                MENTIONS LEGALES
+            .ui.segment.inverted
+              .ui.header.dividing
+                FAQ
+          .ui.five.column.wide
+            .ui.segment.inverted
+              .ui.header.dividing
+                NEWSLETTER
+
 
     = javascript_include_tag 'application'

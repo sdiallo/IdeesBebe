@@ -22,6 +22,6 @@ IdeesBebe::Application.routes.draw do
   end
 
   resources :inbox, only: [:show, :create]
-
-  devise_for :user, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  
+  devise_for :user, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 end
