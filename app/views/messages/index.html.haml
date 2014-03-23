@@ -23,11 +23,11 @@
                 = @user.conversations.archived.count
       .eleven.wide.column
         .ui.grid.one.column.doubling.index-messages
-          - if @status.empty?
-            .column
+          .column
+            - if @status.empty?
               .ui.message
                 Aucun messages
-          - else
-            - @status.each do |status|
-              - situation = @user.id == status.user_id ? 'buyer' : 'owner'
-              = render "product_#{situation}_block", status: status, message: status.last_message, product: status.product
+            - else
+              - @status.each do |status|
+                - situation = @user.id == status.user_id ? 'buyer' : 'owner'
+                = render "product_#{situation}_block", status: status, message: status.last_message, product: status.product
