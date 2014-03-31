@@ -29,5 +29,6 @@ FactoryGirl.define do
     username
     password 'myamazingpassword'
     response_time 0
+    is_admin false
   end
 end

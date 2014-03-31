@@ -2,6 +2,11 @@ IdeesBebe::Application.routes.draw do
 
   root 'welcome#index'
   get '/forbidden' => 'welcome#forbidden', as: 'forbidden'
+
+  namespace :admin do
+    resources :dashboard, only: :index
+    resources :products, only: :index
+  end
   
 
   resources :profiles, except: [:index, :create, :new] do
@@ -22,6 +27,10 @@ IdeesBebe::Application.routes.draw do
   end
 
   resources :inbox, only: [:show, :create]
-  
-  devise_for :user, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+
+  devise_scope :user do
+    get '/admin', to: 'admin/sessions#new'
+    post '/admin', to: 'admin/sessions#create'
+  end
+  devise_for :user, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 end
