@@ -5,11 +5,11 @@ describe CategoriesController do
   let(:user2){ FactoryGirl.create :user }
   let(:category) { FactoryGirl.create :category, main_category_id: main.id }
   let(:main) { FactoryGirl.create :category }
-  let(:product) { FactoryGirl.create :product, name: "lol", owner: user, category_id: category.id }
+  let(:product) { FactoryGirl.create :product, name: "testtest", owner: user, category_id: category.id }
   let(:status) { FactoryGirl.create :status, product_id: product.id, done: true, user_id: user2.id }
-  let(:product2) { FactoryGirl.create :product, name: "lol", owner: user, category_id: category.id }
+  let(:product2) { FactoryGirl.create :product, name: "testtest", owner: user, category_id: category.id }
   let(:status2) { FactoryGirl.create :status, product_id: product2.id, done: false, user_id: user2.id }
-  let(:product3) { FactoryGirl.create :product, name: "lol", owner: user, category_id: category.id }
+  let(:product3) { FactoryGirl.create :product, name: "testtest", owner: user, category_id: category.id }
 
   before(:each) do
     status

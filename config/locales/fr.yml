@@ -87,14 +87,15 @@ fr:
               too_short: 'Votre pseudo est trop court'
               presence: 'Un pseudo est obligatoire'
               taken: 'Ce pseudo est deja utilisé'
-              invalid: 'Les caractères spéciaux sont intédits'
+              invalid: 'Ce champ ne peut pas contenir de caractères spéciaux'
             email:
               blank: 'Une adresse mail est nécessaire'
+              taken: 'Cette adresse mail est déjà utilisée'
             password:
               blank: 'Un mot de passe est nécessaire'
               too_short: 'Votre mot de passe doit être de 6 caractères minimum'
             password_confirmation:
-              confirmation: 'La confirmation de mot de passe ne correspond pas'
+              confirmation: 'Vos mots de passe ne correspondent pas'
         profile:
           attributes:
             first_name:
@@ -105,13 +106,14 @@ fr:
           attributes:
             name:
               too_short: 'Un nom de 2 caractères minimum est nécessaire'
-              too_long: 'Ce nom est trop long'
+              too_long: 'Le nom indiqué est trop long'
               invalid: 'Les caractères spéciaux sont intédits'
             price:
               numericality: 'Un prix pertinent est nécessaire'
               greater_than: 'Un prix pertinent est nécessaire'
               too_short: 'Un prix pertinent est nécessaire'
               too_long: "C'est un peu trop non ?"
+              not_a_number: 'Un prix se compose uniquement de chiffres'
             category_id:
               blank: 'Une catégorie est obligatoire'
         message:
