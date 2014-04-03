@@ -8,7 +8,7 @@ describe ProductsController do
 
   describe 'GET #index' do
     let(:product) { FactoryGirl.create :product, user_id: subject.id }
-    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol' }
+    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'testtest' }
     let(:status) { FactoryGirl.create :status, product_id: product2.id, user_id: user2.id, done: true }
 
     it 'assigns products' do
@@ -19,7 +19,7 @@ describe ProductsController do
     end
 
     context 'with a specific category' do
-      let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'lol', category_id: subcategory.id }
+      let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'testtest', category_id: subcategory.id }
       let(:category) { FactoryGirl.create :category }
       let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
       
@@ -60,31 +60,9 @@ describe ProductsController do
     context "with my profile" do
       let(:category) { FactoryGirl.create :category }
 
-      context "with correct params" do
-
-        it "create a product" do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
-          expect(response).to redirect_to product_path(Product.last.slug)
-        end
-
-        it 'assigns product' do
-          post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
-          expect(assigns(:product)).to eq(Product.last)
-        end
-      end
-
-      context "with incorrect params" do
-        it "doesn't create a product without a name" do
-          expect {
-            post :create, profile_id: subject.slug, product: {"name" => "", "description" => "Great product for a golden test" }
-          }.to change{ Product.count }.by(0)
-        end
-
-        it "doesn't create a product with a more than 140char description" do
-          expect {
-            post :create, profile_id: subject.slug, product: {"name" => "test", "description" => "Long string"*1000 }
-          }.to change{ Product.count }.by(0)
-        end
+      it "create a product" do
+        post :create, profile_id: subject.slug, product: {"name" => "testtest", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
+        expect(response).to redirect_to product_path(Product.last.slug)
       end
     end
   end
