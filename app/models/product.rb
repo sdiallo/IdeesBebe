@@ -33,7 +33,7 @@ class Product < ActiveRecord::Base
 
   scope :avalaible, ->() { where(selled: false) }
 
-  validates :name, length: { minimum: 2, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
+  validates :name, length: { minimum: 5, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
   validates :price, numericality: { only_integer: true, greater_than: 0 }, length: { minimum: 1, maximum: 9 }
   validates :category_id, presence: true
 
