@@ -2,19 +2,34 @@
   - url = profile_products_path(profile_id: current_user.slug)
 - else
   - url = product_path(@product.slug)
+  - cat = @product.category.name
 
 = simple_form_for @product, url: url do |f|
 
-  
-  = f.input :name, label: I18n.t('common.name'), required: true
-
-  = f.input :price, label: I18n.t('common.price'), required: true
+  = f.input :name, label: I18n.t('common.name')
 
   = f.input :description, label: I18n.t('common.description')
-
-  - if @product.category_id.nil?
-    = f.association :category, collection: Category.order('main_category_id'), label: I18n.t('common.category'), prompt: I18n.t('products.form.choose_category'), hint: I18n.t('products.form.choose_carefully'), input_html: {class: "ui selection dropdown"}
-  - else
-    = f.association :category, collection: Category.order('main_category_id'), label: I18n.t('common.category'), default: @product.category_id, hint: I18n.t('products.form.choose_carefully'), input_html: { class: 'ui selection dropdown' }
+  .ui.three.fields
+    .field
+      = f.input :price, label: I18n.t('common.price')
+    .field.icon-field
+      %i.icon.euro
+    .field.category-field
+      Categorie : 
+      .ui.dropdown
+        .text
+          = cat ? cat : I18n.t('products.form.choose_category')
+        %i.icon.dropdown
+        .menu.main-menu
+          - Category::main_categories.each do |main|
+            .item
+              %i.icon.dropdown
+              = main.name
+              .menu.subdropdown
+                - main.subcategories.each do |sub|
+                  .item
+                    = sub.name
+                    #sub-id{ style: 'opacity: 0', 'data-id' => sub.id}
+        = f.input :category_id, as: :hidden, input_html: { class: 'category_id_field'}
 
   = f.button :submit, I18n.t('common.save')
