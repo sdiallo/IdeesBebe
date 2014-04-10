@@ -60,9 +60,9 @@ describe ProductsController do
     context "with my profile" do
       let(:category) { FactoryGirl.create :category }
 
-      it "create a product" do
+      it "redirect to edit" do
         post :create, profile_id: subject.slug, product: {"name" => "testtest", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
-        expect(response).to redirect_to product_path(Product.last.slug)
+        expect(response).to redirect_to edit_product_path(Product.last.slug)
       end
     end
   end
