@@ -1,41 +1,41 @@
+#products-edit
+  .ui.grid
+    .ten.wide.column
+      .ui.segment
+        %h1= I18n.t('products.edit.title', product: @product.name) 
 
-.ui.grid
-  .ten.wide.column
-    .ui.segment
-      %h1= I18n.t('products.edit.title', product: @product.name) 
+        = render 'form'
 
-      = render 'form'
+    .six.wide.column
+      .ui.segment
+        - unless @product.has_maximum_upload?
+          = simple_form_for Photo.new, url: product_photos_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
+            = f.hidden_field :starred, value: false
+            = f.input :file, label: 'Photos', as: :file, allow_blank: true, input_html: {class: "ui button"}
+            = f.button :submit, I18n.t('common.add')
+        - else
+          .ui.message.info
+            Vous avez atteint le maximum de photo. Supprimez-en une pour en ajouter de nouvelles
 
-  .six.wide.column
-    .ui.segment
-      - unless @product.has_maximum_upload?
-        = simple_form_for Photo.new, url: product_photos_path(product_id: @product.id), html: { multipart: true }, method: :post  do |f|
-          = f.hidden_field :starred, value: false
-          = f.input :file, label: 'Photos', as: :file, allow_blank: true, input_html: {class: "ui button"}
-          = f.button :submit, I18n.t('common.add')
-      - else
-        .ui.message.info
-          Vous avez atteint le maximum de photo. Supprimez-en une pour en ajouter de nouvelles
-
-      .ui.three.items
-        - @product.photos.each do |a|
-          .item.photos
-            .image
-              = image_tag(a.file.thumb, alt: @product.description, title: @product.description)
-              - if a.starred?
-                .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.starred'), "data-variation" => "inverted"}
-                  %i.icon.star.colorstar
-              - else
-                .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.not_starred'), "data-variation" => "inverted"}
-                  = simple_form_for a, url: photo_path(id: a.id), html: { multipart: true }, method: :put do |f|
-                    = f.hidden_field :starred, value: true
-                    = button_tag(type: 'submit', class: 'transparent-button') do 
-                      %i.icon.link.star               
-            .content
-            .ui.red.small.button.bottom.attached
-              = link_to I18n.t('common.delete'), photo_path(id: a.id), method: :delete
-.row.downlink
-  .ui.blue.small.button                
-    = link_to I18n.t('common.back'), product_path(@product.slug)
-  .ui.red.small.button  
-    = link_to I18n.t('common.delete'), @product, method: :delete, data: { confirm: 'Are you sure?' }
+        .ui.three.items
+          - @product.photos.each do |a|
+            .item.photos
+              .image
+                = image_tag(a.file.thumb, alt: @product.description, title: @product.description)
+                - if a.starred?
+                  .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.starred'), "data-variation" => "inverted"}
+                    %i.icon.star.colorstar
+                - else
+                  .star.ui.corner.label.starpop{"data-content" => I18n.t('photos.not_starred'), "data-variation" => "inverted"}
+                    = simple_form_for a, url: photo_path(id: a.id), html: { multipart: true }, method: :put do |f|
+                      = f.hidden_field :starred, value: true
+                      = button_tag(type: 'submit', class: 'transparent-button') do 
+                        %i.icon.link.star               
+              .content
+              .ui.red.small.button.bottom.attached
+                = link_to I18n.t('common.delete'), photo_path(id: a.id), method: :delete
+  .row.downlink
+    .ui.blue.small.button                
+      = link_to I18n.t('common.back'), product_path(@product.slug)
+    .ui.red.small.button  
+      = link_to I18n.t('common.delete'), @product, method: :delete, data: { confirm: 'Are you sure?' }

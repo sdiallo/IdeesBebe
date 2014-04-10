@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
   def create
     @product = current_user.products.build(product_params)
     if @product.save
-      redirect_to product_path(@product.slug), notice: I18n.t('product.create.success')
+      redirect_to edit_product_path(@product.slug), notice: I18n.t('product.create.success')
     else
       render action: :new
     end
