@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>=4.0.0'
+gem 'rails', '>=4'
 gem 'devise'
 gem 'cancan'
 gem 'omniauth-facebook'
@@ -39,7 +39,6 @@ gem 'remotipart'
 gem 'coveralls', require: false
 
 group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 

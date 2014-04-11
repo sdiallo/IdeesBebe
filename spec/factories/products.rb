@@ -12,6 +12,7 @@
 #  category_id :integer
 #  price       :integer          default(0)
 #  selled      :boolean          default(FALSE)
+#  allowed     :boolean
 #
 
 FactoryGirl.define do

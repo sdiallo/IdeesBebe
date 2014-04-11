@@ -21,6 +21,7 @@
 #  provider               :string(255)
 #  fb_id                  :string(255)
 #  fb_tk                  :string(255)
+#  is_admin               :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
