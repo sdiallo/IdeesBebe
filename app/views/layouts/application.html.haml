@@ -65,9 +65,10 @@
 
     .row.main-contenaire
       = render 'home_slide' if current_page?(root_path)
-      .ui.grid.page
-        = semantic_flash
-        = yield
+      #main-back.ui.grid.page
+        #center-page
+          = semantic_flash
+          = yield
     .row#footer-section
       .footer-one
         .ui.grid.page.stackable
