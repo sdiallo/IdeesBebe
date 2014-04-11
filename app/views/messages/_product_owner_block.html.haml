@@ -1,6 +1,5 @@
 - other = status.user
 %h4.ui.top.attached.header
-  %i.icon.chat
   %span.user= link_to other.username, profile_path(other.slug), class: 'underline'
   %span.intro= I18n.t('messages.index.about_my_product')
   %span.product= link_to product.name, product_status_index_path(product.slug), class: 'underline'
