@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require semantic-ui/dropdown
 //= require semantic-ui/dimmer
 //= require semantic-ui/popup
