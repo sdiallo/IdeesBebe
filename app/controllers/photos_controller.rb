@@ -5,15 +5,19 @@ class PhotosController < ApplicationController
 
   def create
     raise CanCan::AccessDenied if @product.owner != current_user
-    asset = @product.photos.build(asset_params)
-    if not asset.file? or not asset.valid?
+    @asset = @product.photos.build(asset_params)
+    if not @asset.file? or not @asset.valid?
       flash[:alert] = I18n.t('asset.file.non-valid')
-    elsif asset.save!
+    elsif @asset.save!
       flash[:notice] = I18n.t('asset.create.success')
     else
       flash[:alert] = I18n.t('asset.create.error')
     end
-    redirect_to edit_product_path(@product.slug)
+
+    respond_to do |format|
+      format.html { redirect_to edit_product_path(@product.slug) }
+      format.js { @index = params[:index] }
+    end
   end
 
   # PUT /photo/1

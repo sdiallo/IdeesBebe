@@ -192,6 +192,7 @@ GEM
     rdoc (4.1.1)
       json (~> 1.4)
     ref (1.0.5)
+    remotipart (1.2.1)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec-core (2.14.8)
@@ -297,6 +298,7 @@ DEPENDENCIES
   pg
   rails (>= 4.0.0)
   rails_12factor
+  remotipart
   rspec-rails (~> 2.0)
   sass-rails (~> 4.0.0)
   sdoc
