@@ -14,7 +14,6 @@
       .column.details-contact
         .row.user-name
           = link_to user.username, profile_path(user.slug), class: 'underline'
-        / .row.user-note= t('common.no_appreciation')
         .row.user-pending-message
           - if not @product.selled
             - if status.closed
