@@ -21,6 +21,16 @@ class Notifier < ActionMailer::Base
     )
   end
 
+  def signalized_as_buyer(user, product)
+    @user = user
+    @product = product
+    mail(
+      from: 'Idees Bebe <#product.owner.slug}@user.dev-ideesbebe.com>',
+      to: @user.email,
+      subject: I18n.t('notifier.signalized_as_buyer.subject', product: @product.name)
+    )
+  end
+
   def reminder_owner(message, time)
     return false if not message.need_to_remember?
     @message = message

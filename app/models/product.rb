@@ -46,7 +46,7 @@ class Product < ActiveRecord::Base
   end
 
   def selled_to
-    status.where(done: true).first.user
+    status.where(done: true).first.try(:user)
   end
 
   def starred_asset

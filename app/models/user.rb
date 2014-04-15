@@ -74,6 +74,12 @@ class User < ActiveRecord::Base
     Status.joins(:user).joins(:product).where('products.user_id = ? OR statuses.user_id = ?', id, id).group('statuses.id')
   end
 
+  def satisfaction_rating
+    statuses = Status.joins(:product).where('products.user_id = ? AND (statuses.satisfied = ? OR statuses.satisfied = ?)', id, true, false)
+    return if statuses.count.zero?
+    (statuses.where('statuses.satisfied = ?', true).count * 100) / statuses.count
+  end
+
   class << self
 
     def find_first_by_auth_conditions warden_conditions

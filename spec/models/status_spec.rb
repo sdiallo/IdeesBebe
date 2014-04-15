@@ -9,6 +9,7 @@
 #  done       :boolean
 #  created_at :datetime
 #  updated_at :datetime
+#  satisfied  :boolean
 #
 
 require 'spec_helper'
@@ -28,6 +29,14 @@ describe Status do
         message
         subject.update_attributes!(done: true)
         subject.product.reload.selled.should == true
+      end
+
+      it 'sends an email' do
+        message
+        expect {
+          subject.update_attributes!(done: true)
+          Delayed::Worker.new.work_off
+        }.to change{deliveries_with_subject(I18n.t('notifier.signalized_as_buyer.subject', product: product.name)).count}.by 1
       end
     end
   end

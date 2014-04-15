@@ -179,6 +179,8 @@ fr:
       subject: 'Vous avez un message en attente depuis trois jours'
     reminder_owner_7_days:
       subject: 'Vous avez un message en attente depuis sept jours !!'
+    signalized_as_buyer:
+      subject: 'Un vendeur vous à signaler acheteur de %{product}'
 
   product:
     add: 'Ajouter un produit'

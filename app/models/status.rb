@@ -9,6 +9,7 @@
 #  done       :boolean
 #  created_at :datetime
 #  updated_at :datetime
+#  satisfied  :boolean
 #
 
 class Status < ActiveRecord::Base
@@ -18,13 +19,14 @@ class Status < ActiveRecord::Base
 
   MESSAGE_LIMIT_STRAIGHT = 2
 
-  after_update :mark_product_as_selled, if: [:done_changed?, :done]
+  before_update :mark_product_as_selled, if: [:done_changed?, :done]
 
   scope :pending, ->(user) { where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == user.id or status.closed } }
   scope :archived, ->() { select{ |status| status.closed or status.product.selled } }
 
   def mark_product_as_selled
     product.update_attributes!(selled: true)
+    Notifier.delay.signalized_as_buyer(user, product)
   end
 
   def pending_messages_count

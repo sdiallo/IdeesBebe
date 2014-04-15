@@ -38,10 +38,6 @@ gem 'remotipart'
 
 gem 'coveralls', require: false
 
-group :doc do
-  gem 'sdoc', require: false
-end
-
 group :development, :test do
 
   gem 'timecop'
