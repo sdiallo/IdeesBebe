@@ -201,4 +201,35 @@ describe User do
       end
     end
   end
+
+  describe '#satisfaction_rating' do
+
+    it 'returns nil' do
+      subject.satisfaction_rating.should == nil      
+    end
+
+    context 'with many products selled' do
+      subject { FactoryGirl.create :user }
+      let(:user) { FactoryGirl.create :user }
+      let(:user2) { FactoryGirl.create :user }
+      let(:user3) { FactoryGirl.create :user }
+      let(:user4) { FactoryGirl.create :user }
+      let(:product) { FactoryGirl.create :product, owner: subject }
+      let(:product2) { FactoryGirl.create :product, owner: subject }
+      let(:product3) { FactoryGirl.create :product, owner: subject }
+      let(:product4) { FactoryGirl.create :product, owner: subject }
+      let(:status) { FactoryGirl.create :status, user: user, product: product, satisfied: true }
+      let(:status2) { FactoryGirl.create :status, user: user2, product: product2, satisfied: true }
+      let(:status3) { FactoryGirl.create :status, user: user3, product: product3, satisfied: true }
+      let(:status4) { FactoryGirl.create :status, user: user4, product: product4, satisfied: false }
+
+      it 'returns the satisfaction rating' do
+        status
+        status2
+        status3
+        status4
+        subject.satisfaction_rating.should == 75
+      end
+    end
+  end
 end

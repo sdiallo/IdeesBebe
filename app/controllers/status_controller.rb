@@ -1,5 +1,5 @@
 class StatusController < ApplicationController
-
+  # Routes for show, update needs product.slug and status user slug
   authorize_resource :status
   
   load_resource :product
@@ -18,12 +18,15 @@ class StatusController < ApplicationController
   end
 
   def update
-    raise CanCan::AccessDenied unless current_user.is_owner_of? @product
+    raise CanCan::AccessDenied unless current_user.is_owner_of? @product or @product.selled_to == current_user
+
     @status = Status.find_by(user_id: @user.id, product_id: @product.id)
     @status.update(status_params)
-
     respond_to do |format|
-      format.html { redirect_to product_status_index_path(@product.slug) }
+      format.html do
+        link = current_user.is_owner_of?(@product) ? product_status_index_path(@product.slug) : product_status_path(@product.slug, current_user.slug)
+        redirect_to link
+      end
       format.js
     end
   end
@@ -31,6 +34,6 @@ class StatusController < ApplicationController
   private
 
     def status_params
-      params.require(:status).permit(:closed, :done)      
+      params.require(:status).permit(:closed, :done, :satisfied)      
     end
 end

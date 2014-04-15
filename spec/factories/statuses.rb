@@ -9,6 +9,7 @@
 #  done       :boolean
 #  created_at :datetime
 #  updated_at :datetime
+#  satisfied  :boolean
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

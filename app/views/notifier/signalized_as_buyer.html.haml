@@ -1,0 +1,7 @@
+%h1= @subject
+
+%p
+  = @product.owner.username
+  vous à designer comme acheteur de
+  = @product.name
+  Bouge toi pour aller voter sur product_status_path(@product.slug, @user.slug)

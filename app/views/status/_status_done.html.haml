@@ -1,3 +1,23 @@
 .status-situation
-  %i.icon.circular.inverted.emphasized.green.checkmark
-  = I18n.t('common.product_selled')
+  - if @product.selled_to == current_user
+    %p.done-details
+      %i.icon.circular.inverted.emphasized.green.checkmark
+      Le vendeur vous a désignez comme acheteur de cette annonce
+    %p.done-details
+      - if @status.satisfied.nil?
+        Donnez votre avis sur cette achat :
+        = simple_form_for @status, url: product_status_path(product_id: @product.slug, id: current_user.slug), method: :put, 'data-content' => 'Satisfait', 'data-variation' => 'inverted' do |f|
+          = f.hidden_field :satisfied, value: true
+          = f.button :button, class: 'ui button starpop large' do
+            %i.icon.thumbs.up
+        = simple_form_for @status, url: product_status_path(product_id: @product.slug, id: current_user.slug), method: :put, 'data-content' => 'Satisfait', 'data-variation' => 'inverted' do |f|
+          = f.hidden_field :satisfied, value: false
+          = f.button :button, class: 'ui button starpop large' do
+            %i.icon.thumbs.down
+      - elsif @status.satisfied
+        Vous avez indiquez être satisfait par cette vente
+      - else
+        Vous avez indiquez ne pas être satisfait par cette vente 
+  - else
+    %i.icon.circular.inverted.emphasized.green.checkmark
+    = I18n.t('common.product_selled')

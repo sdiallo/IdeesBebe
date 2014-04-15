@@ -43,13 +43,22 @@
               %i.icon.map.marker
               Paris
         .resposetime
+          - response_time = @product.owner.response_time
+          - satisfaction = @product.owner.satisfaction_rating
           .ui.horizontal.label
-            %b= I18n.t('products.show.average_response_time') 
+            %b= I18n.t('products.show.average_response_time')
             .ui.horizontal.red.label 
-              - if @product.owner.response_time.zero?
-                Aucun
+              - if response_time.zero?
+                Indéfini
               - else
-                = distance_of_time_in_words(@product.owner.average_response_time)
+                = distance_of_time_in_words(response_time)
+          .ui.horizontal.label
+            %b Taux de satisfaction sur les vente
+            .ui.horizontal.red.label 
+              - if satisfaction.nil?
+                Indéfini
+              - else
+                = number_to_percentage(satisfaction, precision: 0)
           .row
             - if user_signed_in?
               = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
