@@ -1,10 +1,17 @@
-%h2 Sign up
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = f.error_notification
-  = f.input :username, :required => true, :autofocus => true
-  = f.input :email, :required => true
-  = f.input :password, :required => true
-  = f.input :password_confirmation, :required => true
-  .form-actions
-    = f.button :submit, "S'inscrire"
-= render "devise/shared/links"
+%h3.ui.header.block.black
+  %i.icon.user
+  S'inscrire
+.ui.two.column.middle.aligned.relaxed.grid.basic.segment
+  .column.normal-connect
+    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+      = f.error_notification
+      = f.input :username, :required => true, :autofocus => true, :size => 20
+      = f.input :email, :required => true
+      = f.input :password, :required => true
+      .form-actions
+        = f.button :submit, "S'inscrire"
+  .column.social-connect
+    = link_to "Se connecter via Facebook", omniauth_authorize_path(resource_name, :facebook), class: 'ui purple submit button'
+  .ui.vertical.divider
+    OU
+    

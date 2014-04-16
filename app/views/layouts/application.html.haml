@@ -41,9 +41,10 @@
                           %i.sign.out.icon
                           Deconnexion
               .add-product
-                .ui.button.small.teal.labeled.icon
-                  %i.icon.add
-                  = link_to I18n.t('product.add'), new_profile_product_path(current_user.slug), class: ''
+                = link_to new_profile_product_path(current_user.slug) do
+                  .ui.button.small.teal.labeled.icon
+                    %i.icon.add
+                    = I18n.t('product.add')
             - else
               = link_to I18n.t('common.sign_up'), new_user_registration_path, class: 'ui purple button item small'
               = link_to I18n.t('common.sign_in'), new_user_session_path, class: 'ui purple button item small'
