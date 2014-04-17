@@ -1,0 +1,6 @@
+.red.ui.right.corner.label.starpop{"data-content" => 'Supprimer', "data-variation" => "inverted"}
+  = simple_form_for profile, url: profile_path(id: user.slug), method: :put do |f|
+    = f.hidden_field :remove_avatar, value: true
+    = button_tag(type: 'submit', class: 'transparent-button') do 
+      %i.icon.remove
+= image_tag profile.avatar.edit_thumb, title: user.username, alt: user.username

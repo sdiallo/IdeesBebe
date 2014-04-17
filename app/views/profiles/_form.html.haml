@@ -4,8 +4,5 @@
       = f.input :first_name, label: I18n.t('common.first_name'), input_html: { size: 20 }
     .field
       = f.input :last_name, label: I18n.t('common.name'), input_html: { size: 20 }
-    - if not @profile.avatar?
-      .field
-        = f.input :avatar, label: I18n.t('common.avatar'), as: :file, include_blank: true, input_html: { size: 20 }
     .actions
       = f.button :submit, I18n.t('common.save')

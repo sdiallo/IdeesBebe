@@ -1,13 +1,50 @@
-%p
-  %strong= I18n.t('common.first_name')
-  = @profile.first_name
-%p
-  %strong= I18n.t('common.name')
-  = @profile.last_name
-
-= image_tag(@user.avatar.url, size: '160x160', alt: 'Avatar', title: @user.username)
-
-- if can? :edit, @profile
-  = link_to I18n.t('common.edit'), edit_profile_path(@user.slug)
-- if can? :destroy, @user
-  = link_to I18n.t('common.delete'), profile_path(@user.slug), method: :delete
+#show
+  %h3.ui.header.block.black
+    %i.icon.user
+    = @user.username
+  .profile-actions
+    - if can? :edit, @profile
+      = link_to 'Editer mon profil', edit_profile_path(@user.slug), class: 'ui button basic no-box-shadow'
+  .ui.grid.show
+    .row
+      .ui.four.wide.column.avatar
+        = image_tag(@user.avatar.url, alt: 'Avatar', title: @user.username)
+      .ui.six.wide.column.infos
+        %p
+          %strong= @profile.last_name.present? ? @profile.last_name : 'Aucun nom renseigné'
+        %p
+          %strong= @profile.first_name.present? ? @profile.first_name : 'Aucun prénom renseigné'
+        %p.localized
+          Localité : sefsef
+      .ui.six.wide.column.details
+        .ui.segment
+          - response_time = @user.response_time
+          - satisfaction = @user.satisfaction_rating
+          %p
+            %span.label Nombre d'annonces : 
+            %b= @user.products.count
+          %p
+            %span.label Nombre de ventes : 
+            %b= @user.products.joins(:status).where('statuses.done = true').count
+          %p
+            %span.label Satisfaction sur les ventes :
+            %b= satisfaction.nil? ? 'Indéfini' : number_to_percentage(satisfaction, precision: 0)
+          %p
+            %span.label= I18n.t('products.show.average_response_time')
+            %b= response_time.zero? ? 'Indéfini' : distance_of_time_in_words(response_time)
+  %h3.ui.header.block.black.profile-products-header
+    %i.icon.suitcase
+    = "Les produits de #{@user.username}"
+  .ui.grid.four.column.profile-products
+    - @user.products.includes(:category).each do |product|
+      .column
+        = link_to product_path(product.slug) do
+          .ui.segment.index-product.hoverable
+            - if product.starred_asset
+              = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
+            - else
+              = image_tag('product_default.png')
+            .row.product-name
+              %b= product.name.capitalize
+            .row.product-category
+              = product.category.name.capitalize

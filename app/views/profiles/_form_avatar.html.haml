@@ -1,0 +1,5 @@
+= simple_form_for profile, url: profile_path(user.slug), method: :put, html: { multipart: true }, remote: true do |f|
+  .upload-avatar-block
+    %i.icon.upload.cloud
+    = f.input :avatar, label: false, as: :file, allow_blank: true, input_html: { class: 'ui button input-upload' }
+    = f.button :submit, I18n.t('common.save'), class: 'submit-upload'

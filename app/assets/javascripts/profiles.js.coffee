@@ -1,3 +1,5 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$('.upload-avatar-block').children().find('#profile_avatar').change ->
+  form = $(this).parents('form')
+  icon = form.children().find('.cloud')
+  icon.removeClass('cloud upload').addClass('loading')
+  form.submit()
