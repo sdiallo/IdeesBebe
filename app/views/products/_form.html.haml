@@ -2,7 +2,7 @@
   - url = profile_products_path(profile_id: current_user.slug)
 - else
   - url = product_path(@product.slug)
-  - cat = @product.category.name
+  - cat = @product.category || Category.find(@cat)
 
 = simple_form_for @product, url: url do |f|
 
@@ -18,7 +18,7 @@
       Categorie : 
       .ui.dropdown
         .text
-          = cat ? cat : I18n.t('products.form.choose_category')
+          = cat ? cat.name : I18n.t('products.form.choose_category')
         %i.icon.dropdown
         .menu.main-menu
           - Category::main_categories.each do |main|
@@ -30,6 +30,14 @@
                   .item
                     = sub.name
                     #sub-id{ style: 'opacity: 0', 'data-id' => sub.id}
-        = f.input :category_id, as: :hidden, input_html: { class: 'category_id_field'}
+        - if cat
+          = f.input :category_id, as: :hidden, input_html: { id: 'id_category_id_field', value: cat.id, class: 'category_id_field' }
+        - else
+          = f.input :category_id, as: :hidden, input_html: { id: 'id_category_id_field', class: 'category_id_field' }
 
   = f.button :submit, I18n.t('common.save')
+
+- if @product.new_record? and @product.errors.present? 
+  :javascript
+    document.getElementById('id_category_id_field').value = ''
+

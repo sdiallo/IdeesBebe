@@ -13,12 +13,24 @@ class ProfilesController < ApplicationController
 
   # PATCH/PUT /profiles/1
   def update
-    authorized_upload(profile_params[:avatar]) if profile_params[:avatar].present?
-    if @profile.update(profile_params)
-      flash[:notice] = I18n.t('profile.update.success')
-      redirect_to edit_profile_path(@user.slug)
-    else
-      render :edit
+
+    respond_to do |format|
+      format.html do
+        authorized_upload(profile_params[:avatar]) if profile_params[:avatar].present?
+        if @profile.update(profile_params)
+          flash[:notice] = I18n.t('profile.update.success')
+          redirect_to edit_profile_path(@user.slug)
+        else
+          render :edit
+        end
+      end
+      format.js do
+        if Photo.new(file: profile_params[:avatar]).valid?
+          @profile.update!(profile_params)
+        else
+          @error = I18n.t('upload.error.integrity')
+        end
+      end
     end
   end
 
