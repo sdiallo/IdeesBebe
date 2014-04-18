@@ -7,6 +7,9 @@
       .column.product-card
         = link_to product_path(product.slug) do
           .ui.segment.hoverable
+            .ui.purple.corner.left.label
+              %span= product.photos.count
+              %i.icon.camera
             .image.small
               - if product.starred_asset
                 = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
