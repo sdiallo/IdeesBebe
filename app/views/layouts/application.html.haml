@@ -53,15 +53,15 @@
     .row#menu-bar
       .ui.grid.page
         .ui.menu.fluid.no-box-shadow
-          %a.item{:href => "/", class: ('active' if current_page?(root_path))}
+          %a.item{:href => "/", class: ('active' if not defined? @category)}
             %i.home.icon
           - Category::main_categories.each do |main|
-            - active_item = request.url.include?(category_path(main.slug)) ? 'active' : ""
+            - active_item = (@category and @category == main) ? 'active' : ""
               
             = link_to main.name, category_path(main.slug), class: "item #{active_item}"
-    .row#subategories
-      - Category::main_categories.each do |main|
-        = render 'subcategories', main_category: main if request.url.include?(category_path(main.slug))
+    - if @category
+      .row#subategories
+        = render 'subcategories', main_category: @category
 
     .row.main-contenaire
       = render 'home_slide' if current_page?(root_path)

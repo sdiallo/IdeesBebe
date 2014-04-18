@@ -1,6 +1,6 @@
 .ui.grid.page
 	.ui.menu.no-box-shadow{ style: 'text-align: center' }
 		- main_category.subcategories.each do |category|
-			- active_item = request.url.include?(category_subcategory_path(@category.slug, category.slug)) ? 'active' : ""
+			- active_item = @subcategory == category ? 'active' : ""
 			= link_to category.name, category_subcategory_path(@category.slug, category.slug), class: "item #{active_item}", style: 'border:none;'
   
