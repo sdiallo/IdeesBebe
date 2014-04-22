@@ -27,6 +27,7 @@ gem 'haml-rails'
 gem 'simple_form'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'bxslider-rails'
+gem 'blueimp-gallery'
 
 # JS
 gem 'uglifier', '>= 1.3.0'

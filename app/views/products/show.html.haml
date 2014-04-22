@@ -7,12 +7,21 @@
           .ui.sub.header.right
             = I18n.t('products.show.avalaible_since')
             = distance_of_time_in_words(DateTime.now.to_i - @product.created_at.to_i)
-          %ul#product-carousel
+          #product-carousel
             - unless @product.photos.empty?
-              - @product.photos.each_with_index do |a|
-                %li.photo-cont
-                  = image_tag a.file.url
-
+              #blueimp-gallery-carousel.blueimp-gallery.blueimp-gallery-carousel.photo-cont
+                .slides
+                %h3.title
+                %a.prev
+                  %i.icon.left.arrow
+                %a.next 
+                  %i.icon.right.arrow
+                %a.play-pause
+                %ol.indicator
+              #links
+                - @product.photos.each_with_index do |a|
+                  %a{href: "#{a.file.url}"}
+                    %img{src: "#{a.file.url}"}
             - else
               %li.photo-cont
                 = image_tag("product_default.png")
@@ -27,8 +36,6 @@
               = I18n.t('common.description')
             %p
               = @product.description
-      
-
     .ui.seven.wide.column
       .ui.segment
         .ui.label.attached.top

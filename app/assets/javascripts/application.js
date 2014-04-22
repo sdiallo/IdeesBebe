@@ -22,5 +22,5 @@
 //= require semantic-ui/behavior/colorize
 //= require semantic-ui/behavior/form
 //= require semantic-ui/behavior/state
-//= require bxslider
+//= require blueimp-gallery-all
 //= require_tree .

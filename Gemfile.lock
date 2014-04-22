@@ -52,6 +52,8 @@ GEM
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
+    blueimp-gallery (2.11.0.1)
+      railties (>= 3.1.0)
     builder (3.1.4)
     bullet (4.8.0)
       activesupport
@@ -268,6 +270,7 @@ PLATFORMS
 DEPENDENCIES
   annotate (>= 2.6.0)
   better_errors
+  blueimp-gallery
   bullet
   bxslider-rails
   cancan

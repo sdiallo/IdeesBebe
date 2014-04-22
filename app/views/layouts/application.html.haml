@@ -18,7 +18,7 @@
                   = current_user.username
                   .text
                     %i.icon.mail
-                    = "#{current_user.conversations.pending(current_user).count} conversations en attentes"
+
                 .item
                   .ui.dropdown.item
                     = image_tag "#{current_user.avatar}", style: "height:35px;"
@@ -50,8 +50,8 @@
                                      
 
     .row#menu-bar
-      .ui.grid.page
-        .ui.menu.fluid.no-box-shadow
+      .ui.grid.page.stackable
+        .ui.menu.fluid.no-box-shadow.stackable
           %a.item{:href => "/", class: ('active' if current_page?(root_path))}
             %i.home.icon
           - Category::main_categories.each do |main|
