@@ -1,8 +1,14 @@
-%h2 Sign in
-= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  = f.input :login, :required => false, :autofocus => true
-  = f.input :password, :required => false
-  = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
-  .form-actions
-    = f.button :submit, "Se connecter"
-= render "devise/shared/links"
+%h3.ui.header.block.black
+  %i.icon.user
+  Se connecter
+.ui.two.column.middle.aligned.relaxed.grid.basic.segment
+  .column.normal-connect
+    = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+      = f.input :login, :required => false, :autofocus => true
+      = f.input :password, :required => false
+      .form-actions
+      = f.button :submit, "Se connecter"
+  .column.social-connect
+    = link_to "Se connecter via Facebook", omniauth_authorize_path(resource_name, :facebook), class: 'ui purple submit button'
+  .ui.vertical.divider
+    OU

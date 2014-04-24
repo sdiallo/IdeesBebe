@@ -6,6 +6,7 @@
   .index-products
     .column
       margin-top: 0
+      min-width:  264px
   .block-categories
     padding-top: 0
   .index-product
@@ -25,7 +26,7 @@
     .row
       padding: 10px 0
     .product-name
-      min-height: 36px
+      min-height: 60px
       a
         margin-top: 15px
         padding-bottom: 5px
@@ -58,26 +59,53 @@
 
 
 #product-show
-  .ui.segment
-    box-shadow: none
-  .product-label
-    background-color: #944e96
-    color: white
-    font-size: 20px
+  .product-header
+    margin-bottom: 0px
+    background-color: #E8E8E8
+    margin-top: 5px
   .product-title
     font-size: 20px
     color: #564F8A
+  .selled-product
+    padding-bottom: 0px
+    margin-bottom: 0px
+    font-size: 14px
+  .photo-cont
+    margin-top: 0px
+  .ui.segment
+    box-shadow: none
+  .product-label
+    font-weight: bold
+    font-size: 20px
+  .product-disponibility
+    text-align: right
+    color: grey
+  .product-price
+    font-size: 20px
+    color: #944e96
+    text-align: center
+  .product-desc
+    font-size: 14px
   .item#owner
     .content
       line-height: 2
       font-size: 20px
 
-  .resposetime
+  .responsetime
     margin-top: 15px
 
   #product-carousel 
-
-    #product-control
+    .blueimp-gallery
+      .prev,
+      .next
+        i
+          padding-right: 0px
+        width: 50px
+        height: 53px
+        border: none
+        border-radius: 0px
+        &:hover
+          background: #944e96
 
   #product-pager
     text-align: center
@@ -90,16 +118,48 @@
 #categorie-show,
 #subcategorie-show
   margin-top: 10px
-  .ui.items
-    .item
-      &:hover
-        border-bottom: 0.2em solid #944e96 !important
-    .product-name
-      color: #944e96
-    .price
-      text-align: center
-      color: #944e96
-      font-size: 20px
+  .product-card
+    min-width: 291px
+    .corner
+      width: 65px
+      height: 65px
+      padding-top: 10px
+      &:after
+        border-top: 5em solid hsla(0, 0%, 0%, 0)
+        border-right: 5em solid hsla(0, 0%, 0%, 0)
+        border-bottom: 0em solid hsla(0, 0%, 0%, 0)
+        border-left: 0em solid hsla(0, 0%, 0%, 0)
+        border-top-color: inherit
+      i
+        margin-top: 0
+      span
+        margin-left: -20px
+        margin-right: 14px
+        margin-top: 5px
+  .segment
+    color: black
+    &:hover
+      color: black !important
+    text-align: center
+  .product-name
+    height: 60px
+    color: #944e96
+    font-weight: bold
+    margin-top: 15px
+  .product-price
+    font-size: 14px
+    margin-bottom: 15px
+    padding-left: 20px
+    &:hover
+      color: black
+  .product-avalaibilty,
+  .product-localisation
+    font-size: 14px
+    color: grey
+  .product-localisation
+    margin-bottom: 5px
+    i
+      margin-right: 0
 
 #products-new
   .category-field

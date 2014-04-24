@@ -1,7 +1,7 @@
 #commentaires
-.ui.segment
-  %h2.ui.fluid.labeled.icon.purple
-    %i.icon.circular.comment.purple
+.ui.segment.no-box-shadow
+  %h2.ui.header.block
+    %i.icon.comment.purple
     Commentaires
   - unless @product.comments.blank?
     - @product.comments.includes(user: :profile).each do |comment|

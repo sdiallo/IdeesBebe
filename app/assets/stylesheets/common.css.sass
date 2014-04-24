@@ -15,7 +15,7 @@ a
 		color: #944e96
 
 #main-back
-	background: url('background.jpg')
+	background: image-url('background.jpg')
 	padding-top: 0
 #center-page
 	padding: 1px 20px 35px 20px
@@ -23,6 +23,11 @@ a
 	border-right: 1px solid hsla(0, 0%, 0%, 0.20)
 	background: white
 	min-height: 700px
+.social-connect
+	text-align: center !important
+.normal-connect
+	input
+		width: 450px !important
 
 
 .ui.items
@@ -39,6 +44,8 @@ a
 
 #top-menu
 	border-top: 5px solid #944e96
+	.ui.image
+		background-color: transparent
 	.ui.menu
 		box-shadow: none
 		background-color: rgb(221, 221, 221)
@@ -74,6 +81,7 @@ a
 			&:hover
 				color: white
 				background-color: #663d67
+				border-radius: 0
 			a
 				font-size: 14px
 				&:hover
@@ -90,6 +98,8 @@ a
 		display: table
 		.item
 			display: table-cell
+			color: hsl(298, 36%, 66%)
+			font-size: 14px
 			&:hover
 				color: white
 			a

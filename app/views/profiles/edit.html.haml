@@ -1,11 +1,19 @@
-%h1 Editer mon profil
-= render 'form'
+#profile-edit
+  %h3.ui.header.block.black
+    %i.icon.user
+    Editer mon profil
 
-#avatar
-  = image_tag(@user.avatar.url)
-  .destroy_avatar_link
-    = simple_form_for @profile, url: profile_path(id: @user.slug), html: { multipart: true }, method: :put do |f|
-      = f.hidden_field :remove_avatar, value: true
-      = f.button :submit, I18n.t('common.delete')
+  .ui.grid
+    .five.wide.column.upload
+      .ui.segment.upload-form
+        - if @profile.avatar?
+          = render 'profiles/edit_avatar', profile: @profile, user: @user
+        - else
+          = render 'profiles/form_avatar', profile: @profile, user: @user
+    .eleven.wide.column
+      = render 'form'
 
-= link_to I18n.t('common.back'), profile_path(@user.slug)
+
+  - if can? :destroy, @user
+    .delete-account
+      = link_to 'Supprimer mon compte', profile_path(@user.slug), method: :delete
