@@ -32,7 +32,7 @@ class Product < ActiveRecord::Base
 
   accepts_nested_attributes_for :category
 
-  scope :avalaible, ->() { where(selled: false) }
+  scope :avalaible, ->() { where(selled: false).where('products.allowed != ?', false) }
 
   validates :name, length: { minimum: 5, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
   validates :price, numericality: { only_integer: true, greater_than: 0 }, length: { minimum: 1, maximum: 9 }
