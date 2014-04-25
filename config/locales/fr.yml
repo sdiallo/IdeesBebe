@@ -182,6 +182,8 @@ fr:
       subject: 'Vous avez un message en attente depuis sept jours !!'
     signalized_as_buyer:
       subject: 'Un vendeur vous à signaler acheteur de %{product}'
+    admin_need_to_check:
+      subject: "L'annonce %{product} à besoin d'une vérification"
 
   product:
     add: 'Ajouter un produit'
