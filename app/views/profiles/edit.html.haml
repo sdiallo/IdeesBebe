@@ -4,13 +4,13 @@
     Editer mon profil
 
   .ui.grid
-    .five.wide.column.upload
+    .six.wide.column.upload
       .ui.segment.upload-form
         - if @profile.avatar?
           = render 'profiles/edit_avatar', profile: @profile, user: @user
         - else
           = render 'profiles/form_avatar', profile: @profile, user: @user
-    .eleven.wide.column
+    .ten.wide.column.edit-fields
       = render 'form'
 
 

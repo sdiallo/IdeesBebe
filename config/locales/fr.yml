@@ -91,6 +91,7 @@ fr:
             email:
               blank: 'Une adresse mail est nécessaire'
               taken: 'Cette adresse mail est déjà utilisée'
+              invalid: "Cette adresse mail n'est pas valide"
             password:
               blank: 'Un mot de passe est nécessaire'
               too_short: 'Votre mot de passe doit être de 6 caractères minimum'
