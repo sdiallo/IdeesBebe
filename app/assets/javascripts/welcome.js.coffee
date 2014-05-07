@@ -9,5 +9,5 @@ $ ->
     container: "#blueimp-image-carousel",
     carousel: true,
     thumbnailIndicators: true,
-    stretchImages: "cover"
+    stretchImages: "cover",
     thumbnailProperty: 'thumbnail'

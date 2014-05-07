@@ -28,7 +28,27 @@ a
 .normal-connect
 	input
 		width: 450px !important
-
+.ui.all_button.button
+	background-color: #944e96 !important
+	color: white
+	&:hover
+		background-color: #663d67 !important
+		color: white
+.ui.form 
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="date"]:focus,
+	input[type="password"]:focus,
+	input[type="number"]:focus,
+	input[type="url"]:focus,
+	input[type="tel"]:focus,
+	input[type="textarea"]:focus
+		color: rgba(0, 0, 0, 0.85)
+		border-color: rgba(100, 54, 54, 0.2)
+		-webkit-appearance: none
+		-webkit-box-shadow: 0.3em 0em 0em 0em rgba(100, 6, 175, 0.72) inset
+		box-shadow: 0.3em 0em 0em 0em rgba(100, 6, 175, 0.72) inset
+	
 
 .ui.items
 	.item

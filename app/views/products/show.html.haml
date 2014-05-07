@@ -26,7 +26,7 @@
             %a.next 
               %i.icon.right.arrow
             %a.play-pause
-            %ol.indicator
+            %ol.indicator.thumm-indic
           #links{style: "display:none"}
             - @product.photos.each_with_index do |a|
               %a{href: "#{a.file.url}"}
@@ -50,7 +50,7 @@
             = @product.description
     .ui.seven.wide.column
       .ui.segment
-        .ui.label.attached.top
+        .ui.label.attached.top.seller-info
           A propos du vendeur
         .ui.list
           .item#owner
@@ -66,7 +66,7 @@
           - satisfaction = @product.owner.satisfaction_rating
           .ui.horizontal.label
             %b= I18n.t('products.show.average_response_time')
-            .ui.horizontal.red.label 
+            .ui.horizontal.purple.label 
               - if response_time.zero?
                 Indéfini
               - else
@@ -74,7 +74,7 @@
         .responsetime
           .ui.horizontal.label
             %b Taux de satisfaction sur les vente:
-            .ui.horizontal.red.label 
+            .ui.horizontal.purple.label 
               - if satisfaction.nil?
                 Indéfini
               - else

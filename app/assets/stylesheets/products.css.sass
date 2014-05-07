@@ -65,7 +65,8 @@
     margin-top: 5px
   .product-title
     font-size: 20px
-    color: #564F8A
+    color: #944e96
+    font-weight: bold
   .selled-product
     padding-bottom: 0px
     margin-bottom: 0px
@@ -84,8 +85,12 @@
     font-size: 20px
     color: #944e96
     text-align: center
+    font-weight: bold
   .product-desc
     font-size: 14px
+  .seller-info
+    color: #944e96
+    font-size: 20px
   .item#owner
     .content
       line-height: 2
@@ -96,6 +101,8 @@
 
   #product-carousel 
     .blueimp-gallery
+      min-height: 273px
+      min-width: 610px
       .prev,
       .next
         i
@@ -107,8 +114,11 @@
         &:hover
           background: #944e96
 
-  #product-pager
-    text-align: center
+    .indicator
+      display: block
+      li
+        width: 60px
+        height: 60px
 #form-comment
   .comm-avatar
     margin-top: 30px
