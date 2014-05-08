@@ -74,10 +74,6 @@
       .row.responsetime
         - if user_signed_in?
           = render current_user.is_owner_of?(@product) ? 'form_message_seller' : 'form_message_buyer'
-          - if can? :edit, @product
-            = link_to edit_product_path(@product.slug), class: "ui submit fluid labeled icon button" do  
-              %i.icon.edit
-              = I18n.t('common.edit')
         - else
           .row
             .ui.message.purple

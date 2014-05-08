@@ -17,10 +17,10 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['DATABASE_NAME'] %>
+  database: ideesbebe_development
   pool: 5
   host: localhost
-  username: idbb
+  username: ideesbebe
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -47,17 +47,17 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: bebe_test
+  database: ideesbebe_test
   host: localhost
   pool: 5
-  username: idbb
+  username: ideesbebe
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: bebe_production
+  database: ideesbebe_production
   host: localhost
   pool: 5
-  username: idbb
+  username: idbbideesbebe
   password: <%= ENV['DATABASE_PASSWORD'] %>
