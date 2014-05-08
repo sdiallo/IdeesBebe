@@ -36,6 +36,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '>= 2.0'
 gem 'remotipart'
 
+gem 'jwt', '0.1.11'
+
 gem 'coveralls', require: false
 
 group :development, :test do
