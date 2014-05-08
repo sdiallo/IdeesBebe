@@ -64,7 +64,7 @@ fr:
       all_categories: 'Toutes catégories'
     show:
       avalaible_since: 'Disponible depuis :'
-      average_response_time: 'Temps de réponse moyen :'
+      average_response_time: 'Temps de réponse moyen'
   status:
     messages:
       total: '%{count} messages au total'
@@ -91,6 +91,7 @@ fr:
             email:
               blank: 'Une adresse mail est nécessaire'
               taken: 'Cette adresse mail est déjà utilisée'
+              invalid: "Cette adresse mail n'est pas valide"
             password:
               blank: 'Un mot de passe est nécessaire'
               too_short: 'Votre mot de passe doit être de 6 caractères minimum'
@@ -181,6 +182,8 @@ fr:
       subject: 'Vous avez un message en attente depuis sept jours !!'
     signalized_as_buyer:
       subject: 'Un vendeur vous à signaler acheteur de %{product}'
+    admin_need_to_check:
+      subject: "L'annonce %{product} à besoin d'une vérification"
 
   product:
     add: 'Ajouter un produit'

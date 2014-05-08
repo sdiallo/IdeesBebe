@@ -73,36 +73,103 @@
     font-size: 14px
   .photo-cont
     margin-top: 0px
-  .ui.segment
-    box-shadow: none
   .product-label
     font-weight: bold
     font-size: 20px
-  .product-disponibility
-    text-align: right
-    color: grey
+  .price-dispo
+    display: table
+    width: 100%
+    margin-bottom: 25px
+  .product-disponibility,
   .product-price
-    font-size: 20px
+    display: table-cell
+    line-height: 30px
+  .product-disponibility
+    font-size: 16 px
+    .time
+      font-weight: bold
+      font-size: 18px
+  .product-price
+    font-size: 26px
+    text-align: right
     color: #944e96
-    text-align: center
     font-weight: bold
+    i
+      font-size: 22px
+      width: auto
   .product-desc
     font-size: 14px
+  .new_report
+    margin-top: 50px
+    .button
+      font-size: 12px
+  .signaled
+    font-size: 14px
+    margin-top: 50px
+  .status-link
+    background: hsl(298, 32%, 45%) !important
+    color: white
+    font-size: 12px
+    width: 100%
+  .no-replied-yet
+    display: inline-block
+    text-align: center
+    margin-bottom: 18px
+    width: 100%
+    font-size: 14px
+    line-height: 26px
+  .respond-message
+    margin-bottom: 18px
+    width: 100%
+    font-size: 14px
+    line-height: 26px
   .seller-info
     color: #944e96
     font-size: 20px
-  .item#owner
+  .header-user
+    margin-top: 0 !important
+  .details.column
+    padding-right: 20px
+    .segment
+      padding-top: 0
+      padding-bottom: 0
+    .label
+      display: inline-block
+      font-size: 16px 
+    p
+      font-size: 20px
+  .details-user
+    display: table
+    width: 100%
+    margin-top: 10px
+    padding-top: 8px
+    .skills-name,
+    .skills-stat
+      display: table-cell
+    .skills-stat
+      p
+        padding-top: 2px
+  #owner
+    .image
+      margin-right: 15px
+      img
+        border-radius: 5px
     .content
       line-height: 2
       font-size: 20px
+      i
+        width: auto
+      span
+        font-size: 16px
 
   .responsetime
     margin-top: 15px
 
   #product-carousel 
     .blueimp-gallery
-      min-height: 273px
-      min-width: 610px
+      padding-bottom: 300px
+      box-shadow: none
+      border-radius: 6px
       .prev,
       .next
         i
@@ -134,6 +201,7 @@
       width: 65px
       height: 65px
       padding-top: 10px
+      border-color: hsl(298, 32%, 45%) !important
       &:after
         border-top: 5em solid hsla(0, 0%, 0%, 0)
         border-right: 5em solid hsla(0, 0%, 0%, 0)
@@ -179,6 +247,7 @@
   .upload
     .ui.segment
       width: 282px
+      height: 242px
       margin: auto
       margin-bottom: 15px
       i

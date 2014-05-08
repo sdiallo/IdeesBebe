@@ -31,6 +31,16 @@ class Notifier < ActionMailer::Base
     )
   end
 
+  def admin_need_to_check product
+    @product = product
+    @subject = I18n.t('notifier.admin_need_to_check.subject', product: @product.name)
+    mail(
+      from: 'Idees Bebe <administration@user.dev-ideesbebe.com>',
+      to: User.where(is_admin: true).pluck(:email),
+      subject: @subject
+    )
+  end
+
   def reminder_owner(message, time)
     return false if not message.need_to_remember?
     @message = message

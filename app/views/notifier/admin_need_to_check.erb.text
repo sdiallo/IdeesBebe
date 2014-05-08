@@ -1,0 +1,5 @@
+<%= @subject %>
+
+<%= @product.name %>
+
+GO sur l'admin

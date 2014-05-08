@@ -24,25 +24,21 @@
                     = image_tag "#{current_user.avatar}", style: "height:35px;"
                     %i.icon.dropdown.customdrop
                     .menu
-                      .item.labeled.icon
-                        = link_to profile_path(current_user.slug) do
-                          %i.user.icon 
-                          Mon profile
-                      .item.labeled.icon
-                        = link_to profile_products_path(current_user.slug) do 
-                          %i.suitcase.icon
-                          Mes produits
-                      .item.labeled.icon
-                        = link_to profile_messages_path(current_user.slug) do
-                          %i.mail.outline.icon
-                          Mes messages
-                      .item.labeled.icon
-                        = link_to destroy_user_session_path, method: :delete do
-                          %i.sign.out.icon
-                          Deconnexion
+                      = link_to profile_path(current_user.slug), class: 'item' do
+                        %i.user.icon 
+                        Mon profil
+                      = link_to profile_products_path(current_user.slug), class: 'item' do 
+                        %i.suitcase.icon
+                        Mes produits
+                      = link_to profile_messages_path(current_user.slug), class: 'item' do
+                        %i.mail.outline.icon
+                        Mes messages
+                      = link_to destroy_user_session_path, method: :delete, class: 'item' do
+                        %i.sign.out.icon
+                        Deconnexion
               .add-product
                 = link_to new_profile_product_path(current_user.slug) do
-                  .ui.button.small.teal.labeled.icon
+                  .ui.button.small.labeled.icon
                     %i.icon.add
                     = I18n.t('product.add')
             - else
@@ -54,7 +50,7 @@
       .ui.grid.page
         .ui.menu.fluid.no-box-shadow
           %a.item{:href => "/", class: ('active' if not defined? @category)}
-            %i.home.icon
+            %i.home.icon{ style: 'padding-left: 5px' }
           - Category::main_categories.each do |main|
             - active_item = (@category and @category == main) ? 'active' : ""
               

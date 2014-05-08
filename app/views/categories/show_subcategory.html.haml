@@ -1,7 +1,7 @@
 #subcategorie-show
   %h3.ui.header.block.black
     %i.icon.suitcase
-    = "#{@category.name} > #{@subcategory.name}"
+    = "#{@category.name} - #{@subcategory.name}"
   .ui.grid.four.column.stackable
     - @products.each do |product|
       .column.product-card
