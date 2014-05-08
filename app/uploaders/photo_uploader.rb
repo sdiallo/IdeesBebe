@@ -20,6 +20,9 @@ class PhotoUploader < CarrierWave::Uploader::Base
   version :edit_thumb do
     process :resize_to_fill => [250,210]
   end
+  version :medium do
+    process :resize_to_fill => [300,200]
+  end
 
   # store! nil's the cache_id after it finishes so we need to remember it for deletion
   def remember_cache_id(new_file)

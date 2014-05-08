@@ -18,7 +18,7 @@
                   = current_user.username
                   .text
                     %i.icon.mail
-                    = "#{current_user.conversations.pending(current_user).count} conversations en attentes"
+
                 .item
                   .ui.dropdown.item
                     = image_tag "#{current_user.avatar}", style: "height:35px;"

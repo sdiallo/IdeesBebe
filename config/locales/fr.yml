@@ -64,7 +64,7 @@ fr:
       all_categories: 'Toutes catégories'
     show:
       avalaible_since: 'Disponible depuis :'
-      average_response_time: 'Temps de réponse moyen :'
+      average_response_time: 'Temps de réponse moyen'
   status:
     messages:
       total: '%{count} messages au total'

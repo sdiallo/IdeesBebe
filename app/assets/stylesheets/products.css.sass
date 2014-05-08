@@ -59,37 +59,140 @@
 
 
 #product-show
-  .ui.segment
-    box-shadow: none
-  .product-label
-    background-color: #944e96
-    color: white
-    font-size: 20px
+  .product-header
+    margin-bottom: 0px
+    background-color: #E8E8E8
+    margin-top: 5px
   .product-title
     font-size: 20px
-    color: #564F8A
-  .item#owner
+    color: #944e96
+    font-weight: bold
+  .selled-product
+    padding-bottom: 0px
+    margin-bottom: 0px
+    font-size: 14px
+  .photo-cont
+    margin-top: 0px
+  .product-label
+    font-weight: bold
+    font-size: 20px
+  .price-dispo
+    display: table
+    width: 100%
+    margin-bottom: 25px
+  .product-disponibility,
+  .product-price
+    display: table-cell
+    line-height: 30px
+  .product-disponibility
+    font-size: 16 px
+    .time
+      font-weight: bold
+      font-size: 18px
+  .product-price
+    font-size: 26px
+    text-align: right
+    color: #944e96
+    font-weight: bold
+    i
+      font-size: 22px
+      width: auto
+  .product-desc
+    font-size: 14px
+  .new_report
+    margin-top: 50px
+    .button
+      font-size: 12px
+  .signaled
+    font-size: 14px
+    margin-top: 50px
+  .status-link
+    background: hsl(298, 32%, 45%) !important
+    color: white
+    font-size: 12px
+    width: 100%
+  .no-replied-yet
+    display: inline-block
+    text-align: center
+    margin-bottom: 18px
+    width: 100%
+    font-size: 14px
+    line-height: 26px
+  .respond-message
+    margin-bottom: 18px
+    width: 100%
+    font-size: 14px
+    line-height: 26px
+  .product-actions
+    .ui.buttons
+      width: 100%
+      a
+        width: 50%
+      i
+        margin: 0
+  .seller-info
+    color: #944e96
+    font-size: 20px
+  .header-user
+    margin-top: 0 !important
+  .details.column
+    padding-right: 20px
+    .segment
+      padding-top: 0
+      padding-bottom: 0
+    .label
+      display: inline-block
+      font-size: 16px 
+    p
+      font-size: 20px
+  .details-user
+    display: table
+    width: 100%
+    margin-top: 10px
+    padding-top: 8px
+    .skills-name,
+    .skills-stat
+      display: table-cell
+    .skills-stat
+      p
+        padding-top: 2px
+  #owner
+    .image
+      margin-right: 15px
+      img
+        border-radius: 5px
     .content
       line-height: 2
       font-size: 20px
+      i
+        width: auto
+      span
+        font-size: 16px
 
-  .resposetime
+  .responsetime
     margin-top: 15px
 
   #product-carousel 
-    max-width: 596px
-    .photo-cont
-      img
-        height: 300px 
-    .bx-wrapper
-      align: center
-      margin: 0 auto
-      .bx-viewport
-        border: solid #D4BEE2 5px !important
-    #product-control
+    .blueimp-gallery
+      padding-bottom: 300px
+      box-shadow: none
+      border-radius: 6px
+      .prev,
+      .next
+        i
+          padding-right: 0px
+        width: 50px
+        height: 53px
+        border: none
+        border-radius: 0px
+        &:hover
+          background: #944e96
 
-  #product-pager
-    text-align: center
+    .indicator
+      display: block
+      li
+        width: 60px
+        height: 60px
 #form-comment
   .comm-avatar
     margin-top: 30px
