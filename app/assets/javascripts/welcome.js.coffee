@@ -1,12 +1,9 @@
 $ ->
-	$(".ui.dropdown").dropdown()
+  $(".ui.dropdown").dropdown()
 
-
-	$("#homeslider").bxSlider(
-		mode: 'fade'
-	)
-	$(document).ready ->
-		$("#product-carousel").bxSlider(
-			mode: 'fade',
-
-	)
+  blueimp.Gallery document.getElementById("links").getElementsByTagName("a"),
+    container: "#blueimp-image-carousel",
+    carousel: true,
+    thumbnailIndicators: true,
+    stretchImages: "cover",
+    thumbnailProperty: 'thumbnail'

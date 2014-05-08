@@ -14,7 +14,6 @@
         .ui.segment
           .edit-upload-form
             = render 'photos/edit_photo', photo: photo
+      .ui.small  
+        = link_to I18n.t('common.delete'), @product, method: :delete, data: { confirm: 'Are you sure?' }
 
-  .row.downlink
-    .ui.red.small.button  
-      = link_to I18n.t('common.delete'), @product, method: :delete, data: { confirm: 'Are you sure?' }

@@ -18,7 +18,7 @@
                   = current_user.username
                   .text
                     %i.icon.mail
-                    = "#{current_user.conversations.pending(current_user).count} conversations en attentes"
+
                 .item
                   .ui.dropdown.item
                     = image_tag "#{current_user.avatar}", style: "height:35px;"
@@ -62,8 +62,9 @@
     .row.main-contenaire
       = render 'home_slide' if current_page?(root_path)
       #main-back.ui.grid.page
-        #center-page
+        #flash-messages
           = semantic_flash
+        #center-page
           = yield
     .row#footer-section
       .footer-one

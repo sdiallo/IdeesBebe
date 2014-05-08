@@ -17,6 +17,16 @@ a
 #main-back
 	background: image-url('background.jpg')
 	padding-top: 0
+#flash-messages
+	border-left: 1px solid hsla(0, 0%, 0%, 0.2)
+	border-right: 1px solid hsla(0, 0%, 0%, 0.2)
+	.ui.message
+		border-radius: 0
+		color: white
+	.ui.success
+		background: hsl(90, 29%, 50%)
+	.ui.error
+		background: hsl(0, 62%, 61%)
 #center-page
 	padding: 1px 20px 35px 20px
 	border-left: 1px solid hsla(0, 0%, 0%, 0.20)
@@ -28,7 +38,27 @@ a
 .normal-connect
 	input
 		width: 450px !important
-
+.ui.all_button.button
+	background-color: #944e96 !important
+	color: white
+	&:hover
+		background-color: #663d67 !important
+		color: white
+.ui.form 
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="date"]:focus,
+	input[type="password"]:focus,
+	input[type="number"]:focus,
+	input[type="url"]:focus,
+	input[type="tel"]:focus,
+	input[type="textarea"]:focus
+		color: rgba(0, 0, 0, 0.85)
+		border-color: rgba(100, 54, 54, 0.2)
+		-webkit-appearance: none
+		-webkit-box-shadow: 0.3em 0em 0em 0em rgba(100, 6, 175, 0.72) inset
+		box-shadow: 0.3em 0em 0em 0em rgba(100, 6, 175, 0.72) inset
+	
 
 .ui.items
 	.item
@@ -44,6 +74,8 @@ a
 
 #top-menu
 	border-top: 5px solid #944e96
+	.ui.image
+		background-color: transparent
 	.ui.menu
 		box-shadow: none
 		background-color: rgb(221, 221, 221)
@@ -120,12 +152,6 @@ a
 		background-color: #944e96
 		a
 			color: white
-#homeslider
-	li
-		img
-			height: 300px
-			width: 100%
-
 .row.main-contenaire > .ui.grid
 	min-height: 700px 
 .ui.header.block

@@ -1,8 +1,13 @@
-%ul#homeslider
-	%li.photo-cont
-		= image_tag "bebecoucher.jpg"
-	%li
-		= image_tag "product_default.png"
-	%li
-		= image_tag "product_default.png"
+#homeslider
+	#blueimp-image-carousel.blueimp-gallery.blueimp-gallery-carousel.photo-cont
+		.slides
+		%a.play-pause
+		%ol.indicator
 
+	#links{style: 'display:none'}
+		%a{:href => "assets/bebecoucher.jpg", :title => "Photo 1"}
+			%img{:alt => "Photo 1", :src => ""}
+		%a{:href => "assets/product_default.png", :title => "Photo 2"}
+			%img{:alt => "Photo 2", :src => "assets/bebecoucher.jpg"}
+		%a{:href => "assets/bebecoucher.jpg", :title => "Photo 3"}
+			%img{:alt => "Photo 3", :src => "assets/bebecoucher.jpg"}

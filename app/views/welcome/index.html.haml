@@ -1,9 +1,9 @@
 #homePageCategorie
 	.ui.center.aligned.header
 		%h1 Sélectionnez la catégorie de votre choix
-	.ui.stackable.grid.equal.height
+	.ui.three.column.stackable.grid.equal.height
 		- Category::main_categories.each_with_index do |main, i|
-			.five.wide.column
+			.column
 				.ui.segement.attached
 					.ui.image
 						= link_to (image_tag "$_#{i}.jpg"), category_path(main.slug)
