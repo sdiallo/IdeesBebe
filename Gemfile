@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>=4'
+gem 'rails', '4.1.0'
 gem 'devise'
 gem 'cancan'
 gem 'omniauth-facebook'
@@ -33,7 +33,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
-gem 'jbuilder', '>= 1.2'
+gem 'jbuilder', '>= 2.0'
 gem 'remotipart'
 
 gem 'coveralls', require: false
@@ -48,7 +48,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 2.0'
   gem "factory_girl_rails", ">= 4.0"
   gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
-  gem 'database_cleaner'
   gem 'selenium-webdriver', '>= 2.35.1'
 end
 
