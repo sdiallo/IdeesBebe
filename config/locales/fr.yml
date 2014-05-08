@@ -188,7 +188,7 @@ fr:
   product:
     add: 'Ajouter un produit'
     create:
-      success: 'Votre produit à été enregistré'
+      success: 'Votre produit à été enregistré, ajouté des photos pour mettre en valeur votre produit'
     update:
       success: 'Votre produit à été mise à jour'
       too_many_photos: 'Vous avez déjà atteints le nombre maximum de photo'
