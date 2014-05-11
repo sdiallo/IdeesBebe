@@ -29,7 +29,7 @@ class Photo < ActiveRecord::Base
 
     # Set starred at true if it's the first asset for a product
     def stars_if_first
-      self.starred = product.photos.empty? ? true : false
+      self.starred = product.photos.many? ? false : true
       nil
     end
 

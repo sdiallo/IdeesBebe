@@ -5,9 +5,9 @@
   .column.normal-connect
     = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
       = f.error_notification
-      = f.input :username, :required => true, :autofocus => true, :size => 20
-      = f.input :email, :required => true
-      = f.input :password, :required => true
+      = f.input :username, :label => "Nom d'utilisateur", :required => false, :autofocus => true, :size => 20
+      = f.input :email, :label => 'Email', :required => false
+      = f.input :password, :label => 'Mot de passe', :required => false
       .form-actions
         = f.button :submit, "S'inscrire"
   .column.social-connect
