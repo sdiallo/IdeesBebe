@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe ProductsController do
-  subject { FactoryGirl.create :user }
-  let(:user2) { FactoryGirl.create :user }
+  subject { create :user }
+  let(:user2) { create :user }
 
   before(:each) { sign_in subject }
 
   describe 'GET #index' do
-    let(:product) { FactoryGirl.create :product, user_id: subject.id }
-    let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'testtest' }
-    let(:status) { FactoryGirl.create :status, product_id: product2.id, user_id: user2.id, done: true }
+    let(:product) { create :product, user_id: subject.id }
+    let(:product2) { create :product, user_id: subject.id, name: 'testtest' }
+    let(:status) { create :status, product_id: product2.id, user_id: user2.id, done: true }
 
     it 'assigns products' do
       product
@@ -19,9 +19,9 @@ describe ProductsController do
     end
 
     context 'with a specific category' do
-      let(:product2) { FactoryGirl.create :product, user_id: subject.id, name: 'testtest', category_id: subcategory.id }
-      let(:category) { FactoryGirl.create :category }
-      let(:subcategory) { FactoryGirl.create :category, main_category_id: category.id }
+      let(:product2) { create :product, user_id: subject.id, name: 'testtest', category_id: subcategory.id }
+      let(:category) { create :category }
+      let(:subcategory) { create :category, main_category_id: category.id }
       
       it 'assigns products' do
         subcategory
@@ -58,7 +58,7 @@ describe ProductsController do
   describe 'POST #create' do
 
     context "with my profile" do
-      let(:category) { FactoryGirl.create :category }
+      let(:category) { create :category }
 
       it "redirect to edit" do
         post :create, profile_id: subject.slug, product: {"name" => "testtest", "description" => "Great product for a golden test", "price" => 1, "category_id" => category.id }
@@ -68,8 +68,8 @@ describe ProductsController do
   end
 
   describe 'GET #show' do
-    let(:product) { FactoryGirl.create :product, user_id: subject.id}
-    let(:user2) { FactoryGirl.create :user }
+    let(:product) { create :product, user_id: subject.id}
+    let(:user2) { create :user }
 
     it 'return 200' do
       get :show, { id: product.slug }
@@ -89,9 +89,9 @@ describe ProductsController do
     context 'with already a conversation' do
 
       context 'when the current user is not the owner' do
-        let(:product) { FactoryGirl.create :product, user_id: user2.id}
-        let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: subject.id}
-        let(:message) { FactoryGirl.create :message, sender_id: subject.id, receiver_id: user2.id, status_id: status.id }
+        let(:product) { create :product, user_id: user2.id}
+        let(:status) { create :status, product_id: product.id, user_id: subject.id}
+        let(:message) { create :message, sender_id: subject.id, receiver_id: user2.id, status_id: status.id }
 
         it 'assign status' do
           message
@@ -104,8 +104,8 @@ describe ProductsController do
 
 
   describe 'GET #edit' do
-    let(:product) { FactoryGirl.create :product, user_id: subject.id}
-    let(:product2) { FactoryGirl.create :product, user_id: user2.id}
+    let(:product) { create :product, user_id: subject.id}
+    let(:product2) { create :product, user_id: user2.id}
 
     context 'edit my product' do
       it 'return 200' do
@@ -133,8 +133,8 @@ describe ProductsController do
   end
 
   describe 'PUT #update' do
-    let(:product) { FactoryGirl.create :product, user_id: subject.id}
-    let(:product2) { FactoryGirl.create :product, user_id: user2.id}
+    let(:product) { create :product, user_id: subject.id}
+    let(:product2) { create :product, user_id: user2.id}
 
     context 'update my product' do
       context 'with correct parameters' do
@@ -167,21 +167,14 @@ describe ProductsController do
           put :update, { id: product.id, product: {name: "Great thing", description: "1000"*1000 } }
           product.reload.description.should == product.description          
         end
-
-
-        it "flash an error if photos' limit is reached" do
-          Product.any_instance.stub(:has_maximum_upload?).and_return(true)
-          put :update, { id: product.id, product: {name: "Great thing", description: "1000" } }
-          product.reload.description.should == product.description          
-        end
       end
     end
   end
 
 
   describe 'DELETE #destroy' do
-    let(:product) { FactoryGirl.create :product, owner: subject}
-    let(:product2) { FactoryGirl.create :product, owner: user2}
+    let(:product) { create :product, owner: subject}
+    let(:product2) { create :product, owner: user2}
 
     context 'with my product' do
       it 'destroy the product' do

@@ -53,10 +53,6 @@ class Product < ActiveRecord::Base
     photos.where(starred: true).first.try(:file)
   end
 
-  def has_maximum_upload?
-    photos.count == MAXIMUM_UPLOAD_PHOTO
-  end
-
   def pending_status_for_owner
     status.reject{ |stat| stat.last_message.from_owner? or stat.closed or stat.product.selled }
   end
