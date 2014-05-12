@@ -59,27 +59,6 @@ describe Product do
     end
   end
 
-  describe '#has_maximum_upload?' do
-
-    context 'with already too many photos' do
-      let(:asset) { FactoryGirl.create :photo, product: subject }
-      let(:asset2) { FactoryGirl.create :photo, product: subject }
-
-      it 'return true' do
-        asset
-        asset2
-        subject.has_maximum_upload?.should == true
-      end
-    end
-
-    context 'without too many photos' do
-
-      it 'return false' do
-        subject.has_maximum_upload?.should == false
-      end
-    end
-  end
-
   describe '#pending_status_for_owner' do
     let(:user2) { FactoryGirl.create :user }
     let(:user) { FactoryGirl.create :user }
