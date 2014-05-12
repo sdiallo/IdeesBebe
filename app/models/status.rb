@@ -21,11 +21,11 @@ class Status < ActiveRecord::Base
 
   before_update :mark_product_as_selled, if: [:done_changed?, :done]
 
-  scope :pending, ->(user) { where('products.selled = ?', false).reject{ |status| status.last_message.sender_id == user.id or status.closed } }
-  scope :archived, ->() { select{ |status| status.closed or status.product.selled } }
+  scope :pending, ->(user) { where('products.state = ?', 0).reject{ |status| status.last_message.sender_id == user.id or status.closed } }
+  scope :archived, ->() { select{ |status| status.closed or status.product.selled? } }
 
   def mark_product_as_selled
-    product.update_attributes!(selled: true)
+    product.selled!
     Notifier.delay.signalized_as_buyer(user, product)
   end
 
@@ -35,7 +35,7 @@ class Status < ActiveRecord::Base
   end
 
   def can_send_message? user
-    return false if closed or product.selled
+    return false if closed or product.selled?
     messages.order('created_at DESC').limit(MESSAGE_LIMIT_STRAIGHT).reject{ |msg| msg.sender_id != user.id }.count < MESSAGE_LIMIT_STRAIGHT
   end
 

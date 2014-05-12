@@ -28,7 +28,7 @@ describe Status do
       it 'mark the product as selled' do
         message
         subject.update_attributes!(done: true)
-        subject.product.reload.selled.should == true
+        subject.product.reload.selled?.should == true
       end
 
       it 'sends an email' do

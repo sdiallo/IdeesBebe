@@ -30,7 +30,7 @@
   .no-replied-yet
     %i.icon.circular.inverted.emphasized.red.ban.circle
     = I18n.t('common.status_closed')
-- elsif @product.selled
+- elsif @product.selled?
   .no-replied-yet
     %i.icon.circular.inverted.emphasized.green.checkmark
     = I18n.t('common.product_selled')

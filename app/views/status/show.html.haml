@@ -10,7 +10,7 @@
         .about
           = current_user.is_owner_of?(@product) ? I18n.t('messages.index.about_my_product_cap') : I18n.t('messages.index.about_product_of_another_cap') 
           = link_to @product.name, link
-          - if current_user.is_owner_of?(@product) and not @product.selled and not @status.closed
+          - if current_user.is_owner_of?(@product) and not @product.selled? and not @status.closed
             .closed-button.right
               = simple_form_for @status, url: product_status_path(product_id: @product.slug, id: @user.slug), method: :put, remote: true do |f|
                 = f.hidden_field :closed, value: true
@@ -25,7 +25,7 @@
                 - active = status.user == @receiver ? 'active' : ''
                 = link_to product_status_path(product_id: @product.slug, id: status.user.slug, anchor: 'last-message'), class: "item teal #{active}" do
                   = status.user.username
-                  - if status.pending_messages_count > 0 and not status.closed and not @product.selled
+                  - if status.pending_messages_count > 0 and not status.closed and not @product.selled?
                     .ui.label.teal
                       %i.mail.icon
       .eleven.wide.column
@@ -42,7 +42,7 @@
                 %div{ style: 'clear: both' }
           #block-form-status-show
             .cant-respond
-              - if @product.selled
+              - if @product.selled?
                 = render 'status_done'
               - elsif @status.closed
                 = render 'status_closed'

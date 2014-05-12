@@ -27,7 +27,7 @@
       .row
         = @product.description
       .row
-        - if not @product.selled
+        - if not @product.selled?
           - if can? :create, @product.reports.build
             - unless current_user.is_owner_of? @product
               = simple_form_for @product.reports.build, url: product_reports_path(@product.slug) do |f|

@@ -2,24 +2,24 @@ require 'spec_helper'
 
 describe MessagesController do
 
-  let(:product) { FactoryGirl.create :product, owner: user }
-  let(:user) { FactoryGirl.create :user }
-  let(:user2) { FactoryGirl.create :user }
-  let(:user3) { FactoryGirl.create :user }
+  let(:product) { create :product, owner: user }
+  let(:user) { create :user }
+  let(:user2) { create :user }
+  let(:user3) { create :user }
 
-  subject { FactoryGirl.create :message }
+  subject { create :message }
   
   before(:each) do
     sign_in user
   end
 
   describe '#index' do
-    let(:product2) { FactoryGirl.create :product, owner: user, selled: true }
-    let(:message) { FactoryGirl.create :message, status: status, sender_id: user2.id, receiver_id: user.id }
-    let(:message2) { FactoryGirl.create :message, status: status, sender_id: user.id, receiver_id: user2.id }
-    let(:message3) { FactoryGirl.create :message, status: status2, sender_id: user3.id, receiver_id: user.id }
-    let(:status) { FactoryGirl.create :status, product_id: product.id, user_id: user2.id }
-    let(:status2) { FactoryGirl.create :status, product_id: product2.id, user_id: user3.id, done: true }
+    let(:product2) { create :product, owner: user, state: 1 }
+    let(:message) { create :message, status: status, sender_id: user2.id, receiver_id: user.id }
+    let(:message2) { create :message, status: status, sender_id: user.id, receiver_id: user2.id }
+    let(:message3) { create :message, status: status2, sender_id: user3.id, receiver_id: user.id }
+    let(:status) { create :status, product_id: product.id, user_id: user2.id }
+    let(:status2) { create :status, product_id: product2.id, user_id: user3.id, done: true }
 
     it 'assigns status' do
       message

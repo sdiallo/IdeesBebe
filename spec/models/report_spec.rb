@@ -33,7 +33,7 @@ describe Report do
       it 'the product allowed field becomes nil (waiting admin check)' do
         expect {
           report4
-        }.to change{product.allowed}.to nil
+        }.to change{product.disallowed?}.to true
       end
 
       it 'sends an email to the admin' do

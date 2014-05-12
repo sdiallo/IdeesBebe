@@ -4,7 +4,7 @@
   %span.intro= I18n.t('messages.index.about_product_of_another')
   %span.product= link_to product.name, product_path(product.slug), class: 'underline'
   %span.state
-    - if product.selled
+    - if product.selled?
       .ui.inverted.icon.starpop{ 'data-content' => I18n.t('common.product_selled'), 'data-variation' => 'inverted' }
         %i.icon.circular.inverted.emphasized.green.checkmark
     - elsif status.closed

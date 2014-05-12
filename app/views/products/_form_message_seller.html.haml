@@ -5,7 +5,7 @@
   = I18n.t('status.pending', count: @product.pending_status_for_owner.count)
 .row.product-actions
   .ui.buttons
-    - if @product.selled
+    - if @product.selled?
       = link_to product_status_index_path(@product.slug), class: 'ui button starpop eye-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
         %i.icon.unhide
     - else
