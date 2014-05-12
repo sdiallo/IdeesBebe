@@ -21,6 +21,6 @@ FactoryGirl.define do
     description 'This is a great product'
     association :category
     price 1
-    selled false
+    state 0
   end
 end

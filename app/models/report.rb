@@ -23,7 +23,7 @@ class Report < ActiveRecord::Base
     end
 
     def product_need_check
-      product.update_attributes!(allowed: nil)
+      product.disallowed!
       Notifier.delay.admin_need_to_check(product)
     end
 end

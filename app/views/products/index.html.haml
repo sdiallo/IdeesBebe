@@ -27,7 +27,7 @@
           .ui.grid.three.column.stackable.index-products
             - @products.includes(:status).includes(:owner).each do |product|
               .column
-                .ui.segment.index-product.hoverable{ class: ('green-hoverable' if product.selled) }
+                .ui.segment.index-product.hoverable{ class: ('green-hoverable' if product.selled?) }
                   = link_to product_path(product.slug) do
                     - if product.starred_asset
                       = image_tag(product.starred_asset.url, alt: product.name, title: product.name)
@@ -36,7 +36,7 @@
                   .row.product-name
                     = link_to product.name.capitalize, product_path(product.slug), class: 'underline'
                   .row.product-messages
-                    - if not product.selled
+                    - if not product.selled?
                       %i.icon.mail
                       / = I18n.t('status.pending', count: product.pending_status_for_owner.count)
                     - else
@@ -45,7 +45,7 @@
                         Produit vendu !
                   .row.product-actions
                     .ui.buttons
-                      - if product.selled
+                      - if product.selled?
                         = link_to product_status_index_path(product.slug), class: 'ui button starpop eye-button', 'data-content' => I18n.t('common.resee'), 'data-variation' => 'inverted' do
                           %i.icon.unhide
                       - else

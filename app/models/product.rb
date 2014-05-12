@@ -19,6 +19,8 @@ class Product < ActiveRecord::Base
 
   include Slugable
 
+  enum state: [ :avalaible, :selled, :disallowed ]
+
   MAXIMUM_UPLOAD_PHOTO = 2
 
   belongs_to :owner, foreign_key: 'user_id', class_name: 'User'
@@ -31,8 +33,6 @@ class Product < ActiveRecord::Base
   has_many :reports, dependent: :destroy
 
   accepts_nested_attributes_for :category
-
-  scope :avalaible, ->() { where(selled: false).where('products.allowed != ?', false) }
 
   validates :name, length: { minimum: 5, maximum: 60 }, format: { with: /\A[[:digit:][:alpha:]\s'\-_]*\z/u }
   validates :price, numericality: { only_integer: true, greater_than: 0 }, length: { minimum: 1, maximum: 9 }
@@ -58,6 +58,6 @@ class Product < ActiveRecord::Base
   end
 
   def pending_status_for_owner
-    status.reject{ |stat| stat.last_message.from_owner? or stat.closed or stat.product.selled }
+    status.reject{ |stat| stat.last_message.from_owner? or stat.closed or stat.product.selled? }
   end
 end

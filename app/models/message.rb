@@ -23,8 +23,6 @@ class Message < ActiveRecord::Base
   SECOND_REMINDER_OWNER = 7
   
   validates :content, length: { minimum: 2 }, presence: true
-
-  scope :with, ->(user) { where('sender_id = ? OR receiver_id = ?', user.id, user.id) }
   
   after_create ->(message) { Notifier.delay.new_message(message) }
   after_create :reminder_owner, unless: :from_owner?
@@ -36,7 +34,7 @@ class Message < ActiveRecord::Base
   end
 
   def need_to_remember?
-    status.last_message == self and not product.selled and not status.closed
+    status.last_message == self and not product.selled? and not status.closed
   end
 
   private
